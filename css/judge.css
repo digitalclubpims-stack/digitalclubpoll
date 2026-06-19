@@ -1,1 +1,634 @@
+/* ==========================================
+   JUDGE PAGES
+========================================== */
 
+.judge-page{
+
+    min-height:100vh;
+
+    padding:40px 20px;
+
+}
+
+.judge-container{
+
+    width:min(1100px,95%);
+
+    margin:auto;
+
+}
+
+/* ==========================================
+   LOGIN PAGE
+========================================== */
+
+.judge-login{
+
+    max-width:500px;
+
+    margin:80px auto;
+
+}
+
+.login-card{
+
+    background:#111827;
+
+    border-radius:24px;
+
+    padding:35px;
+
+    border:
+    1px solid rgba(255,255,255,.05);
+
+    text-align:center;
+
+}
+
+.login-card h1{
+
+    margin-bottom:12px;
+
+}
+
+.login-card p{
+
+    color:var(--muted);
+
+    margin-bottom:25px;
+
+}
+
+.judge-id-input{
+
+    margin-bottom:20px;
+
+}
+
+.login-btn{
+
+    width:100%;
+
+}
+
+/* ==========================================
+   JUDGE HEADER
+========================================== */
+
+.judge-header{
+
+    background:#111827;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    border:
+    1px solid rgba(255,255,255,.05);
+
+}
+
+.judge-header-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:15px;
+
+}
+
+.judge-name{
+
+    font-size:1.4rem;
+
+    font-weight:700;
+
+}
+
+.judge-id{
+
+    color:#60a5fa;
+
+    font-family:monospace;
+
+}
+
+.event-name{
+
+    font-size:1.1rem;
+
+    margin-top:5px;
+
+}
+
+.event-meta{
+
+    color:var(--muted);
+
+    margin-top:10px;
+
+}
+
+/* ==========================================
+   PROGRESS CARD
+========================================== */
+
+.progress-card{
+
+    background:#111827;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    margin-bottom:25px;
+
+}
+
+.progress-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:12px;
+
+}
+
+.progress-label{
+
+    color:var(--muted);
+
+}
+
+.progress-value{
+
+    font-weight:600;
+
+}
+
+.progress-bar{
+
+    height:10px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    background:
+    rgba(255,255,255,.08);
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    width:0;
+
+    background:#2563eb;
+
+    transition:.4s ease;
+
+}
+
+/* ==========================================
+   PARTICIPANT LIST
+========================================== */
+
+.participants-list{
+
+    display:grid;
+
+    gap:15px;
+
+}
+
+.participant-card{
+
+    background:#111827;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    border:
+    1px solid rgba(255,255,255,.05);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.participant-left{
+
+    flex:1;
+
+}
+
+.participant-number{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    background:
+    rgba(37,99,235,.15);
+
+    color:#60a5fa;
+
+    font-size:.85rem;
+
+    margin-bottom:10px;
+
+}
+
+.participant-name{
+
+    font-size:1.1rem;
+
+    font-weight:600;
+
+    margin-bottom:6px;
+
+}
+
+.participant-category{
+
+    color:var(--muted);
+
+}
+
+.score-status{
+
+    margin-top:10px;
+
+}
+
+.scored{
+
+    color:#4ade80;
+
+}
+
+.pending{
+
+    color:#fbbf24;
+
+}
+
+/* ==========================================
+   SCORING PAGE
+========================================== */
+
+.scoring-card{
+
+    background:#111827;
+
+    border-radius:22px;
+
+    padding:30px;
+
+    border:
+    1px solid rgba(255,255,255,.05);
+
+}
+
+.scoring-header{
+
+    margin-bottom:25px;
+
+}
+
+.scoring-header h2{
+
+    margin-bottom:10px;
+
+}
+
+.scoring-header p{
+
+    color:var(--muted);
+
+}
+
+/* ==========================================
+   CRITERIA
+========================================== */
+
+.criteria-list{
+
+    display:grid;
+
+    gap:20px;
+
+}
+
+.criteria-item{
+
+    padding:20px;
+
+    border-radius:16px;
+
+    background:
+    rgba(255,255,255,.03);
+
+}
+
+.criteria-title{
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+.criteria-description{
+
+    color:var(--muted);
+
+    margin-bottom:15px;
+
+    font-size:.95rem;
+
+}
+
+/* ==========================================
+   SCORE INPUT
+========================================== */
+
+.score-input-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.score-range{
+
+    flex:1;
+
+    accent-color:#2563eb;
+
+}
+
+.score-value{
+
+    width:70px;
+
+    text-align:center;
+
+    font-weight:700;
+
+}
+
+/* ==========================================
+   NUMERIC SCORE BOX
+========================================== */
+
+.score-number{
+
+    width:100px;
+
+    text-align:center;
+
+}
+
+/* ==========================================
+   TOTAL SCORE
+========================================== */
+
+.total-score{
+
+    margin-top:30px;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:
+    rgba(37,99,235,.1);
+
+    border:
+    1px solid rgba(37,99,235,.2);
+
+    text-align:center;
+
+}
+
+.total-score-label{
+
+    color:var(--muted);
+
+    margin-bottom:8px;
+
+}
+
+.total-score-value{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+}
+
+/* ==========================================
+   COMMENTS
+========================================== */
+
+.judge-comments{
+
+    margin-top:25px;
+
+}
+
+.judge-comments textarea{
+
+    min-height:120px;
+
+}
+
+/* ==========================================
+   ACTIONS
+========================================== */
+
+.scoring-actions{
+
+    margin-top:30px;
+
+    display:flex;
+
+    gap:15px;
+
+    justify-content:flex-end;
+
+}
+
+/* ==========================================
+   SUMMARY
+========================================== */
+
+.summary-card{
+
+    background:#111827;
+
+    border-radius:20px;
+
+    padding:25px;
+
+}
+
+.summary-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:12px 0;
+
+    border-bottom:
+    1px solid rgba(255,255,255,.05);
+
+}
+
+.summary-item:last-child{
+
+    border-bottom:none;
+
+}
+
+/* ==========================================
+   COMPLETED SCREEN
+========================================== */
+
+.completed-state{
+
+    text-align:center;
+
+    padding:70px 20px;
+
+}
+
+.completed-icon{
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:
+    rgba(22,163,74,.15);
+
+    color:#4ade80;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:2rem;
+
+    margin:auto;
+
+    margin-bottom:20px;
+
+}
+
+.completed-state h2{
+
+    margin-bottom:12px;
+
+}
+
+.completed-state p{
+
+    color:var(--muted);
+
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.no-participants{
+
+    text-align:center;
+
+    padding:60px 20px;
+
+    color:var(--muted);
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+    .judge-header-top{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .participant-card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .score-input-row{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .score-value{
+
+        width:100%;
+
+    }
+
+    .scoring-actions{
+
+        flex-direction:column;
+
+    }
+
+    .scoring-actions .btn{
+
+        width:100%;
+
+    }
+
+    .total-score-value{
+
+        font-size:1.6rem;
+
+    }
+
+}
