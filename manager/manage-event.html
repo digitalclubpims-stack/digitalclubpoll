@@ -1,1 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Events</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#0f172a;
+    --card:#111827;
+    --accent:#2563eb;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --muted:#94a3b8;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Inter,sans-serif;
+}
+
+.container{
+    max-width:1300px;
+    margin:auto;
+    padding:30px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    font-family:Syne,sans-serif;
+}
+
+.create-btn{
+    text-decoration:none;
+    background:var(--accent);
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+}
+
+.search-box{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:25px;
+}
+
+.events-grid{
+    display:grid;
+    gap:20px;
+}
+
+.event-card{
+    background:#111827;
+    border-radius:16px;
+    padding:20px;
+}
+
+.event-title{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.event-meta{
+    color:var(--muted);
+    margin-bottom:5px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    margin-top:10px;
+    font-size:13px;
+}
+
+.active{
+    background:rgba(22,163,74,.2);
+    color:#4ade80;
+}
+
+.closed{
+    background:rgba(220,38,38,.2);
+    color:#f87171;
+}
+
+.actions{
+    margin-top:20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    padding:10px 14px;
+    border-radius:10px;
+    color:white;
+}
+
+.edit{
+    background:#2563eb;
+}
+
+.participants{
+    background:#0891b2;
+}
+
+.results{
+    background:#16a34a;
+}
+
+.delete{
+    background:#dc2626;
+}
+
+.vote{
+    background:#9333ea;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>Manage Events</h1>
+
+<a href="create-event.html" class="create-btn">
++ Create Event
+</a>
+
+</div>
+
+<input
+type="text"
+id="search"
+class="search-box"
+placeholder="Search Events..."
+>
+
+<div id="eventsContainer" class="events-grid">
+
+Loading Events...
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs,
+deleteDoc,
+doc
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+projectId:"YOUR_PROJECT_ID",
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+messagingSenderId:"XXXX",
+appId:"XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let allEvents = [];
+
+async function loadEvents(){
+
+const snapshot =
+await getDocs(collection(db,"events"));
+
+allEvents = [];
+
+snapshot.forEach(docSnap=>{
+
+allEvents.push({
+id:docSnap.id,
+...docSnap.data()
+});
+
+});
+
+renderEvents(allEvents);
+
+}
+
+function renderEvents(events){
+
+const container =
+document.getElementById("eventsContainer");
+
+container.innerHTML = "";
+
+if(events.length===0){
+
+container.innerHTML =
+"<h3>No Events Found</h3>";
+
+return;
+
+}
+
+events.forEach(event=>{
+
+container.innerHTML += `
+
+<div class="event-card">
+
+<div class="event-title">
+${event.name}
+</div>
+
+<div class="event-meta">
+Club: ${event.club || "N/A"}
+</div>
+
+<div class="event-meta">
+Type: ${event.type || "Audience Voting"}
+</div>
+
+<div class="event-meta">
+Start: ${event.startDate || "-"}
+</div>
+
+<div class="event-meta">
+End: ${event.endDate || "-"}
+</div>
+
+<div class="badge ${
+event.status === "active"
+? "active"
+: "closed"
+}">
+${event.status || "inactive"}
+</div>
+
+<div class="actions">
+
+<button
+class="btn edit"
+onclick="editEvent('${event.id}')">
+Edit
+</button>
+
+<button
+class="btn participants"
+onclick="participants('${event.id}')">
+Participants
+</button>
+
+<button
+class="btn vote"
+onclick="openVoting('${event.id}')">
+Voting Page
+</button>
+
+<button
+class="btn results"
+onclick="results('${event.id}')">
+Results
+</button>
+
+<button
+class="btn delete"
+onclick="deleteEvent('${event.id}')">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+window.editEvent = function(id){
+
+window.location.href =
+`create-event.html?id=${id}`;
+
+};
+
+window.participants = function(id){
+
+window.location.href =
+`participants.html?event=${id}`;
+
+};
+
+window.results = function(id){
+
+window.location.href =
+`results.html?event=${id}`;
+
+};
+
+window.openVoting = function(id){
+
+window.open(
+`../vote/vote.html?event=${id}`,
+'_blank'
+);
+
+};
+
+window.deleteEvent = async function(id){
+
+const confirmDelete =
+confirm(
+"Delete this event?"
+);
+
+if(!confirmDelete) return;
+
+await deleteDoc(
+doc(db,"events",id)
+);
+
+loadEvents();
+
+};
+
+document
+.getElementById("search")
+.addEventListener("input",e=>{
+
+const term =
+e.target.value.toLowerCase();
+
+const filtered =
+allEvents.filter(event=>
+
+event.name
+.toLowerCase()
+.includes(term)
+
+);
+
+renderEvents(filtered);
+
+});
+
+loadEvents();
+
+</script>
+
+</body>
+</html>
