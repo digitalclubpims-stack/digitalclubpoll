@@ -1,1 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Participants</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Inter,sans-serif;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+}
+
+h1{
+    font-family:Syne,sans-serif;
+    margin-bottom:25px;
+}
+
+.card{
+    background:#111827;
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:10px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:12px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+th{
+    text-align:left;
+    color:#94a3b8;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+    display:inline-block;
+    margin-bottom:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
+<h1>Manage Participants</h1>
+
+<div class="card">
+
+<h3>Select Event</h3>
+
+<select id="eventSelect">
+<option value="">Loading Events...</option>
+</select>
+
+</div>
+
+<div class="card">
+
+<h3>Add Participant</h3>
+
+<input
+type="text"
+id="participantName"
+placeholder="Participant Name"
+>
+
+<input
+type="text"
+id="participantCategory"
+placeholder="Category (Optional)"
+>
+
+<button onclick="addParticipant()">
+Add Participant
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Upload CSV</h3>
+
+<input
+type="file"
+id="csvFile"
+accept=".csv"
+>
+
+<button onclick="uploadCSV()">
+Upload CSV
+</button>
+
+<p style="margin-top:15px;color:#94a3b8;">
+CSV Format:
+<br><br>
+name,category
+<br>
+Arnav Bansal,MEMERX
+<br>
+Rahul Sharma,MEMERX
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Participants List</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Name</th>
+<th>Category</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="participantsTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs,
+addDoc,
+query,
+where,
+deleteDoc,
+doc
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+projectId:"YOUR_PROJECT_ID",
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+messagingSenderId:"XXXX",
+appId:"XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const eventSelect =
+document.getElementById("eventSelect");
+
+async function loadEvents(){
+
+const snapshot =
+await getDocs(collection(db,"events"));
+
+eventSelect.innerHTML =
+'<option value="">Select Event</option>';
+
+snapshot.forEach(docSnap=>{
+
+const event = docSnap.data();
+
+eventSelect.innerHTML += `
+
+<option value="${docSnap.id}">
+${event.name}
+</option>
+
+`;
+
+});
+
+}
+
+window.addParticipant =
+async function(){
+
+const eventId =
+eventSelect.value;
+
+const name =
+document.getElementById("participantName").value;
+
+const category =
+document.getElementById("participantCategory").value;
+
+if(!eventId || !name){
+
+alert("Fill all required fields");
+return;
+
+}
+
+await addDoc(
+collection(db,"participants"),
+{
+
+eventId,
+name,
+category,
+createdAt:Date.now()
+
+}
+);
+
+alert("Participant Added");
+
+document.getElementById("participantName").value="";
+document.getElementById("participantCategory").value="";
+
+loadParticipants();
+
+};
+
+window.uploadCSV =
+async function(){
+
+const file =
+document.getElementById("csvFile").files[0];
+
+const eventId =
+eventSelect.value;
+
+if(!file || !eventId){
+
+alert("Select Event and CSV File");
+return;
+
+}
+
+const text =
+await file.text();
+
+const rows =
+text.split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+const cols =
+rows[i].split(",");
+
+if(cols.length < 1) continue;
+
+const name =
+cols[0]?.trim();
+
+const category =
+cols[1]?.trim() || "";
+
+if(!name) continue;
+
+await addDoc(
+collection(db,"participants"),
+{
+
+eventId,
+name,
+category,
+createdAt:Date.now()
+
+}
+);
+
+}
+
+alert("CSV Uploaded");
+
+loadParticipants();
+
+};
+
+async function loadParticipants(){
+
+const eventId =
+eventSelect.value;
+
+if(!eventId) return;
+
+const q =
+query(
+collection(db,"participants"),
+where("eventId","==",eventId)
+);
+
+const snapshot =
+await getDocs(q);
+
+const table =
+document.getElementById("participantsTable");
+
+table.innerHTML = "";
+
+snapshot.forEach(docSnap=>{
+
+const p = docSnap.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${p.name}</td>
+
+<td>${p.category || "-"}</td>
+
+<td>
+
+<button
+class="delete-btn"
+onclick="deleteParticipant('${docSnap.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+window.deleteParticipant =
+async function(id){
+
+const ok =
+confirm("Delete Participant?");
+
+if(!ok) return;
+
+await deleteDoc(
+doc(db,"participants",id)
+);
+
+loadParticipants();
+
+};
+
+eventSelect.addEventListener(
+"change",
+loadParticipants
+);
+
+loadEvents();
+
+</script>
+
+</body>
+</html>
