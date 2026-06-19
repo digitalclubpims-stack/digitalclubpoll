@@ -1,1 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Event</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#0f172a;
+    --card:#111827;
+    --accent:#2563eb;
+    --muted:#94a3b8;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Inter,sans-serif;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+h1{
+    font-family:Syne,sans-serif;
+    margin-bottom:30px;
+}
+
+.form-card{
+    background:#111827;
+    padding:30px;
+    border-radius:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    margin-top:18px;
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:10px;
+    font-size:15px;
+
+}
+
+textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+button{
+
+    width:100%;
+    padding:16px;
+    margin-top:20px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.back-btn{
+
+    display:inline-block;
+    margin-bottom:20px;
+
+    color:white;
+    text-decoration:none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="manage-event.html" class="back-btn">
+← Back to Events
+</a>
+
+<h1 id="pageTitle">
+Create Event
+</h1>
+
+<div class="form-card">
+
+<label>Event Name</label>
+<input type="text" id="eventName">
+
+<label>Organizing Club</label>
+<input type="text" id="club">
+
+<label>Event Type</label>
+
+<select id="type">
+
+<option value="Audience Voting">
+Audience Voting
+</option>
+
+<option value="Judge Scoring">
+Judge Scoring
+</option>
+
+<option value="Hybrid">
+Hybrid
+</option>
+
+</select>
+
+<label>Start Date</label>
+<input type="date" id="startDate">
+
+<label>End Date</label>
+<input type="date" id="endDate">
+
+<label>Rules / Description</label>
+<textarea id="rules"></textarea>
+
+<label>Status</label>
+
+<select id="status">
+
+<option value="active">
+Active
+</option>
+
+<option value="inactive">
+Inactive
+</option>
+
+<option value="closed">
+Closed
+</option>
+
+</select>
+
+<button onclick="saveEvent()">
+Save Event
+</button>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+doc,
+getDoc,
+updateDoc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+
+projectId:"YOUR_PROJECT_ID",
+
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+
+messagingSenderId:"XXXX",
+
+appId:"XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const eventId =
+params.get("id");
+
+async function loadEvent(){
+
+if(!eventId) return;
+
+document.getElementById("pageTitle")
+.innerText = "Edit Event";
+
+const eventRef =
+doc(db,"events",eventId);
+
+const snap =
+await getDoc(eventRef);
+
+if(!snap.exists()) return;
+
+const data =
+snap.data();
+
+document.getElementById("eventName")
+.value = data.name || "";
+
+document.getElementById("club")
+.value = data.club || "";
+
+document.getElementById("type")
+.value = data.type || "";
+
+document.getElementById("startDate")
+.value = data.startDate || "";
+
+document.getElementById("endDate")
+.value = data.endDate || "";
+
+document.getElementById("rules")
+.value = data.rules || "";
+
+document.getElementById("status")
+.value = data.status || "active";
+
+}
+
+window.saveEvent =
+async function(){
+
+const name =
+document.getElementById("eventName").value;
+
+const club =
+document.getElementById("club").value;
+
+const type =
+document.getElementById("type").value;
+
+const startDate =
+document.getElementById("startDate").value;
+
+const endDate =
+document.getElementById("endDate").value;
+
+const rules =
+document.getElementById("rules").value;
+
+const status =
+document.getElementById("status").value;
+
+if(
+!name ||
+!club ||
+!startDate ||
+!endDate
+){
+
+alert(
+"Please fill all required fields."
+);
+
+return;
+
+}
+
+const eventData = {
+
+name,
+club,
+type,
+startDate,
+endDate,
+rules,
+status,
+
+updatedAt:
+Date.now()
+
+};
+
+try{
+
+if(eventId){
+
+await updateDoc(
+doc(db,"events",eventId),
+eventData
+);
+
+alert(
+"Event Updated Successfully"
+);
+
+}else{
+
+eventData.createdAt =
+Date.now();
+
+await addDoc(
+collection(db,"events"),
+eventData
+);
+
+alert(
+"Event Created Successfully"
+);
+
+}
+
+window.location.href =
+"manage-event.html";
+
+}
+
+catch(error){
+
+console.error(error);
+
+alert(
+"Error saving event"
+);
+
+}
+
+};
+
+loadEvent();
+
+</script>
+
+</body>
+</html>
