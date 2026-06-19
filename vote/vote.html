@@ -1,1 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vote</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Inter,sans-serif;
+    background:#0f172a;
+    color:white;
+    min-height:100vh;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#94a3b8;
+    margin-bottom:30px;
+}
+
+.form{
+    background:#111827;
+    padding:25px;
+    border-radius:15px;
+    margin-bottom:30px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:10px;
+}
+
+.participant{
+    background:#111827;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:15px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.voteBtn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.voteBtn:hover{
+    opacity:0.9;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="eventTitle">
+Loading Event...
+</h1>
+
+<p class="subtitle">
+Select one participant and submit your vote
+</p>
+
+<div class="form">
+
+<input
+type="text"
+id="name"
+placeholder="Your Name"
+>
+
+<input
+type="text"
+id="batch"
+placeholder="Batch"
+>
+
+<input
+type="text"
+id="roll"
+placeholder="Roll Number"
+>
+
+</div>
+
+<div id="participants"></div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+collection,
+query,
+where,
+getDocs,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+
+projectId:"YOUR_PROJECT_ID",
+
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+
+messagingSenderId:"XXXX",
+
+appId:"XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const params =
+new URLSearchParams(window.location.search);
+
+const eventId =
+params.get("event");
+
+const eventTitle =
+document.getElementById("eventTitle");
+
+const participantsDiv =
+document.getElementById("participants");
+
+async function loadEvent(){
+
+const eventRef =
+doc(db,"events",eventId);
+
+const eventSnap =
+await getDoc(eventRef);
+
+if(eventSnap.exists()){
+
+eventTitle.textContent =
+eventSnap.data().name;
+
+}
+
+loadParticipants();
+
+}
+
+async function loadParticipants(){
+
+participantsDiv.innerHTML =
+"Loading Participants...";
+
+const q =
+query(
+collection(db,"participants"),
+where("eventId","==",eventId)
+);
+
+const snapshot =
+await getDocs(q);
+
+participantsDiv.innerHTML = "";
+
+snapshot.forEach(docSnap=>{
+
+const p = docSnap.data();
+
+participantsDiv.innerHTML += `
+
+<div class="participant">
+
+<div>
+
+<h3>${p.name}</h3>
+
+<p>${p.category || ""}</p>
+
+</div>
+
+<button
+class="voteBtn"
+onclick="submitVote(
+'${docSnap.id}',
+'${p.name}'
+)"
+>
+
+Vote
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+window.submitVote =
+async function(participantId,participantName){
+
+const voterName =
+document.getElementById("name").value;
+
+const batch =
+document.getElementById("batch").value;
+
+const roll =
+document.getElementById("roll").value;
+
+if(
+!voterName ||
+!batch ||
+!roll
+){
+
+alert(
+"Please fill all voter details"
+);
+
+return;
+
+}
+
+const duplicate =
+query(
+collection(db,"votes"),
+where("eventId","==",eventId),
+where("roll","==",roll)
+);
+
+const existing =
+await getDocs(duplicate);
+
+if(!existing.empty){
+
+alert(
+"You have already voted."
+);
+
+return;
+
+}
+
+await addDoc(
+collection(db,"votes"),
+{
+
+eventId,
+
+participantId,
+
+participantName,
+
+voterName,
+
+batch,
+
+roll,
+
+timestamp:Date.now()
+
+}
+);
+
+alert(
+"Vote Submitted Successfully"
+);
+
+window.location.href =
+"../events.html";
+
+};
+
+loadEvent();
+
+</script>
+
+</body>
+</html>
