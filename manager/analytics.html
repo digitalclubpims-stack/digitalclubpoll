@@ -1,1 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Analytics Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Inter,sans-serif;
+}
+
+.container{
+    max-width:1300px;
+    margin:auto;
+    padding:30px;
+}
+
+h1{
+    font-family:Syne,sans-serif;
+    margin-bottom:30px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    margin-bottom:40px;
+}
+
+.card{
+    background:#111827;
+    border-radius:16px;
+    padding:25px;
+}
+
+.card-title{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+.card-value{
+    font-size:36px;
+    font-weight:700;
+    margin-top:10px;
+}
+
+.section{
+    margin-top:40px;
+}
+
+.section h2{
+    margin-bottom:20px;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table th,
+.table td{
+    padding:14px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    text-align:left;
+}
+
+.table th{
+    color:#94a3b8;
+}
+
+.event-card{
+    background:#111827;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:12px;
+}
+
+.back{
+    display:inline-block;
+    margin-bottom:20px;
+    color:white;
+    text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
+<h1>Analytics</h1>
+
+<div class="stats">
+
+<div class="card">
+<div class="card-title">Total Events</div>
+<div class="card-value" id="totalEvents">0</div>
+</div>
+
+<div class="card">
+<div class="card-title">Total Participants</div>
+<div class="card-value" id="totalParticipants">0</div>
+</div>
+
+<div class="card">
+<div class="card-title">Total Votes</div>
+<div class="card-value" id="totalVotes">0</div>
+</div>
+
+<div class="card">
+<div class="card-title">Active Events</div>
+<div class="card-value" id="activeEvents">0</div>
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Votes Per Event</h2>
+
+<table class="table">
+
+<thead>
+<tr>
+<th>Event</th>
+<th>Votes</th>
+</tr>
+</thead>
+
+<tbody id="eventAnalytics">
+</tbody>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>Top Events</h2>
+
+<div id="topEvents"></div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+
+projectId:"YOUR_PROJECT_ID",
+
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+
+messagingSenderId:"XXXX",
+
+appId:"XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loadAnalytics(){
+
+const eventsSnapshot =
+await getDocs(collection(db,"events"));
+
+const participantsSnapshot =
+await getDocs(collection(db,"participants"));
+
+const votesSnapshot =
+await getDocs(collection(db,"votes"));
+
+document.getElementById("totalEvents")
+.textContent = eventsSnapshot.size;
+
+document.getElementById("totalParticipants")
+.textContent = participantsSnapshot.size;
+
+document.getElementById("totalVotes")
+.textContent = votesSnapshot.size;
+
+let activeCount = 0;
+
+const events = {};
+const voteCount = {};
+
+eventsSnapshot.forEach(doc=>{
+
+const event = doc.data();
+
+events[doc.id] = event.name;
+
+if(event.status === "active")
+activeCount++;
+
+});
+
+document.getElementById("activeEvents")
+.textContent = activeCount;
+
+votesSnapshot.forEach(doc=>{
+
+const vote = doc.data();
+
+if(!voteCount[vote.eventId])
+voteCount[vote.eventId] = 0;
+
+voteCount[vote.eventId]++;
+
+});
+
+const analyticsBody =
+document.getElementById("eventAnalytics");
+
+analyticsBody.innerHTML = "";
+
+Object.keys(events).forEach(eventId=>{
+
+analyticsBody.innerHTML += `
+
+<tr>
+
+<td>${events[eventId]}</td>
+
+<td>${voteCount[eventId] || 0}</td>
+
+</tr>
+
+`;
+
+});
+
+const sortedEvents =
+Object.entries(voteCount)
+.sort((a,b)=>b[1]-a[1]);
+
+const topEvents =
+document.getElementById("topEvents");
+
+topEvents.innerHTML = "";
+
+sortedEvents.slice(0,5).forEach(item=>{
+
+const eventId = item[0];
+const votes = item[1];
+
+topEvents.innerHTML += `
+
+<div class="event-card">
+
+<h3>${events[eventId]}</h3>
+
+<p>${votes} Votes</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+loadAnalytics();
+
+</script>
+
+</body>
+
+</html>
