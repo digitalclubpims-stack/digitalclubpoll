@@ -1,35 +1,646 @@
-body{
-    font-family: Arial, sans-serif;
-    background:#f5f7fb;
+/* ==========================================
+   PIMS POLL SYSTEM
+   GLOBAL DESIGN SYSTEM
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root{
+
+    --bg:#0f172a;
+    --bg-secondary:#020617;
+
+    --card:#111827;
+
+    --primary:#2563eb;
+    --primary-hover:#1d4ed8;
+
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+
+    --text:#ffffff;
+    --muted:#94a3b8;
+
+    --border:rgba(255,255,255,.08);
+
+    --radius:16px;
+    --radius-sm:10px;
+
+    --shadow:
+    0 10px 30px rgba(0,0,0,.25);
+
+}
+
+/* ==========================================
+   RESET
+========================================== */
+
+*{
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--bg-secondary),
+        var(--bg)
+    );
+
+    color:var(--text);
+
+    min-height:100vh;
+
+}
+
+/* ==========================================
+   TYPOGRAPHY
+========================================== */
+
+h1,h2,h3,h4,h5{
+
+    font-family:'Syne',sans-serif;
+    font-weight:700;
+
+}
+
+h1{
+    font-size:2.6rem;
+}
+
+h2{
+    font-size:2rem;
+}
+
+h3{
+    font-size:1.25rem;
+}
+
+p{
+    line-height:1.7;
+}
+
+.text-muted{
+    color:var(--muted);
+}
+
+/* ==========================================
+   CONTAINER
+========================================== */
 
 .container{
-    max-width:900px;
+
+    width:min(1200px,92%);
     margin:auto;
-    padding:20px;
+
+    padding:30px 0;
+
 }
+
+/* ==========================================
+   HEADER
+========================================== */
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 30px;
+
+    border-bottom:
+    1px solid var(--border);
+
+}
+
+.logo{
+
+    font-family:'Syne',sans-serif;
+
+    font-size:28px;
+    font-weight:800;
+
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.btn{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.25s ease;
+
+    text-decoration:none;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-hover);
+
+}
+
+.btn-success{
+
+    background:var(--success);
+    color:white;
+
+}
+
+.btn-danger{
+
+    background:var(--danger);
+    color:white;
+
+}
+
+.btn-warning{
+
+    background:var(--warning);
+    color:black;
+
+}
+
+.btn-outline{
+
+    background:transparent;
+
+    border:
+    1px solid var(--border);
+
+    color:white;
+
+}
+
+/* ==========================================
+   CARDS
+========================================== */
 
 .card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
-    margin-bottom:20px;
+
+    background:
+    rgba(255,255,255,.04);
+
+    backdrop-filter:blur(12px);
+
+    border:
+    1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    padding:22px;
+
+    box-shadow:var(--shadow);
+
 }
 
-button{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-    cursor:pointer;
+.card-title{
+
+    margin-bottom:12px;
+
 }
 
-input,select{
+/* ==========================================
+   DASHBOARD STATS
+========================================== */
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(220px,1fr)
+    );
+
+    gap:20px;
+
+}
+
+.stat-card{
+
+    background:var(--card);
+
+    border-radius:var(--radius);
+
+    padding:24px;
+
+}
+
+.stat-label{
+
+    color:var(--muted);
+
+}
+
+.stat-value{
+
+    font-size:34px;
+    font-weight:700;
+
+    margin-top:10px;
+
+}
+
+/* ==========================================
+   FORMS
+========================================== */
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    margin-top:18px;
+
+    font-weight:500;
+
+}
+
+input,
+textarea,
+select{
+
     width:100%;
-    padding:10px;
-    margin:8px 0;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#1f2937;
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+    outline:
+    2px solid var(--primary);
+
+}
+
+textarea{
+
+    resize:vertical;
+
+    min-height:120px;
+
+}
+
+/* ==========================================
+   TABLES
+========================================== */
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.table th,
+.table td{
+
+    padding:14px;
+
+    border-bottom:
+    1px solid var(--border);
+
+}
+
+.table th{
+
+    text-align:left;
+
+    color:var(--muted);
+
+}
+
+/* ==========================================
+   EVENTS GRID
+========================================== */
+
+.events-grid{
+
+    display:grid;
+
+    gap:20px;
+
+}
+
+.event-card{
+
+    background:var(--card);
+
+    border-radius:16px;
+
+    padding:20px;
+
+}
+
+.event-title{
+
+    font-size:22px;
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.event-meta{
+
+    color:var(--muted);
+
+    margin-bottom:5px;
+
+}
+
+/* ==========================================
+   PARTICIPANTS
+========================================== */
+
+.participant-card{
+
+    background:var(--card);
+
+    padding:18px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:12px;
+
+}
+
+/* ==========================================
+   BADGES
+========================================== */
+
+.badge{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+}
+
+.badge-active{
+
+    background:
+    rgba(22,163,74,.2);
+
+    color:#4ade80;
+
+}
+
+.badge-closed{
+
+    background:
+    rgba(220,38,38,.2);
+
+    color:#f87171;
+
+}
+
+.badge-pending{
+
+    background:
+    rgba(245,158,11,.2);
+
+    color:#fbbf24;
+
+}
+
+/* ==========================================
+   ACTION GRID
+========================================== */
+
+.actions-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(250px,1fr)
+    );
+
+    gap:20px;
+
+}
+
+.action-card{
+
+    background:var(--card);
+
+    border-radius:16px;
+
+    padding:24px;
+
+}
+
+.action-card p{
+
+    color:var(--muted);
+
+    margin:10px 0 20px;
+
+}
+
+/* ==========================================
+   LOADER
+========================================== */
+
+.loader{
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    border:5px solid rgba(255,255,255,.15);
+
+    border-top:5px solid white;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* ==========================================
+   TOAST
+========================================== */
+
+.toast{
+
+    position:fixed;
+
+    top:20px;
+    right:20px;
+
+    z-index:9999;
+
+    padding:14px 18px;
+
+    border-radius:10px;
+
+    color:white;
+
+    opacity:0;
+
+    transform:translateY(-10px);
+
+    transition:.3s;
+
+}
+
+.toast.show{
+
+    opacity:1;
+    transform:translateY(0);
+
+}
+
+.toast.success{
+    background:var(--success);
+}
+
+.toast.error{
+    background:var(--danger);
+}
+
+.toast.warning{
+    background:var(--warning);
+    color:black;
+}
+
+/* ==========================================
+   EMPTY STATES
+========================================== */
+
+.empty-state{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    padding:40px;
+
+}
+
+/* ==========================================
+   LINKS
+========================================== */
+
+a{
+
+    color:white;
+
+    text-decoration:none;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:768px){
+
+    h1{
+        font-size:2rem;
+    }
+
+    .participant-card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:12px;
+
+    }
+
+    header{
+
+        padding:16px;
+
+    }
+
+    .logo{
+
+        font-size:22px;
+
+    }
+
 }
