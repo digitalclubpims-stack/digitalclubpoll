@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<h1>Digital Club Admin Dashboard</h1>
+<div class="container">
 
-<p>Authentication Successful.</p>
+<h1>Admin Dashboard</h1>
+
+<div class="card">
+
+<h2>Create Event</h2>
+
+<input id="eventName" placeholder="Event Name">
+
+<button id="createEventBtn">
+Create Event
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Events</h2>
+
+<div id="eventsList"></div>
+
+</div>
+
+</div>
+
+<script type="module" src="js/events.js"></script>
 
 </body>
 </html>
