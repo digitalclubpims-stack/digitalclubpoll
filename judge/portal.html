@@ -1,1 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Judge Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Inter,sans-serif;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+}
+
+.header{
+    background:#111827;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.header h1{
+    font-family:Syne,sans-serif;
+    margin-bottom:10px;
+}
+
+.header p{
+    color:#94a3b8;
+}
+
+.participants{
+    display:grid;
+    gap:15px;
+}
+
+.card{
+    background:#111827;
+    border-radius:15px;
+    padding:20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.info h3{
+    margin-bottom:8px;
+}
+
+.info p{
+    color:#94a3b8;
+}
+
+.score-btn{
+
+    background:#2563eb;
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+.scored{
+
+    background:#16a34a;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1 id="eventName">
+Loading...
+</h1>
+
+<p id="judgeInfo">
+Loading Judge Information...
+</p>
+
+</div>
+
+<div id="participantsList"
+class="participants">
+
+Loading Participants...
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs,
+query,
+where
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+projectId:"YOUR_PROJECT_ID",
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+messagingSenderId:"XXXX",
+appId:"XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const judgeId =
+params.get("judge");
+
+let currentJudge = null;
+
+async function loadJudge(){
+
+if(!judgeId){
+
+alert("Judge ID Missing");
+return;
+
+}
+
+const judgeQuery =
+query(
+collection(db,"judges"),
+where("judgeId","==",judgeId)
+);
+
+const judgeSnapshot =
+await getDocs(judgeQuery);
+
+if(judgeSnapshot.empty){
+
+alert("Invalid Judge");
+
+return;
+
+}
+
+currentJudge =
+judgeSnapshot.docs[0];
+
+const judge =
+currentJudge.data();
+
+document.getElementById("judgeInfo")
+.innerText =
+`${judge.name} • ${judge.judgeId}`;
+
+loadEvent(judge.eventId);
+
+}
+
+async function loadEvent(eventId){
+
+const eventQuery =
+query(
+collection(db,"events")
+);
+
+const events =
+await getDocs(eventQuery);
+
+let eventName = "";
+
+events.forEach(doc=>{
+
+if(doc.id === eventId){
+
+eventName =
+doc.data().name;
+
+}
+
+});
+
+document.getElementById("eventName")
+.innerText =
+eventName;
+
+loadParticipants(eventId);
+
+}
+
+async function loadParticipants(eventId){
+
+const participantQuery =
+query(
+collection(db,"participants"),
+where("eventId","==",eventId)
+);
+
+const participantsSnapshot =
+await getDocs(participantQuery);
+
+const container =
+document.getElementById("participantsList");
+
+container.innerHTML = "";
+
+participantsSnapshot.forEach(docSnap=>{
+
+const p =
+docSnap.data();
+
+container.innerHTML += `
+
+<div class="card">
+
+<div class="info">
+
+<h3>
+${p.participantNumber || p.name}
+</h3>
+
+<p>
+${p.category || ""}
+</p>
+
+</div>
+
+<button
+
+class="score-btn"
+
+onclick="openScoring(
+'${docSnap.id}'
+)">
+
+Score
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+window.openScoring =
+function(participantId){
+
+window.location.href =
+
+`score.html?judge=${judgeId}&participant=${participantId}`;
+
+};
+
+loadJudge();
+
+</script>
+
+</body>
+
+</html>
