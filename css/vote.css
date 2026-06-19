@@ -1,1 +1,489 @@
+/* ==========================================
+   VOTING PAGE
+========================================== */
 
+.vote-page{
+
+    min-height:100vh;
+
+    padding:40px 20px;
+
+}
+
+.vote-container{
+
+    width:min(1000px,95%);
+
+    margin:auto;
+
+}
+
+/* ==========================================
+   EVENT HEADER
+========================================== */
+
+.vote-header{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+.vote-title{
+
+    font-size:2.4rem;
+
+    margin-bottom:10px;
+
+}
+
+.vote-subtitle{
+
+    color:var(--muted);
+
+    max-width:700px;
+
+    margin:auto;
+
+    line-height:1.7;
+
+}
+
+/* ==========================================
+   EVENT INFO CARD
+========================================== */
+
+.event-info-card{
+
+    background:#111827;
+
+    border-radius:20px;
+
+    padding:24px;
+
+    margin-bottom:25px;
+
+    border:
+    1px solid rgba(255,255,255,.05);
+
+}
+
+.event-info-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(180px,1fr)
+    );
+
+    gap:20px;
+
+}
+
+.info-item{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.info-label{
+
+    color:var(--muted);
+
+    font-size:.9rem;
+
+    margin-bottom:5px;
+
+}
+
+.info-value{
+
+    font-weight:600;
+
+}
+
+/* ==========================================
+   VOTER FORM
+========================================== */
+
+.voter-form{
+
+    background:#111827;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:30px;
+
+}
+
+.voter-form h2{
+
+    margin-bottom:20px;
+
+}
+
+.voter-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(250px,1fr)
+    );
+
+    gap:18px;
+
+}
+
+/* ==========================================
+   PARTICIPANTS SECTION
+========================================== */
+
+.participants-section{
+
+    margin-top:20px;
+
+}
+
+.participants-section h2{
+
+    margin-bottom:20px;
+
+}
+
+/* ==========================================
+   PARTICIPANT GRID
+========================================== */
+
+.participants-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(300px,1fr)
+    );
+
+    gap:20px;
+
+}
+
+/* ==========================================
+   PARTICIPANT CARD
+========================================== */
+
+.participant-card{
+
+    background:#111827;
+
+    border-radius:20px;
+
+    padding:22px;
+
+    border:
+    1px solid rgba(255,255,255,.05);
+
+    transition:.25s ease;
+
+}
+
+.participant-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.participant-number{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    background:
+    rgba(37,99,235,.15);
+
+    color:#60a5fa;
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    margin-bottom:12px;
+
+}
+
+.participant-name{
+
+    font-size:1.15rem;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.participant-category{
+
+    color:var(--muted);
+
+    margin-bottom:15px;
+
+}
+
+.participant-meta{
+
+    color:var(--muted);
+
+    font-size:.9rem;
+
+}
+
+/* ==========================================
+   SELECTED PARTICIPANT
+========================================== */
+
+.participant-card.selected{
+
+    border:
+    2px solid #2563eb;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(37,99,235,.15);
+
+}
+
+/* ==========================================
+   RADIO SELECT
+========================================== */
+
+.vote-select{
+
+    margin-top:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.vote-select input[type="radio"]{
+
+    width:18px;
+    height:18px;
+
+    accent-color:#2563eb;
+
+}
+
+/* ==========================================
+   VOTE ACTION BAR
+========================================== */
+
+.vote-action{
+
+    margin-top:35px;
+
+    text-align:center;
+
+}
+
+.vote-submit{
+
+    min-width:250px;
+
+    font-size:1rem;
+
+    padding:15px 25px;
+
+}
+
+/* ==========================================
+   SUCCESS SCREEN
+========================================== */
+
+.vote-success{
+
+    text-align:center;
+
+    padding:70px 20px;
+
+}
+
+.success-icon{
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:
+    rgba(22,163,74,.15);
+
+    color:#4ade80;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:2rem;
+
+    margin:auto;
+
+    margin-bottom:20px;
+
+}
+
+.vote-success h2{
+
+    margin-bottom:12px;
+
+}
+
+.vote-success p{
+
+    color:var(--muted);
+
+    max-width:500px;
+
+    margin:auto;
+
+}
+
+/* ==========================================
+   VOTING CLOSED
+========================================== */
+
+.voting-closed{
+
+    text-align:center;
+
+    padding:70px 20px;
+
+}
+
+.voting-closed h2{
+
+    margin-bottom:15px;
+
+}
+
+.voting-closed p{
+
+    color:var(--muted);
+
+}
+
+/* ==========================================
+   LEADERBOARD (OPTIONAL)
+========================================== */
+
+.leaderboard{
+
+    margin-top:40px;
+
+}
+
+.leaderboard-item{
+
+    background:#111827;
+
+    border-radius:14px;
+
+    padding:15px 18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:12px;
+
+}
+
+.leaderboard-rank{
+
+    font-weight:700;
+
+    min-width:50px;
+
+}
+
+.rank-gold{
+
+    color:#fbbf24;
+
+}
+
+.rank-silver{
+
+    color:#d1d5db;
+
+}
+
+.rank-bronze{
+
+    color:#fb923c;
+
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.no-participants{
+
+    text-align:center;
+
+    padding:60px 20px;
+
+    color:var(--muted);
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+    .vote-title{
+
+        font-size:1.9rem;
+
+    }
+
+    .participants-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .voter-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .vote-submit{
+
+        width:100%;
+
+    }
+
+}
