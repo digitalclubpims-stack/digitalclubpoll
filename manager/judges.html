@@ -1,1 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Judges Management</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Inter,sans-serif;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+}
+
+h1{
+    font-family:Syne,sans-serif;
+    margin-bottom:25px;
+}
+
+.card{
+    background:#111827;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:10px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:12px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+th{
+    color:#94a3b8;
+    text-align:left;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+    display:inline-block;
+    margin-bottom:20px;
+}
+
+.judge-id{
+    color:#60a5fa;
+    font-weight:600;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
+<h1>Judges Management</h1>
+
+<div class="card">
+
+<h3>Add Judge</h3>
+
+<input
+type="text"
+id="judgeName"
+placeholder="Judge Name"
+>
+
+<input
+type="email"
+id="judgeEmail"
+placeholder="Judge Email"
+>
+
+<select id="eventSelect">
+<option value="">
+Select Event
+</option>
+</select>
+
+<button onclick="addJudge()">
+Add Judge
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Assigned Judges</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Judge ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Event</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="judgesTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs,
+addDoc,
+deleteDoc,
+doc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+projectId:"YOUR_PROJECT_ID",
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+messagingSenderId:"XXXX",
+appId:"XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const eventSelect =
+document.getElementById("eventSelect");
+
+let eventMap = {};
+
+async function loadEvents(){
+
+const snapshot =
+await getDocs(collection(db,"events"));
+
+snapshot.forEach(docSnap=>{
+
+const event =
+docSnap.data();
+
+eventMap[docSnap.id] =
+event.name;
+
+eventSelect.innerHTML += `
+
+<option value="${docSnap.id}">
+${event.name}
+</option>
+
+`;
+
+});
+
+}
+
+window.addJudge =
+async function(){
+
+const name =
+document.getElementById("judgeName").value;
+
+const email =
+document.getElementById("judgeEmail").value;
+
+const eventId =
+eventSelect.value;
+
+if(
+!name ||
+!email ||
+!eventId
+){
+
+alert("Fill all fields");
+return;
+
+}
+
+const judgeId =
+"JUDGE-" +
+Math.random()
+.toString(36)
+.substring(2,8)
+.toUpperCase();
+
+await addDoc(
+collection(db,"judges"),
+{
+
+judgeId,
+name,
+email,
+eventId,
+createdAt:Date.now()
+
+}
+);
+
+alert(
+"Judge Added"
+);
+
+document.getElementById("judgeName").value="";
+document.getElementById("judgeEmail").value="";
+
+loadJudges();
+
+};
+
+async function loadJudges(){
+
+const snapshot =
+await getDocs(
+collection(db,"judges")
+);
+
+const table =
+document.getElementById("judgesTable");
+
+table.innerHTML = "";
+
+snapshot.forEach(docSnap=>{
+
+const judge =
+docSnap.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td class="judge-id">
+${judge.judgeId}
+</td>
+
+<td>
+${judge.name}
+</td>
+
+<td>
+${judge.email}
+</td>
+
+<td>
+${eventMap[judge.eventId] || "-"}
+</td>
+
+<td>
+
+<button
+class="delete-btn"
+onclick="deleteJudge('${docSnap.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+window.deleteJudge =
+async function(id){
+
+const ok =
+confirm(
+"Delete Judge?"
+);
+
+if(!ok) return;
+
+await deleteDoc(
+doc(db,"judges",id)
+);
+
+loadJudges();
+
+};
+
+await loadEvents();
+await loadJudges();
+
+</script>
+
+</body>
+
+</html>
