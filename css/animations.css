@@ -1,1 +1,397 @@
+/* ==========================================
+   GLOBAL TRANSITIONS
+========================================== */
 
+*{
+    transition:
+        background-color .25s ease,
+        color .25s ease,
+        border-color .25s ease;
+}
+
+/* ==========================================
+   FADE IN
+========================================== */
+
+.fade-in{
+    animation:fadeIn .5s ease forwards;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
+}
+
+/* ==========================================
+   FADE UP
+========================================== */
+
+.fade-up{
+    animation:fadeUp .6s ease forwards;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ==========================================
+   FADE DOWN
+========================================== */
+
+.fade-down{
+    animation:fadeDown .6s ease forwards;
+}
+
+@keyframes fadeDown{
+
+    from{
+        opacity:0;
+        transform:translateY(-25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ==========================================
+   FADE LEFT
+========================================== */
+
+.fade-left{
+    animation:fadeLeft .6s ease forwards;
+}
+
+@keyframes fadeLeft{
+
+    from{
+        opacity:0;
+        transform:translateX(-25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+/* ==========================================
+   FADE RIGHT
+========================================== */
+
+.fade-right{
+    animation:fadeRight .6s ease forwards;
+}
+
+@keyframes fadeRight{
+
+    from{
+        opacity:0;
+        transform:translateX(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+/* ==========================================
+   SCALE IN
+========================================== */
+
+.scale-in{
+    animation:scaleIn .35s ease forwards;
+}
+
+@keyframes scaleIn{
+
+    from{
+        opacity:0;
+        transform:scale(.92);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+/* ==========================================
+   BOUNCE
+========================================== */
+
+.bounce{
+    animation:bounce 1s infinite;
+}
+
+@keyframes bounce{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+}
+
+/* ==========================================
+   FLOATING EFFECT
+========================================== */
+
+.float{
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+
+}
+
+/* ==========================================
+   PULSE
+========================================== */
+
+.pulse{
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.05);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+/* ==========================================
+   GLOW
+========================================== */
+
+.glow{
+    animation:glow 2s ease infinite;
+}
+
+@keyframes glow{
+
+    0%{
+        box-shadow:0 0 0 rgba(37,99,235,0);
+    }
+
+    50%{
+        box-shadow:
+        0 0 20px rgba(37,99,235,.4);
+    }
+
+    100%{
+        box-shadow:0 0 0 rgba(37,99,235,0);
+    }
+
+}
+
+/* ==========================================
+   CARD HOVER
+========================================== */
+
+.hover-lift{
+
+    transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+
+}
+
+.hover-lift:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 15px 30px rgba(0,0,0,.25);
+
+}
+
+/* ==========================================
+   BUTTON PRESS
+========================================== */
+
+.btn-press{
+
+    transition:
+    transform .15s ease;
+
+}
+
+.btn-press:active{
+
+    transform:scale(.96);
+
+}
+
+/* ==========================================
+   SPINNER
+========================================== */
+
+.spin{
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* ==========================================
+   SHIMMER LOADING
+========================================== */
+
+.shimmer{
+
+    background:
+    linear-gradient(
+        90deg,
+        #1f2937 25%,
+        #374151 50%,
+        #1f2937 75%
+    );
+
+    background-size:
+    200% 100%;
+
+    animation:
+    shimmer 1.5s infinite;
+
+}
+
+@keyframes shimmer{
+
+    0%{
+        background-position:200% 0;
+    }
+
+    100%{
+        background-position:-200% 0;
+    }
+
+}
+
+/* ==========================================
+   MODAL POP
+========================================== */
+
+.modal-pop{
+    animation:modalPop .25s ease;
+}
+
+@keyframes modalPop{
+
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+/* ==========================================
+   PAGE LOADER
+========================================== */
+
+.page-enter{
+    animation:pageEnter .5s ease;
+}
+
+@keyframes pageEnter{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ==========================================
+   STAGGER DELAYS
+========================================== */
+
+.delay-1{ animation-delay:.1s; }
+.delay-2{ animation-delay:.2s; }
+.delay-3{ animation-delay:.3s; }
+.delay-4{ animation-delay:.4s; }
+.delay-5{ animation-delay:.5s; }
+
+/* ==========================================
+   REDUCE MOTION ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+
+    }
+
+}
