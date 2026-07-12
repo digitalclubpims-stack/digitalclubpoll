@@ -1,207 +1,1059 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PiMS Poll System</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>PiMS Digital Club Poll System</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<link rel="stylesheet"
+href="css/ui.css">
+
+<link rel="stylesheet"
+href="css/animations.css">
 
 <style>
 
 :root{
-    --bg:#0f172a;
-    --card:#111827;
-    --accent:#3b82f6;
-    --text:#ffffff;
-    --muted:#94a3b8;
-}
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+--primary:#2563eb;
+--secondary:#3b82f6;
+--success:#22c55e;
+--danger:#ef4444;
+
 }
 
 body{
-    font-family:'Inter',sans-serif;
-    background:linear-gradient(135deg,#020617,#0f172a);
-    color:white;
-    min-height:100vh;
+
+margin:0;
+
+font-family:"Inter",sans-serif;
+
+background:
+linear-gradient(
+135deg,
+#020617,
+#0f172a,
+#111827
+);
+
+color:#fff;
+
+overflow-x:hidden;
+
 }
 
 header{
-    padding:25px 8%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+
+position:sticky;
+
+top:0;
+
+z-index:1000;
+
+backdrop-filter:blur(18px);
+
+background:
+rgba(2,6,23,.65);
+
+border-bottom:
+1px solid
+rgba(255,255,255,.08);
+
+}
+
+.nav{
+
+max-width:1300px;
+
+margin:auto;
+
+padding:18px 24px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
 }
 
 .logo{
-    font-family:'Syne',sans-serif;
-    font-size:28px;
-    font-weight:800;
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+font-family:"Syne",sans-serif;
+
+font-size:30px;
+
+font-weight:800;
+
 }
 
-.admin-btn{
-    text-decoration:none;
-    color:white;
-    background:var(--accent);
-    padding:10px 18px;
-    border-radius:10px;
+.logo img{
+
+width:52px;
+
+height:52px;
+
+object-fit:contain;
+
+}
+
+.nav-links{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.nav-links a{
+
+text-decoration:none;
+
+color:#fff;
+
+font-weight:600;
+
+transition:.25s;
+
+}
+
+.nav-links a:hover{
+
+color:#60a5fa;
+
+}
+
+.btn{
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:12px 22px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+font-weight:600;
+
+transition:.25s;
+
+cursor:pointer;
+
+border:none;
+
+}
+
+.btn-primary{
+
+background:var(--primary);
+
+color:white;
+
+}
+
+.btn-primary:hover{
+
+transform:translateY(-2px);
+
+background:#1d4ed8;
+
+}
+
+.btn-outline{
+
+border:1px solid
+rgba(255,255,255,.18);
+
+color:white;
+
+}
+
+.btn-outline:hover{
+
+background:
+rgba(255,255,255,.08);
+
 }
 
 .hero{
-    min-height:80vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
+
+max-width:1300px;
+
+margin:auto;
+
+padding:
+
+100px 24px
+80px;
+
+display:grid;
+
+grid-template-columns:
+
+1.2fr
+1fr;
+
+gap:60px;
+
+align-items:center;
+
 }
 
 .hero h1{
-    font-family:'Syne',sans-serif;
-    font-size:4rem;
-    margin-bottom:15px;
+
+font-family:"Syne",sans-serif;
+
+font-size:4rem;
+
+line-height:1.1;
+
+margin-bottom:24px;
+
 }
 
 .hero p{
-    max-width:700px;
-    color:var(--muted);
-    font-size:1.1rem;
-    line-height:1.8;
+
+font-size:1.15rem;
+
+line-height:1.9;
+
+color:#cbd5e1;
+
+max-width:650px;
+
+margin-bottom:40px;
+
 }
 
-.start-btn{
-    margin-top:30px;
-    text-decoration:none;
-    color:white;
-    background:var(--accent);
-    padding:15px 35px;
-    border-radius:12px;
-    font-weight:600;
-    transition:0.3s;
+.hero-buttons{
+
+display:flex;
+
+gap:18px;
+
+flex-wrap:wrap;
+
 }
 
-.start-btn:hover{
-    transform:translateY(-3px);
+.hero-card{
+
+background:
+
+rgba(255,255,255,.05);
+
+backdrop-filter:blur(18px);
+
+border:
+
+1px solid
+rgba(255,255,255,.08);
+
+border-radius:24px;
+
+padding:35px;
+
+}
+
+.hero-card h3{
+
+margin-bottom:20px;
+
+font-size:1.6rem;
+
+font-family:"Syne",sans-serif;
+
+}
+
+.hero-stat{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:18px;
+
+padding-bottom:18px;
+
+border-bottom:
+
+1px solid
+rgba(255,255,255,.08);
+
+}
+
+.hero-stat:last-child{
+
+border:none;
+
+margin:0;
+
+padding:0;
+
+}
+
+.hero-stat span{
+
+color:#94a3b8;
+
+}
+
+.hero-stat strong{
+
+font-size:1.1rem;
+
 }
 
 .features{
-    padding:80px 8%;
+
+max-width:1300px;
+
+margin:auto;
+
+padding:
+
+80px 24px;
+
 }
 
 .section-title{
-    text-align:center;
-    font-size:2rem;
-    margin-bottom:50px;
-    font-family:'Syne',sans-serif;
+
+text-align:center;
+
+font-size:2.8rem;
+
+font-family:"Syne",sans-serif;
+
+margin-bottom:60px;
+
 }
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
+
+display:grid;
+
+grid-template-columns:
+
+repeat(
+4,
+1fr
+);
+
+gap:25px;
+
 }
 
-.card{
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(15px);
-    border-radius:20px;
-    padding:25px;
+.feature-card{
+
+display:block;
+
+text-decoration:none;
+
+color:white;
+
+background:
+
+rgba(255,255,255,.05);
+
+backdrop-filter:blur(16px);
+
+border-radius:22px;
+
+padding:28px;
+
+border:
+
+1px solid
+rgba(255,255,255,.08);
+
+transition:.3s;
+
 }
 
-.card h3{
-    margin-bottom:12px;
+.feature-card:hover{
+
+transform:
+
+translateY(-8px);
+
+border-color:
+
+rgba(59,130,246,.5);
+
+box-shadow:
+
+0 20px 40px
+
+rgba(0,0,0,.25);
+
 }
 
-.card p{
-    color:var(--muted);
+.feature-card h3{
+
+font-size:1.45rem;
+
+margin-bottom:16px;
+
+}
+
+.feature-card p{
+
+color:#cbd5e1;
+
+line-height:1.7;
+
+}
+
+    .stats{
+
+max-width:1300px;
+
+margin:auto;
+
+padding:
+
+20px 24px
+90px;
+
+display:grid;
+
+grid-template-columns:
+
+repeat(
+4,
+1fr
+);
+
+gap:25px;
+
+}
+
+.stat-card{
+
+background:
+
+rgba(255,255,255,.05);
+
+backdrop-filter:blur(18px);
+
+border:
+
+1px solid
+rgba(255,255,255,.08);
+
+border-radius:22px;
+
+padding:30px;
+
+text-align:center;
+
+}
+
+.stat-card h2{
+
+font-size:2.8rem;
+
+font-family:"Syne",sans-serif;
+
+margin-bottom:10px;
+
+color:#60a5fa;
+
+}
+
+.stat-card p{
+
+color:#cbd5e1;
+
 }
 
 footer{
-    text-align:center;
-    padding:30px;
-    color:var(--muted);
+
+margin-top:80px;
+
+padding:40px 20px;
+
+text-align:center;
+
+color:#94a3b8;
+
+border-top:
+
+1px solid
+rgba(255,255,255,.08);
+
+}
+
+@media(max-width:1100px){
+
+.hero{
+
+grid-template-columns:1fr;
+
+}
+
+.grid{
+
+grid-template-columns:
+
+repeat(
+2,
+1fr
+);
+
+}
+
+.stats{
+
+grid-template-columns:
+
+repeat(
+2,
+1fr
+);
+
+}
+
+}
+
+@media(max-width:700px){
+
+.hero h1{
+
+font-size:2.8rem;
+
+}
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+.stats{
+
+grid-template-columns:1fr;
+
+}
+
+.nav{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.nav-links{
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+.hero-buttons{
+
+flex-direction:column;
+
+}
+
+.hero-buttons .btn{
+
+width:100%;
+
+}
+
 }
 
 </style>
+
 </head>
-<body>
+
+<body class="page-enter">
 
 <header>
 
+<div class="nav">
+
 <div class="logo">
+
+<img
+src="assets/logo.png"
+alt="PiMS">
+
+<span>
+
 PiMS Poll
+
+</span>
+
 </div>
 
-<a href="admin.html" class="admin-btn">
-Admin Login
+<div class="nav-links">
+
+<a href="index.html">
+
+Home
+
 </a>
+
+<a href="events.html">
+
+Events
+
+</a>
+
+<a href="judge/portal.html">
+
+Judge
+
+</a>
+
+<a href="login.html"
+class="btn btn-outline">
+
+Manager Login
+
+</a>
+
+</div>
+
+</div>
 
 </header>
 
 <section class="hero">
 
-<h1>Digital Club Voting System</h1>
+<div>
+
+<h1>
+
+Digital Club
+Voting Platform
+
+</h1>
 
 <p>
-Secure and transparent event-based voting platform for competitions,
-elections, audience voting and judge evaluations.
+
+A secure, transparent and real-time polling platform
+for Digital Club competitions. Create events, manage
+participants, conduct audience voting and publish live
+results from a single dashboard.
+
 </p>
 
-<a href="events.html" class="start-btn">
+<div class="hero-buttons">
+
+<a
+href="events.html"
+class="btn btn-primary">
+
 Vote Now
+
 </a>
+
+<a
+href="judge/portal.html"
+class="btn btn-outline">
+
+Judge Portal
+
+</a>
+
+<a
+href="login.html"
+class="btn btn-outline">
+
+Manager Login
+
+</a>
+
+</div>
+
+</div>
+
+<div class="hero-card">
+
+<h3>
+
+Platform Overview
+
+</h3>
+
+<div class="hero-stat">
+
+<span>
+
+Available Events
+
+</span>
+
+<strong id="eventCount">
+
+...
+
+</strong>
+
+</div>
+
+<div class="hero-stat">
+
+<span>
+
+Participants
+
+</span>
+
+<strong id="participantCount">
+
+...
+
+</strong>
+
+</div>
+
+<div class="hero-stat">
+
+<span>
+
+Votes Cast
+
+</span>
+
+<strong id="voteCount">
+
+...
+
+</strong>
+
+</div>
+
+<div class="hero-stat">
+
+<span>
+
+System Status
+
+</span>
+
+<strong
+style="color:#22c55e;">
+
+Online
+
+</strong>
+
+</div>
+
+</div>
 
 </section>
 
 <section class="features">
 
 <h2 class="section-title">
+
 Platform Features
+
 </h2>
 
 <div class="grid">
 
-<div class="card">
-<h3>Multiple Events</h3>
+<a
+href="manager/manage-event.html"
+class="feature-card">
+
+<h3>
+
+Multiple Events
+
+</h3>
+
 <p>
-Create unlimited competitions and voting events.
+
+Create and manage unlimited Digital Club competitions
+with independent voting systems.
+
 </p>
+
+</a>
+
+<a
+href="events.html"
+class="feature-card">
+
+<h3>
+
+Audience Voting
+
+</h3>
+
+<p>
+
+Students can securely cast one verified vote using
+their college credentials.
+
+</p>
+
+</a>
+
+<a
+href="judge/portal.html"
+class="feature-card">
+
+<h3>
+
+Judge Evaluation
+
+</h3>
+
+<p>
+
+Dedicated scoring portal for judges with live score
+submission.
+
+</p>
+
+</a>
+
+<a
+href="results.html"
+class="feature-card">
+
+<h3>
+
+Live Results
+
+</h3>
+
+<p>
+
+Automatic vote counting and real-time rankings for
+every event.
+
+</p>
+
+</a>
+
 </div>
 
-<div class="card">
-<h3>Audience Voting</h3>
+</section>
+
+    <section class="stats">
+
+<div class="stat-card">
+
+<h2 id="activeEvents">
+
+...
+
+</h2>
+
 <p>
-Students can vote using their credentials.
+
+Active Events
+
 </p>
+
 </div>
 
-<div class="card">
-<h3>Judge Evaluation</h3>
+<div class="stat-card">
+
+<h2 id="totalJudges">
+
+...
+
+</h2>
+
 <p>
-Dedicated scoring system for judges.
+
+Registered Judges
+
 </p>
+
 </div>
 
-<div class="card">
-<h3>Live Results</h3>
+<div class="stat-card">
+
+<h2 id="totalParticipants">
+
+...
+
+</h2>
+
 <p>
-Automatic score calculation and rankings.
+
+Participants
+
 </p>
+
 </div>
+
+<div class="stat-card">
+
+<h2 id="totalVotes">
+
+...
+
+</h2>
+
+<p>
+
+Votes Recorded
+
+</p>
 
 </div>
 
 </section>
 
 <footer>
-© Developed By - Arnav Bansal, Batch 2022, PiMS
+
+© 2026 Digital Club, Punjab Institute of Medical Sciences
+<br><br>
+
+Developed by <strong>Arnav Bansal</strong> · MBBS Batch 2022
+
 </footer>
 
+<script type="module">
+
+import {
+
+db
+
+}
+
+from "./js/firebase.js";
+
+import {
+
+collection,
+getDocs,
+query,
+where
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+async function loadStatistics(){
+
+try{
+
+const eventsSnapshot =
+await getDocs(
+collection(db,"events")
+);
+
+const participantsSnapshot =
+await getDocs(
+collection(db,"participants")
+);
+
+const judgesSnapshot =
+await getDocs(
+collection(db,"judges")
+);
+
+const votesSnapshot =
+await getDocs(
+collection(db,"votes")
+);
+
+let activeEvents = 0;
+
+eventsSnapshot.forEach(doc=>{
+
+const data = doc.data();
+
+if(data.status==="active"){
+
+activeEvents++;
+
+}
+
+});
+
+document.getElementById(
+"eventCount"
+).textContent =
+eventsSnapshot.size;
+
+document.getElementById(
+"participantCount"
+).textContent =
+participantsSnapshot.size;
+
+document.getElementById(
+"voteCount"
+).textContent =
+votesSnapshot.size;
+
+document.getElementById(
+"activeEvents"
+).textContent =
+activeEvents;
+
+document.getElementById(
+"totalJudges"
+).textContent =
+judgesSnapshot.size;
+
+document.getElementById(
+"totalParticipants"
+).textContent =
+participantsSnapshot.size;
+
+document.getElementById(
+"totalVotes"
+).textContent =
+votesSnapshot.size;
+
+}
+
+catch(error){
+
+console.error(error);
+
+}
+
+}
+
+loadStatistics();
+
+</script>
+
 </body>
+
 </html>
