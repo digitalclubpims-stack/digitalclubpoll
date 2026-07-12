@@ -21,16 +21,16 @@ crossorigin>
 rel="stylesheet">
 
 <link rel="stylesheet"
-href="../css/style.css">
+href="css/style.css">
 
 <link rel="stylesheet"
-href="../css/manager.css">
+href="css/manager.css">
 
 <link rel="stylesheet"
-href="../css/ui.css">
+href="css/ui.css">
 
 <link rel="stylesheet"
-href="../css/animation.css">
+href="css/animation.css">
 
 <style>
 
@@ -62,11 +62,17 @@ flex-wrap:wrap;
 
 .page-title h1{
 
-margin-bottom:8px;
+margin:0 0 8px;
+
+font-family:"Syne",sans-serif;
+
+font-size:2.4rem;
 
 }
 
 .page-title p{
+
+margin:0;
 
 color:#94a3b8;
 
@@ -109,25 +115,33 @@ padding:24px;
 
 border:1px solid rgba(255,255,255,.06);
 
+transition:.25s;
+
+}
+
+.summary-card:hover{
+
+transform:translateY(-4px);
+
 }
 
 .summary-label{
 
 color:#94a3b8;
 
-margin-bottom:10px;
-
 font-size:.95rem;
+
+margin-bottom:12px;
 
 }
 
 .summary-value{
 
+font-family:"Syne",sans-serif;
+
 font-size:2rem;
 
 font-weight:700;
-
-font-family:"Syne",sans-serif;
 
 }
 
@@ -142,7 +156,7 @@ repeat(
 1fr
 );
 
-gap:20px;
+gap:22px;
 
 margin-bottom:35px;
 
@@ -152,51 +166,21 @@ margin-bottom:35px;
 
 background:#111827;
 
-border-radius:20px;
+border-radius:22px;
 
-padding:28px;
+padding:30px;
 
 text-align:center;
 
-border:1px solid rgba(255,255,255,.08);
+border:2px solid rgba(255,255,255,.08);
+
+transition:.25s;
 
 }
 
-.winner-rank{
+.winner-card:hover{
 
-font-size:3rem;
-
-margin-bottom:12px;
-
-}
-
-.winner-title{
-
-font-size:1.4rem;
-
-font-family:"Syne",sans-serif;
-
-margin-bottom:10px;
-
-}
-
-.winner-name{
-
-font-size:1.15rem;
-
-font-weight:700;
-
-margin-bottom:10px;
-
-}
-
-.winner-score{
-
-font-size:2rem;
-
-font-weight:700;
-
-color:#60a5fa;
+transform:translateY(-5px);
 
 }
 
@@ -218,11 +202,51 @@ border-color:#fb923c;
 
 }
 
+.winner-rank{
+
+font-size:3rem;
+
+margin-bottom:12px;
+
+}
+
+.winner-title{
+
+font-family:"Syne",sans-serif;
+
+font-size:1.45rem;
+
+margin-bottom:14px;
+
+}
+
+.winner-name{
+
+font-size:1.2rem;
+
+font-weight:700;
+
+margin-bottom:10px;
+
+word-break:break-word;
+
+}
+
+.winner-score{
+
+font-size:2rem;
+
+font-weight:700;
+
+color:#60a5fa;
+
+}
+
 .results-card{
 
 background:#111827;
 
-border-radius:20px;
+border-radius:22px;
 
 padding:25px;
 
@@ -274,6 +298,8 @@ padding:15px;
 
 text-align:left;
 
+font-weight:600;
+
 color:#94a3b8;
 
 border-bottom:1px solid rgba(255,255,255,.08);
@@ -284,7 +310,7 @@ border-bottom:1px solid rgba(255,255,255,.08);
 
 padding:15px;
 
-border-bottom:1px solid rgba(255,255,255,.06);
+border-bottom:1px solid rgba(255,255,255,.05);
 
 }
 
@@ -302,9 +328,9 @@ height:36px;
 
 border-radius:50%;
 
-font-weight:700;
-
 background:#1f2937;
+
+font-weight:700;
 
 }
 
@@ -352,17 +378,17 @@ color:#94a3b8;
 
 @media(max-width:900px){
 
-.podium{
-
-grid-template-columns:1fr;
-
-}
-
 .page-header{
 
 flex-direction:column;
 
 align-items:flex-start;
+
+}
+
+.podium{
+
+grid-template-columns:1fr;
 
 }
 
@@ -397,24 +423,24 @@ Loading event information...
 <div class="header-actions">
 
 <a
-href="manage-event.html"
+href="manager/manage-event.html"
 class="btn btn-outline">
 
-Back
+← Back
 
 </a>
 
 <button
-class="btn btn-primary"
-id="refreshBtn">
+id="refreshBtn"
+class="btn btn-primary">
 
 Refresh
 
 </button>
 
 <button
-class="btn btn-success"
-id="exportBtn">
+id="exportBtn"
+class="btn btn-success">
 
 Export CSV
 
@@ -435,8 +461,8 @@ Total Participants
 </div>
 
 <div
-class="summary-value"
-id="participantCount">
+id="participantCount"
+class="summary-value">
 
 0
 
@@ -453,8 +479,8 @@ Total Votes
 </div>
 
 <div
-class="summary-value"
-id="voteCount">
+id="voteCount"
+class="summary-value">
 
 0
 
@@ -471,8 +497,8 @@ Leading Participant
 </div>
 
 <div
-class="summary-value"
-id="leaderName">
+id="leaderName"
+class="summary-value">
 
 -
 
@@ -489,8 +515,8 @@ Winning Votes
 </div>
 
 <div
-class="summary-value"
-id="leaderVotes">
+id="leaderVotes"
+class="summary-value">
 
 0
 
@@ -517,16 +543,16 @@ Runner-up
 </div>
 
 <div
-class="winner-name"
-id="secondName">
+id="secondName"
+class="winner-name">
 
 -
 
 </div>
 
 <div
-class="winner-score"
-id="secondVotes">
+id="secondVotes"
+class="winner-score">
 
 0
 
@@ -549,16 +575,16 @@ Winner
 </div>
 
 <div
-class="winner-name"
-id="firstName">
+id="firstName"
+class="winner-name">
 
 -
 
 </div>
 
 <div
-class="winner-score"
-id="firstVotes">
+id="firstVotes"
+class="winner-score">
 
 0
 
@@ -581,16 +607,16 @@ Second Runner-up
 </div>
 
 <div
-class="winner-name"
-id="thirdName">
+id="thirdName"
+class="winner-name">
 
 -
 
 </div>
 
 <div
-class="winner-score"
-id="thirdVotes">
+id="thirdVotes"
+class="winner-score">
 
 0
 
@@ -698,7 +724,7 @@ requireManagerAuth
 
 }
 
-from "../js/firebase.js";
+from "./js/firebase.js";
 
 import {
 
@@ -707,7 +733,7 @@ getLeaderboard
 
 }
 
-from "../js/manager.js";
+from "./js/manager.js";
 
 import {
 
@@ -718,7 +744,7 @@ getParam
 
 }
 
-from "../js/ui.js";
+from "./js/ui.js";
 
 requireManagerAuth();
 
@@ -802,6 +828,7 @@ leaderboard
 );
 
 }
+
 catch(error){
 
 console.error(error);
@@ -812,6 +839,7 @@ showToast(
 );
 
 }
+
 finally{
 
 hideLoader();
@@ -830,15 +858,21 @@ if(list.length===0){
 
 tbody.innerHTML =
 
-`<tr>
+`
 
-<td colspan="5" class="empty">
+<tr>
+
+<td
+colspan="5"
+class="empty">
 
 No Participants Found
 
 </td>
 
-</tr>`;
+</tr>
+
+`;
 
 resetPodium();
 
@@ -861,7 +895,8 @@ tbody.innerHTML +=
 
 <td>
 
-<span class="rank-badge rank-${item.rank}">
+<span
+class="rank-badge rank-${item.rank}">
 
 ${item.rank}
 
@@ -887,7 +922,8 @@ ${item.category || "-"}
 
 </td>
 
-<td class="score">
+<td
+class="score">
 
 ${item.votes}
 
@@ -1091,7 +1127,6 @@ document.createElement("a");
 a.href = url;
 
 a.download =
-
 "results.csv";
 
 a.click();
