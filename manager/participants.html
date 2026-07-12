@@ -206,7 +206,6 @@ doc
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
- firebaseConfig = {
 const firebaseConfig = {
 
 apiKey: "AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
@@ -238,6 +237,13 @@ async function loadEvents(){
 const snapshot =
 await getDocs(collection(db,"events"));
 
+    console.log("Snapshot size:", snapshot.size);
+
+snapshot.forEach(docSnap => {
+    console.log(docSnap.id);
+    console.log(docSnap.data());
+});
+    
 eventSelect.innerHTML =
 '<option value="">Select Event</option>';
 
