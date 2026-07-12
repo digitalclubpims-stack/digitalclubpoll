@@ -6,103 +6,452 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Event</title>
+<title>Create Event | PiMS Digital Club</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ui.css">
+<link rel="stylesheet" href="../css/manager.css">
+<link rel="stylesheet" href="../css/animation.css">
 
 <style>
 
 :root{
-    --bg:#0f172a;
+
+    --bg:#020617;
+    --surface:#0f172a;
     --card:#111827;
-    --accent:#2563eb;
+    --primary:#2563eb;
+    --primary-hover:#1d4ed8;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+    --border:rgba(255,255,255,.08);
     --muted:#94a3b8;
+    --radius:18px;
+
 }
 
 *{
+
     margin:0;
     padding:0;
     box-sizing:border-box;
+
 }
 
 body{
-    background:#0f172a;
-    color:white;
-    font-family:Inter,sans-serif;
+
+    font-family:"Inter",sans-serif;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--bg),
+        var(--surface)
+    );
+
+    color:#fff;
+
+    min-height:100vh;
+
 }
 
 .container{
-    max-width:900px;
+
+    width:min(900px,92%);
+
     margin:auto;
-    padding:40px 20px;
-}
 
-h1{
-    font-family:Syne,sans-serif;
-    margin-bottom:30px;
-}
+    padding:40px 0 80px;
 
-.form-card{
-    background:#111827;
-    padding:30px;
-    border-radius:18px;
-}
-
-label{
-    display:block;
-    margin-bottom:8px;
-    margin-top:18px;
-    font-weight:600;
-}
-
-input,
-select,
-textarea{
-
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    margin-bottom:10px;
-    font-size:15px;
-
-}
-
-textarea{
-    resize:vertical;
-    min-height:120px;
-}
-
-button{
-
-    width:100%;
-    padding:16px;
-    margin-top:20px;
-
-    border:none;
-    border-radius:10px;
-
-    background:#2563eb;
-    color:white;
-
-    font-size:16px;
-    font-weight:600;
-
-    cursor:pointer;
-
-}
-
-button:hover{
-    opacity:.9;
 }
 
 .back-btn{
 
-    display:inline-block;
-    margin-bottom:20px;
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:30px;
+
+    text-decoration:none;
 
     color:white;
-    text-decoration:none;
+
+    font-weight:500;
+
+    transition:.25s;
+
+}
+
+.back-btn:hover{
+
+    color:#60a5fa;
+
+}
+
+.page-header{
+
+    margin-bottom:30px;
+
+}
+
+.page-header h1{
+
+    font-family:"Syne",sans-serif;
+
+    font-size:2.3rem;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.page-header p{
+
+    color:var(--muted);
+
+    line-height:1.7;
+
+}
+
+.form-card{
+
+    background:var(--card);
+
+    border:
+
+    1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:35px;
+
+    box-shadow:
+
+    0 25px 50px rgba(0,0,0,.35);
+
+}
+
+.section-title{
+
+    font-family:"Syne",sans-serif;
+
+    font-size:1.2rem;
+
+    margin-bottom:20px;
+
+}
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(
+
+        auto-fit,
+
+        minmax(260px,1fr)
+
+    );
+
+    gap:22px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.form-group.full{
+
+    grid-column:1/-1;
+
+}
+
+label{
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:white;
+
+}
+
+input,
+
+select,
+
+textarea{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border-radius:12px;
+
+    border:1px solid var(--border);
+
+    background:#1f2937;
+
+    color:white;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+input:focus,
+
+select:focus,
+
+textarea:focus{
+
+    outline:none;
+
+    border-color:var(--primary);
+
+    box-shadow:
+
+    0 0 0 3px rgba(37,99,235,.18);
+
+}
+
+textarea{
+
+    min-height:140px;
+
+    resize:vertical;
+
+}
+
+small{
+
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:.88rem;
+
+}
+
+.required{
+
+    color:#ef4444;
+
+}
+
+.status-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(
+
+        auto-fit,
+
+        minmax(160px,1fr)
+
+    );
+
+    gap:15px;
+
+    margin-top:5px;
+
+}
+
+.status-card{
+
+    position:relative;
+
+}
+
+.status-card input{
+
+    display:none;
+
+}
+
+.status-card label{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:54px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:#1f2937;
+
+    border:1px solid var(--border);
+
+    transition:.25s;
+
+}
+
+.status-card input:checked+label{
+
+    background:rgba(37,99,235,.18);
+
+    border-color:#2563eb;
+
+    color:#60a5fa;
+
+}
+
+.button-row{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    margin-top:35px;
+
+    flex-wrap:wrap;
+
+}
+
+.btn{
+
+    min-width:180px;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:15px 22px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.btn-secondary{
+
+    background:#374151;
+
+    color:white;
+
+}
+
+.btn-secondary:hover{
+
+    background:#4b5563;
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-hover);
+
+}
+
+.loader{
+
+    display:none;
+
+    margin-left:10px;
+
+    width:18px;
+
+    height:18px;
+
+    border:2px solid rgba(255,255,255,.35);
+
+    border-top:2px solid white;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .container{
+
+        width:94%;
+
+        padding:25px 0 60px;
+
+    }
+
+    .form-card{
+
+        padding:25px;
+
+    }
+
+    .page-header h1{
+
+        font-size:1.9rem;
+
+    }
+
+    .button-row{
+
+        flex-direction:column;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+    }
 
 }
 
@@ -110,27 +459,74 @@ button:hover{
 
 </head>
 
-<body>
+    <body>
 
-<div class="container">
+<div class="container page-enter">
 
 <a href="manage-event.html" class="back-btn">
-← Back to Events
+← Back to Manage Events
 </a>
+
+<div class="page-header">
 
 <h1 id="pageTitle">
 Create Event
 </h1>
 
-<div class="form-card">
+<p id="pageSubtitle">
+Create a new event for audience voting or judge evaluation. Once created, you can add participants, assign judges and open voting.
+</p>
 
-<label>Event Name</label>
-<input type="text" id="eventName">
+</div>
 
-<label>Organizing Club</label>
-<input type="text" id="club">
+<div class="form-card fade-up">
 
-<label>Event Type</label>
+<h2 class="section-title">
+Event Details
+</h2>
+
+<form id="eventForm" autocomplete="off">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label for="eventName">
+Event Name
+<span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="eventName"
+maxlength="120"
+required
+placeholder="Know Your Faculty Reel Competition">
+
+</div>
+
+<div class="form-group">
+
+<label for="club">
+Organizing Club
+<span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="club"
+maxlength="100"
+required
+placeholder="Digital Club">
+
+</div>
+
+<div class="form-group">
+
+<label for="type">
+Event Type
+<span class="required">*</span>
+</label>
 
 <select id="type">
 
@@ -148,36 +544,155 @@ Hybrid
 
 </select>
 
-<label>Start Date</label>
-<input type="date" id="startDate">
+</div>
 
-<label>End Date</label>
-<input type="date" id="endDate">
+<div class="form-group">
 
-<label>Rules / Description</label>
-<textarea id="rules"></textarea>
+<label for="startDate">
+Start Date
+<span class="required">*</span>
+</label>
 
-<label>Status</label>
+<input
+type="date"
+id="startDate"
+required>
 
-<select id="status">
+</div>
 
-<option value="active">
-Active
-</option>
+<div class="form-group">
 
-<option value="inactive">
-Inactive
-</option>
+<label for="endDate">
+End Date
+<span class="required">*</span>
+</label>
 
-<option value="closed">
-Closed
-</option>
+<input
+type="date"
+id="endDate"
+required>
 
-</select>
+</div>
 
-<button onclick="saveEvent()">
+<div class="form-group full">
+
+<label for="rules">
+Rules / Description
+</label>
+
+<textarea
+id="rules"
+placeholder="Enter rules, eligibility, judging criteria or any important information for participants..."></textarea>
+
+<small>
+
+This description will be visible on the voting page.
+
+</small>
+
+</div>
+
+<div class="form-group full">
+
+<label>
+Event Status
+</label>
+
+<div class="status-grid">
+
+<div class="status-card">
+
+<input
+type="radio"
+name="status"
+id="statusActive"
+value="active"
+checked>
+
+<label for="statusActive">
+
+🟢 Active
+
+</label>
+
+</div>
+
+<div class="status-card">
+
+<input
+type="radio"
+name="status"
+id="statusInactive"
+value="inactive">
+
+<label for="statusInactive">
+
+🟡 Inactive
+
+</label>
+
+</div>
+
+<div class="status-card">
+
+<input
+type="radio"
+name="status"
+id="statusClosed"
+value="closed">
+
+<label for="statusClosed">
+
+🔴 Closed
+
+</label>
+
+</div>
+
+</div>
+
+<small>
+
+Only Active events will appear on the public voting page.
+
+</small>
+
+</div>
+
+</div>
+
+<div class="button-row">
+
+<a
+href="manage-event.html"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+<button
+type="submit"
+id="saveBtn"
+class="btn btn-primary">
+
+<span id="saveText">
+
 Save Event
+
+</span>
+
+<span
+id="saveLoader"
+class="loader">
+
+</span>
+
 </button>
+
+</div>
+
+</form>
 
 </div>
 
@@ -185,194 +700,354 @@ Save Event
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import {
+
+    requireManagerAuth
+
+} from "../js/firebase.js";
 
 import {
 
-getFirestore,
-collection,
-addDoc,
-doc,
-getDoc,
-updateDoc
+    getEvent,
+    createEvent,
+    updateEvent
 
-}
+} from "../js/manager.js";
 
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {
 
-const firebaseConfig = {
+    showToast,
+    showLoader,
+    hideLoader
 
-apiKey:"YOUR_API_KEY",
+} from "../js/ui.js";
 
-authDomain:"YOUR_PROJECT.firebaseapp.com",
+requireManagerAuth();
 
-projectId:"YOUR_PROJECT_ID",
+const params = new URLSearchParams(window.location.search);
 
-storageBucket:"YOUR_PROJECT.firebasestorage.app",
+const eventId = params.get("id");
 
-messagingSenderId:"XXXX",
+const form = document.getElementById("eventForm");
 
-appId:"XXXX"
+const saveBtn = document.getElementById("saveBtn");
 
-};
+const saveText = document.getElementById("saveText");
 
-const app = initializeApp(firebaseConfig);
+const saveLoader = document.getElementById("saveLoader");
 
-const db = getFirestore(app);
+const pageTitle = document.getElementById("pageTitle");
 
-const params =
-new URLSearchParams(
-window.location.search
-);
+const pageSubtitle = document.getElementById("pageSubtitle");
 
-const eventId =
-params.get("id");
+
+
+// ==========================================================
+// LOAD EVENT
+// ==========================================================
 
 async function loadEvent(){
 
-if(!eventId) return;
+    if(!eventId){
 
-document.getElementById("pageTitle")
-.innerText = "Edit Event";
+        return;
 
-const eventRef =
-doc(db,"events",eventId);
+    }
 
-const snap =
-await getDoc(eventRef);
+    showLoader();
 
-if(!snap.exists()) return;
+    try{
 
-const data =
-snap.data();
+        const event = await getEvent(eventId);
 
-document.getElementById("eventName")
-.value = data.name || "";
+        if(!event){
 
-document.getElementById("club")
-.value = data.club || "";
+            showToast(
 
-document.getElementById("type")
-.value = data.type || "";
+                "Event not found",
 
-document.getElementById("startDate")
-.value = data.startDate || "";
+                "error"
 
-document.getElementById("endDate")
-.value = data.endDate || "";
+            );
 
-document.getElementById("rules")
-.value = data.rules || "";
+            window.location.href = "manage-event.html";
 
-document.getElementById("status")
-.value = data.status || "active";
+            return;
 
-}
+        }
 
-window.saveEvent =
-async function(){
+        pageTitle.innerText = "Edit Event";
 
-const name =
-document.getElementById("eventName").value;
+        pageSubtitle.innerText =
 
-const club =
-document.getElementById("club").value;
+        "Update event information. Changes are reflected immediately.";
 
-const type =
-document.getElementById("type").value;
+        document.getElementById("eventName").value =
 
-const startDate =
-document.getElementById("startDate").value;
+        event.name || "";
 
-const endDate =
-document.getElementById("endDate").value;
+        document.getElementById("club").value =
 
-const rules =
-document.getElementById("rules").value;
+        event.club || "";
 
-const status =
-document.getElementById("status").value;
+        document.getElementById("type").value =
 
-if(
-!name ||
-!club ||
-!startDate ||
-!endDate
-){
+        event.type || "Audience Voting";
 
-alert(
-"Please fill all required fields."
-);
+        document.getElementById("startDate").value =
 
-return;
+        event.startDate || "";
 
-}
+        document.getElementById("endDate").value =
 
-const eventData = {
+        event.endDate || "";
 
-name,
-club,
-type,
-startDate,
-endDate,
-rules,
-status,
+        document.getElementById("rules").value =
 
-updatedAt:
-Date.now()
+        event.rules || "";
 
-};
+        const statusInput = document.querySelector(
 
-try{
+            `input[name="status"][value="${event.status}"]`
 
-if(eventId){
+        );
 
-await updateDoc(
-doc(db,"events",eventId),
-eventData
-);
+        if(statusInput){
 
-alert(
-"Event Updated Successfully"
-);
+            statusInput.checked = true;
 
-}else{
+        }
 
-eventData.createdAt =
-Date.now();
+        saveText.innerText = "Update Event";
 
-await addDoc(
-collection(db,"events"),
-eventData
-);
+    }
 
-alert(
-"Event Created Successfully"
-);
+    catch(error){
+
+        console.error(error);
+
+        showToast(
+
+            "Unable to load event",
+
+            "error"
+
+        );
+
+    }
+
+    finally{
+
+        hideLoader();
+
+    }
 
 }
 
-window.location.href =
-"manage-event.html";
 
-}
 
-catch(error){
+// ==========================================================
+// SAVE EVENT
+// ==========================================================
 
-console.error(error);
+form.addEventListener(
 
-alert(
-"Error saving event"
-);
+"submit",
 
-}
+async function(e){
 
-};
+    e.preventDefault();
+
+    const name =
+
+    document.getElementById("eventName")
+
+    .value.trim();
+
+    const club =
+
+    document.getElementById("club")
+
+    .value.trim();
+
+    const type =
+
+    document.getElementById("type")
+
+    .value;
+
+    const startDate =
+
+    document.getElementById("startDate")
+
+    .value;
+
+    const endDate =
+
+    document.getElementById("endDate")
+
+    .value;
+
+    const rules =
+
+    document.getElementById("rules")
+
+    .value.trim();
+
+    const status =
+
+    document.querySelector(
+
+    'input[name="status"]:checked'
+
+    ).value;
+
+    if(
+
+        !name ||
+
+        !club ||
+
+        !startDate ||
+
+        !endDate
+
+    ){
+
+        showToast(
+
+            "Please complete all required fields.",
+
+            "warning"
+
+        );
+
+        return;
+
+    }
+
+    if(
+
+        new Date(endDate)
+
+        <
+
+        new Date(startDate)
+
+    ){
+
+        showToast(
+
+            "End date cannot be before Start date.",
+
+            "warning"
+
+        );
+
+        return;
+
+    }
+
+    saveBtn.disabled = true;
+
+    saveLoader.style.display = "inline-block";
+
+    const data = {
+
+        name,
+
+        club,
+
+        type,
+
+        startDate,
+
+        endDate,
+
+        rules,
+
+        status
+
+    };
+
+    try{
+
+        if(eventId){
+
+            await updateEvent(
+
+                eventId,
+
+                data
+
+            );
+
+            showToast(
+
+                "Event updated successfully."
+
+            );
+
+        }
+
+        else{
+
+            await createEvent(data);
+
+            showToast(
+
+                "Event created successfully."
+
+            );
+
+        }
+
+        setTimeout(()=>{
+
+            window.location.href =
+
+            "manage-event.html";
+
+        },700);
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showToast(
+
+            error.message ||
+
+            "Failed to save event.",
+
+            "error"
+
+        );
+
+    }
+
+    finally{
+
+        saveBtn.disabled = false;
+
+        saveLoader.style.display = "none";
+
+    }
+
+});
+
+
+
+// ==========================================================
+// INITIALIZE
+// ==========================================================
 
 loadEvent();
 
 </script>
 
 </body>
+
 </html>
