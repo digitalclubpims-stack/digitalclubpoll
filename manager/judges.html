@@ -4,97 +4,142 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Judges Management</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Judges Management • Digital Club</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap"
+rel="stylesheet">
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
 }
 
 body{
-    background:#0f172a;
-    color:white;
-    font-family:Inter,sans-serif;
+
+background:#020617;
+color:#fff;
+font-family:"Inter",sans-serif;
+
 }
 
 .container{
-    max-width:1200px;
-    margin:auto;
-    padding:30px;
+
+max-width:1200px;
+margin:auto;
+padding:35px;
+
+}
+
+.back{
+
+display:inline-block;
+margin-bottom:20px;
+color:#fff;
+text-decoration:none;
+
 }
 
 h1{
-    font-family:Syne,sans-serif;
-    margin-bottom:25px;
+
+font-family:"Syne",sans-serif;
+margin-bottom:25px;
+
 }
 
 .card{
-    background:#111827;
-    border-radius:16px;
-    padding:20px;
-    margin-bottom:20px;
+
+background:#111827;
+padding:24px;
+border-radius:18px;
+margin-bottom:25px;
+
 }
 
 input,
 select{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    margin-bottom:15px;
-    border:none;
-    border-radius:10px;
+
+width:100%;
+padding:13px;
+margin-top:10px;
+margin-bottom:16px;
+border:none;
+border-radius:10px;
+font-size:15px;
+
 }
 
 button{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:12px 18px;
-    border-radius:10px;
-    cursor:pointer;
+
+background:#2563eb;
+color:#fff;
+border:none;
+padding:12px 18px;
+border-radius:10px;
+cursor:pointer;
+
 }
 
 button:hover{
-    opacity:.9;
+
+opacity:.9;
+
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
+
+width:100%;
+border-collapse:collapse;
+
 }
 
 th,
 td{
-    padding:12px;
-    border-bottom:1px solid rgba(255,255,255,.08);
+
+padding:14px;
+border-bottom:1px solid rgba(255,255,255,.08);
+text-align:left;
+
 }
 
 th{
-    color:#94a3b8;
-    text-align:left;
+
+color:#94a3b8;
+
 }
 
 .delete-btn{
-    background:#dc2626;
+
+background:#dc2626;
+
 }
 
-.back{
-    color:white;
-    text-decoration:none;
-    display:inline-block;
-    margin-bottom:20px;
+.portal-btn{
+
+background:#16a34a;
+
 }
 
 .judge-id{
-    color:#60a5fa;
-    font-weight:600;
+
+color:#60a5fa;
+font-weight:700;
+
 }
 
 </style>
@@ -105,59 +150,113 @@ th{
 
 <div class="container">
 
-<a href="dashboard.html" class="back">
+<a
+href="dashboard.html"
+class="back">
+
 ← Dashboard
+
 </a>
 
-<h1>Judges Management</h1>
+<h1>
+
+Judges Management
+
+</h1>
 
 <div class="card">
 
-<h3>Add Judge</h3>
+<h3>
+
+Add Judge
+
+</h3>
 
 <input
 type="text"
 id="judgeName"
-placeholder="Judge Name"
->
+placeholder="Judge Name">
 
 <input
 type="email"
 id="judgeEmail"
-placeholder="Judge Email"
->
+placeholder="Judge Email">
 
 <select id="eventSelect">
+
 <option value="">
-Select Event
+
+Loading Events...
+
 </option>
+
 </select>
 
-<button onclick="addJudge()">
+<button
+onclick="addJudge()">
+
 Add Judge
+
 </button>
 
 </div>
 
 <div class="card">
 
-<h3>Assigned Judges</h3>
+<h3>
+
+Assigned Judges
+
+</h3>
 
 <table>
 
 <thead>
 
 <tr>
-<th>Judge ID</th>
-<th>Name</th>
-<th>Email</th>
-<th>Event</th>
-<th>Action</th>
+
+<th>
+
+Judge ID
+
+</th>
+
+<th>
+
+Name
+
+</th>
+
+<th>
+
+Email
+
+</th>
+
+<th>
+
+Event
+
+</th>
+
+<th>
+
+Portal
+
+</th>
+
+<th>
+
+Delete
+
+</th>
+
 </tr>
 
 </thead>
 
-<tbody id="judgesTable">
+<tbody
+id="judgesTable">
 
 </tbody>
 
@@ -170,6 +269,7 @@ Add Judge
 <script type="module">
 
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
@@ -179,57 +279,66 @@ collection,
 getDocs,
 addDoc,
 deleteDoc,
-doc
+doc,
+serverTimestamp
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey: "AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
+apiKey:"AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
 
-authDomain: "pims-poll.firebaseapp.com",
+authDomain:"pims-poll.firebaseapp.com",
 
-databaseURL: "https://pims-poll-default-rtdb.firebaseio.com",
+databaseURL:"https://pims-poll-default-rtdb.firebaseio.com",
 
-projectId: "pims-poll",
+projectId:"pims-poll",
 
-storageBucket: "pims-poll.firebasestorage.app",
+storageBucket:"pims-poll.firebasestorage.app",
 
-messagingSenderId: "14637440444",
+messagingSenderId:"14637440444",
 
-appId: "1:14637440444:web:3444173f31a6c43a809fb9",
+appId:"1:14637440444:web:3444173f31a6c43a809fb9",
 
-measurementId: "G-FP42MFB2WR"
+measurementId:"G-FP42MFB2WR"
 
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app=initializeApp(firebaseConfig);
 
-const eventSelect =
-document.getElementById("eventSelect");
+const db=getFirestore(app);
 
-let eventMap = {};
+const eventSelect=document.getElementById("eventSelect");
+
+let eventMap={};
 
 async function loadEvents(){
 
-eventSelect.innerHTML =
+eventMap={};
+
+eventSelect.innerHTML=
+
 '<option value="">Select Event</option>';
 
-const snapshot =
-await getDocs(collection(db,"events"));
+const snapshot=
 
-eventMap = {};
+await getDocs(
+
+collection(db,"events")
+
+);
 
 snapshot.forEach(docSnap=>{
 
-const event = docSnap.data();
+const event=docSnap.data();
 
-eventMap[docSnap.id] = event.name;
+eventMap[docSnap.id]=
 
-eventSelect.innerHTML += `
+event.name;
+
+eventSelect.innerHTML+=`
 
 <option value="${docSnap.id}">
 
@@ -243,101 +352,148 @@ ${event.name}
 
 }
 
-window.addJudge =
+window.addJudge=
+
 async function(){
 
-const name =
-document.getElementById("judgeName").value;
+const name=
 
-const email =
-document.getElementById("judgeEmail").value;
+document.getElementById("judgeName")
+.value.trim();
 
-const eventId =
+const email=
+
+document.getElementById("judgeEmail")
+.value.trim();
+
+const eventId=
+
 eventSelect.value;
 
 if(
-!name ||
-!email ||
+
+!name||
+!email||
 !eventId
+
 ){
 
-alert("Fill all fields");
+alert("Please fill all fields.");
+
 return;
 
 }
 
-const judgeId =
-"JUDGE-" +
+const judgeId=
+
+"JUDGE-"+
+
 Math.random()
+
 .toString(36)
+
 .substring(2,8)
+
 .toUpperCase();
 
 await addDoc(
+
 collection(db,"judges"),
+
 {
 
 judgeId,
+
 name,
+
 email,
+
 eventId,
-createdAt:Date.now()
+
+createdAt:serverTimestamp()
 
 }
+
 );
 
-alert(
-"Judge Added"
-);
+alert("Judge Added Successfully");
 
 document.getElementById("judgeName").value="";
+
 document.getElementById("judgeEmail").value="";
 
-loadJudges();
+await loadJudges();
 
 };
 
 async function loadJudges(){
 
-const snapshot =
+const snapshot=
+
 await getDocs(
+
 collection(db,"judges")
+
 );
 
-const table =
+const table=
+
 document.getElementById("judgesTable");
 
-table.innerHTML = "";
+table.innerHTML="";
 
 snapshot.forEach(docSnap=>{
 
-const judge =
-docSnap.data();
+const judge=docSnap.data();
 
-table.innerHTML += `
+table.innerHTML+=`
 
 <tr>
 
 <td class="judge-id">
+
 ${judge.judgeId}
+
 </td>
 
 <td>
+
 ${judge.name}
+
 </td>
 
 <td>
+
 ${judge.email}
+
 </td>
 
 <td>
+
 ${eventMap[judge.eventId] || "-"}
+
 </td>
 
 <td>
 
 <button
+
+class="portal-btn"
+
+onclick="openPortal('${judge.judgeId}')">
+
+Open Portal
+
+</button>
+
+</td>
+
+<td>
+
+<button
+
 class="delete-btn"
+
 onclick="deleteJudge('${docSnap.id}')">
 
 Delete
@@ -354,25 +510,40 @@ Delete
 
 }
 
-window.deleteJudge =
+window.openPortal=function(judgeId){
+
+window.open(
+
+`../judge/portal.html?judge=${encodeURIComponent(judgeId)}`,
+
+"_blank"
+
+);
+
+};
+
+window.deleteJudge=
+
 async function(id){
 
-const ok =
-confirm(
-"Delete Judge?"
-);
+const ok=
+
+confirm("Delete this judge?");
 
 if(!ok) return;
 
 await deleteDoc(
+
 doc(db,"judges",id)
+
 );
 
-loadJudges();
+await loadJudges();
 
 };
 
 await loadEvents();
+
 await loadJudges();
 
 </script>
