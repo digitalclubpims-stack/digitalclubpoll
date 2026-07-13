@@ -906,12 +906,14 @@ window.location.href=
 
 catch(error){
 
-console.error(error);
+    console.error(error);
 
-showMessage(
-"Failed to submit vote. Please try again.",
-"error"
-);
+    alert(error.message);
+
+    showMessage(
+        error.message,
+        "error"
+    );
 
 }
 
