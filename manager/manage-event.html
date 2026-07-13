@@ -428,67 +428,55 @@ Delete
 
 }
 
-window.editEvent=function(id){
+window.editEvent = function(id){
 
-location.href=
-`create-event.html?id=${id}`;
-
-};
-
-window.participants=function(id){
-
-location.href=
-`participants.html?event=${id}`;
+    location.href = `create-event.html?id=${encodeURIComponent(id)}`;
 
 };
 
-window.judges=function(id){
+window.participants = function(id){
 
-location.href=
-`judges.html?event=${id}`;
-
-};
-
-window.results=function(id){
-
-location.href=
-`results.html?event=${id}`;
+    location.href = `participants.html?event=${encodeURIComponent(id)}`;
 
 };
 
-window.openVoting=function(id){
+window.judges = function(id){
 
-window.open(
-
-`../vote.html?event=${id}`,
-
-"_blank"
-
-);
+    location.href = `judges.html?event=${encodeURIComponent(id)}`;
 
 };
 
-window.removeEvent=
+window.results = function(id){
 
-async function(id){
+    location.href = `results.html?event=${encodeURIComponent(id)}`;
 
-const ok=
+};
 
-confirmAction(
+window.openVoting = function(id){
 
-"Delete this event permanently?"
+    window.open(
 
-);
+        `../vote.html?event=${encodeURIComponent(id)}`,
 
-if(!ok){
+        "_blank"
 
-return;
+    );
 
-}
+};
 
-showLoader();
+window.removeEvent = async function(id){
 
-try{
+    const ok = confirmAction(
+        "Delete this event permanently?"
+    );
+
+    if(!ok){
+        return;
+    }
+
+    showLoader();
+
+    try{
 
 await deleteEvent(id);
 
