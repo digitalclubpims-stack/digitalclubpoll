@@ -384,11 +384,22 @@ const app=initializeApp(firebaseConfig);
 
 const db=getFirestore(app);
 
-const params=new URLSearchParams(window.location.search);
+const judgeId=
+sessionStorage.getItem("judgeId");
 
-const judgeId=params.get("judge");
+const participantId=
+sessionStorage.getItem("participantId");
 
-const participantId=params.get("participant");
+const eventId=
+sessionStorage.getItem("eventId");
+
+if(!judgeId || !participantId){
+
+alert("Judge session expired.");
+
+location.href="index.html";
+
+}
 
 let judgeDoc=null;
 
@@ -598,8 +609,7 @@ document.getElementById("submitBtn").innerText="Score Submitted";
 
 setTimeout(()=>{
 
-window.location.href=`portal.html?judge=${judgeId}`;
-
+window.location.href="portal.html";
 },1200);
 
 }
