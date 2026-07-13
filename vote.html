@@ -4,11 +4,13 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Vote • Digital Club</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -19,11 +21,10 @@
 
 --bg:#020617;
 --card:#111827;
---card2:#1e293b;
 --primary:#2563eb;
 --success:#16a34a;
 --danger:#dc2626;
---text:#ffffff;
+--text:#fff;
 --muted:#94a3b8;
 --border:rgba(255,255,255,.08);
 
@@ -40,12 +41,8 @@ box-sizing:border-box;
 body{
 
 font-family:"Inter",sans-serif;
-
-background:
-linear-gradient(135deg,#020617,#0f172a);
-
+background:linear-gradient(135deg,#020617,#0f172a);
 color:var(--text);
-
 min-height:100vh;
 
 }
@@ -53,9 +50,7 @@ min-height:100vh;
 .container{
 
 max-width:1100px;
-
 margin:auto;
-
 padding:40px 20px;
 
 }
@@ -63,7 +58,6 @@ padding:40px 20px;
 .header{
 
 text-align:center;
-
 margin-bottom:35px;
 
 }
@@ -71,12 +65,8 @@ margin-bottom:35px;
 .header h1{
 
 font-family:"Syne",sans-serif;
-
 font-size:2.5rem;
-
-font-weight:800;
-
-margin-bottom:12px;
+margin-bottom:10px;
 
 }
 
@@ -84,128 +74,56 @@ margin-bottom:12px;
 
 color:var(--muted);
 
-font-size:1rem;
-
 }
 
-.event-card{
+.event-card,
+.form-card{
 
 background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(18px);
-
 border:1px solid var(--border);
-
+backdrop-filter:blur(18px);
 border-radius:20px;
-
 padding:25px;
-
 margin-bottom:30px;
 
 }
 
-.event-grid{
+.event-grid,
+.form-grid{
 
 display:grid;
-
-grid-template-columns:
-
-repeat(auto-fit,minmax(220px,1fr));
-
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 
 }
 
 .info-title{
 
-font-size:.85rem;
-
 color:var(--muted);
-
+font-size:.9rem;
 margin-bottom:6px;
 
 }
 
 .info-value{
 
-font-size:1.05rem;
-
 font-weight:600;
-
-}
-
-.form-card{
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(18px);
-
-border:1px solid var(--border);
-
-border-radius:20px;
-
-padding:25px;
-
-margin-bottom:35px;
-
-}
-
-.form-card h2{
-
-margin-bottom:18px;
-
-font-size:1.35rem;
-
-}
-
-.form-grid{
-
-display:grid;
-
-grid-template-columns:
-
-repeat(auto-fit,minmax(250px,1fr));
-
-gap:18px;
 
 }
 
 input{
 
 width:100%;
-
-padding:14px 16px;
-
+padding:14px;
 border:none;
-
-outline:none;
-
-border-radius:12px;
-
+border-radius:10px;
 font-size:15px;
-
-background:white;
-
-color:#111827;
-
-}
-
-input:focus{
-
-box-shadow:
-
-0 0 0 3px
-
-rgba(37,99,235,.35);
 
 }
 
 .section-title{
 
 font-family:"Syne",sans-serif;
-
-font-size:1.8rem;
-
 margin-bottom:25px;
 
 }
@@ -213,11 +131,7 @@ margin-bottom:25px;
 #participants{
 
 display:grid;
-
-grid-template-columns:
-
-repeat(auto-fill,minmax(320px,1fr));
-
+grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
 gap:20px;
 
 }
@@ -225,37 +139,23 @@ gap:20px;
 .participant{
 
 background:rgba(255,255,255,.05);
-
 border:1px solid var(--border);
-
 border-radius:18px;
-
 padding:22px;
-
-transition:.25s;
-
-}
-
-.participant:hover{
-
-transform:translateY(-3px);
 
 }
 
 .participant-name{
 
-font-size:1.25rem;
-
+font-size:1.2rem;
 font-weight:700;
-
-margin-bottom:10px;
+margin-bottom:8px;
 
 }
 
 .participant-category{
 
 color:var(--muted);
-
 margin-bottom:18px;
 
 }
@@ -263,114 +163,52 @@ margin-bottom:18px;
 .vote-btn{
 
 width:100%;
-
 padding:13px;
-
 border:none;
-
-border-radius:12px;
-
-cursor:pointer;
-
+border-radius:10px;
 background:var(--primary);
-
-color:white;
-
-font-size:15px;
-
+color:#fff;
+cursor:pointer;
 font-weight:600;
-
-transition:.25s;
-
-}
-
-.vote-btn:hover{
-
-opacity:.9;
-
-transform:translateY(-1px);
 
 }
 
 .vote-btn:disabled{
 
-opacity:.5;
-
+background:var(--success);
 cursor:not-allowed;
 
 }
 
-.loader{
+.loader,
+.empty{
 
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
+text-align:center;
 padding:60px;
-
-font-size:18px;
-
 color:var(--muted);
 
 }
 
 .message{
 
-margin-top:25px;
-
-padding:16px;
-
-border-radius:12px;
-
 display:none;
-
-font-weight:500;
+margin-top:20px;
+padding:15px;
+border-radius:10px;
 
 }
 
 .success{
 
-background:rgba(22,163,74,.15);
-
-color:#4ade80;
+background:#14532d;
+color:#86efac;
 
 }
 
 .error{
 
-background:rgba(220,38,38,.15);
-
-color:#f87171;
-
-}
-
-.empty{
-
-text-align:center;
-
-padding:60px;
-
-color:var(--muted);
-
-font-size:18px;
-
-}
-
-@media(max-width:700px){
-
-.header h1{
-
-font-size:2rem;
-
-}
-
-.container{
-
-padding:20px 15px;
-
-}
+background:#7f1d1d;
+color:#fecaca;
 
 }
 
@@ -392,7 +230,7 @@ Loading Event...
 
 <p>
 
-Select one participant and submit your vote
+Vote for your favourite participant
 
 </p>
 
@@ -410,9 +248,7 @@ Club
 
 </div>
 
-<div
-id="club"
-class="info-value">
+<div id="club" class="info-value">
 
 -
 
@@ -428,9 +264,7 @@ Type
 
 </div>
 
-<div
-id="type"
-class="info-value">
+<div id="type" class="info-value">
 
 -
 
@@ -446,9 +280,7 @@ Start Date
 
 </div>
 
-<div
-id="start"
-class="info-value">
+<div id="start" class="info-value">
 
 -
 
@@ -464,9 +296,7 @@ End Date
 
 </div>
 
-<div
-id="end"
-class="info-value">
+<div id="end" class="info-value">
 
 -
 
@@ -488,28 +318,15 @@ Voter Details
 
 <div class="form-grid">
 
-<input
-type="text"
-id="name"
-placeholder="Your Name">
+<input type="text" id="name" placeholder="Your Name">
 
-<input
-type="text"
-id="batch"
-placeholder="Batch">
+<input type="text" id="batch" placeholder="Batch">
 
-<input
-type="text"
-id="roll"
-placeholder="Roll Number">
+<input type="text" id="roll" placeholder="Roll Number">
 
 </div>
 
-<div
-id="message"
-class="message">
-
-</div>
+<div id="message" class="message"></div>
 
 </div>
 
@@ -519,8 +336,7 @@ Participants
 
 </h2>
 
-<div
-id="participants">
+<div id="participants">
 
 <div class="loader">
 
@@ -535,6 +351,7 @@ Loading Participants...
 <script type="module">
 
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
@@ -546,115 +363,142 @@ getDoc,
 getDocs,
 query,
 where,
-addDoc
+addDoc,
+serverTimestamp
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey: "AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
+apiKey:"AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
 
-authDomain: "pims-poll.firebaseapp.com",
+authDomain:"pims-poll.firebaseapp.com",
 
-databaseURL: "https://pims-poll-default-rtdb.firebaseio.com",
+databaseURL:"https://pims-poll-default-rtdb.firebaseio.com",
 
-projectId: "pims-poll",
+projectId:"pims-poll",
 
-storageBucket: "pims-poll.firebasestorage.app",
+storageBucket:"pims-poll.firebasestorage.app",
 
-messagingSenderId: "14637440444",
+messagingSenderId:"14637440444",
 
-appId: "1:14637440444:web:3444173f31a6c43a809fb9",
+appId:"1:14637440444:web:3444173f31a6c43a809fb9",
 
-measurementId: "G-FP42MFB2WR"
+measurementId:"G-FP42MFB2WR"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db=getFirestore(app);
 
-const params = new URLSearchParams(window.location.search);
+const params=new URLSearchParams(window.location.search);
 
-const eventId = params.get("event");
+const eventId=params.get("event");
 
-const eventTitle = document.getElementById("eventTitle");
+const participantsDiv=document.getElementById("participants");
 
-const participantsDiv = document.getElementById("participants");
+const eventTitle=document.getElementById("eventTitle");
 
-const message = document.getElementById("message");
+const message=document.getElementById("message");
 
-    function showMessage(text, type = "success") {
+function showMessage(text,type="success"){
 
-message.style.display = "block";
+message.style.display="block";
 
-message.className = "message " + type;
+message.className="message "+type;
 
-message.textContent = text;
-
-}
-
-function hideMessage() {
-
-message.style.display = "none";
+message.textContent=text;
 
 }
 
-async function loadEvent() {
+function hideMessage(){
 
-try {
+message.style.display="none";
 
-if (!eventId) {
+}
 
-eventTitle.textContent = "Invalid Event";
+async function loadEvent(){
 
-participantsDiv.innerHTML = `
+try{
+
+if(!eventId){
+
+eventTitle.innerText="Invalid Event";
+
+participantsDiv.innerHTML=`
+
 <div class="empty">
-Invalid Event ID.
+
+Invalid Event ID
+
 </div>
+
 `;
 
 return;
 
 }
 
-const eventRef = doc(db, "events", eventId);
+const eventSnap=
 
-const eventSnap = await getDoc(eventRef);
+await getDoc(
 
-if (!eventSnap.exists()) {
+doc(db,"events",eventId)
 
-eventTitle.textContent = "Event Not Found";
+);
 
-participantsDiv.innerHTML = `
+if(!eventSnap.exists()){
+
+eventTitle.innerText="Event Not Found";
+
+participantsDiv.innerHTML=`
+
 <div class="empty">
-This event does not exist.
+
+Event does not exist.
+
 </div>
+
 `;
 
 return;
 
 }
 
-const event = eventSnap.data();
+const event=eventSnap.data();
 
-eventTitle.textContent = event.name || "Unnamed Event";
+if(event.status!=="active"){
 
-document.getElementById("club").textContent =
-event.club || "-";
+eventTitle.innerText=event.name;
 
-document.getElementById("type").textContent =
-event.type || "-";
+participantsDiv.innerHTML=`
 
-document.getElementById("start").textContent =
-event.startDate || "-";
+<div class="empty">
 
-document.getElementById("end").textContent =
-event.endDate || "-";
+Voting is currently closed.
 
-await loadParticipants();
+</div>
+
+`;
+
+return;
+
+}
+
+eventTitle.innerText=event.name;
+
+document.getElementById("club").innerText=event.club||"-";
+
+document.getElementById("type").innerText=event.type||"-";
+
+document.getElementById("start").innerText=event.startDate||"-";
+
+document.getElementById("end").innerText=event.endDate||"-";
+
+loadParticipants();
 
 }
 
@@ -662,12 +506,14 @@ catch(error){
 
 console.error(error);
 
-eventTitle.textContent = "Unable to Load Event";
+participantsDiv.innerHTML=`
 
-participantsDiv.innerHTML = `
 <div class="empty">
-Failed to load event.
+
+Unable to load event.
+
 </div>
+
 `;
 
 }
@@ -676,32 +522,42 @@ Failed to load event.
 
 async function loadParticipants(){
 
-participantsDiv.innerHTML = `
+participantsDiv.innerHTML=`
+
 <div class="loader">
+
 Loading Participants...
+
 </div>
+
 `;
 
-try{
+const snapshot=
 
-const q = query(
+await getDocs(
+
+query(
 
 collection(db,"participants"),
 
 where("eventId","==",eventId)
 
+)
+
 );
 
-const snapshot = await getDocs(q);
-
-participantsDiv.innerHTML = "";
+participantsDiv.innerHTML="";
 
 if(snapshot.empty){
 
-participantsDiv.innerHTML = `
+participantsDiv.innerHTML=`
+
 <div class="empty">
-No participants have been added for this event.
+
+No Participants Found
+
 </div>
+
 `;
 
 return;
@@ -710,30 +566,33 @@ return;
 
 snapshot.forEach(docSnap=>{
 
-const p = docSnap.data();
+const p=docSnap.data();
 
-participantsDiv.innerHTML += `
+participantsDiv.innerHTML+=`
 
 <div class="participant">
 
 <div class="participant-name">
 
-${p.name}
+${p.participantNumber || "-"}
 
 </div>
 
 <div class="participant-category">
 
-${p.category || "Participant"}
+${p.name}
+
+<br>
+
+${p.category || ""}
 
 </div>
 
 <button
+
 class="vote-btn"
-onclick="submitVote(
-'${docSnap.id}',
-'${p.name.replace(/'/g,"\\'")}'
-)">
+
+onclick="submitVote('${docSnap.id}','${(p.name||"").replace(/'/g,"\\'")}')">
 
 Vote
 
@@ -747,54 +606,44 @@ Vote
 
 }
 
-catch(error){
+window.submitVote=async function(
 
-console.error(error);
-
-participantsDiv.innerHTML = `
-<div class="empty">
-Unable to load participants.
-</div>
-`;
-
-}
-
-}
-
-window.submitVote = async function (
 participantId,
 participantName
+
 ){
 
 hideMessage();
 
-const voterName =
-document
-.getElementById("name")
-.value
-.trim();
+const voterName=
 
-const batch =
-document
-.getElementById("batch")
-.value
-.trim();
+document.getElementById("name")
+.value.trim();
 
-const roll =
-document
-.getElementById("roll")
-.value
-.trim();
+const batch=
+
+document.getElementById("batch")
+.value.trim();
+
+const roll=
+
+document.getElementById("roll")
+.value.trim();
 
 if(
-!voterName ||
-!batch ||
+
+!voterName||
+!batch||
 !roll
+
 ){
 
 showMessage(
+
 "Please fill all voter details.",
+
 "error"
+
 );
 
 return;
@@ -803,37 +652,30 @@ return;
 
 try{
 
-const duplicateQuery =
+const duplicate=
+
+await getDocs(
+
 query(
 
 collection(db,"votes"),
 
-where(
-"eventId",
-"==",
-eventId
-),
+where("eventId","==",eventId),
 
-where(
-"roll",
-"==",
-roll
+where("roll","==",roll)
+
 )
 
 );
 
-const duplicateSnapshot =
-await getDocs(
-duplicateQuery
-);
-
-if(
-!duplicateSnapshot.empty
-){
+if(!duplicate.empty){
 
 showMessage(
+
 "You have already voted.",
+
 "error"
+
 );
 
 return;
@@ -858,62 +700,55 @@ batch,
 
 roll,
 
-timestamp:Date.now()
+createdAt:serverTimestamp()
 
 }
 
 );
 
 showMessage(
+
 "Vote submitted successfully!",
+
 "success"
+
 );
 
-document
-.getElementById("name")
-.value="";
+document.getElementById("name").value="";
 
-document
-.getElementById("batch")
-.value="";
+document.getElementById("batch").value="";
 
-document
-.getElementById("roll")
-.value="";
+document.getElementById("roll").value="";
 
-const buttons =
-document.querySelectorAll(
-".vote-btn"
-);
+document.querySelectorAll(".vote-btn")
 
-buttons.forEach(btn=>{
+.forEach(btn=>{
 
 btn.disabled=true;
 
-btn.textContent=
-"Vote Submitted";
+btn.innerText="Vote Submitted";
 
 });
 
 setTimeout(()=>{
 
-window.location.href=
-"events.html";
+window.location.href="events.html";
 
-},2000);
+},1500);
 
 }
 
 catch(error){
 
-    console.error(error);
+console.error(error);
 
-    alert(error.message);
+showMessage(
 
-    showMessage(
-        error.message,
-        "error"
-    );
+error.message,
+
+"error"
+
+);
 
 }
 
