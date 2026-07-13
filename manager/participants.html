@@ -419,13 +419,9 @@ Loading Participants...
 
 <script type="module">
 
-import { initializeApp }
-
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
 
-getFirestore,
 collection,
 getDocs,
 addDoc,
@@ -433,36 +429,12 @@ deleteDoc,
 doc,
 query,
 where,
-orderBy,
 serverTimestamp
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-const firebaseConfig={
-
-apiKey:"AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
-
-authDomain:"pims-poll.firebaseapp.com",
-
-databaseURL:"https://pims-poll-default-rtdb.firebaseio.com",
-
-projectId:"pims-poll",
-
-storageBucket:"pims-poll.firebasestorage.app",
-
-messagingSenderId:"14637440444",
-
-appId:"1:14637440444:web:3444173f31a6c43a809fb9",
-
-measurementId:"G-FP42MFB2WR"
-
-};
-
-const app=initializeApp(firebaseConfig);
-
-const db=getFirestore(app);
 
 const eventSelect=document.getElementById("eventSelect");
 
