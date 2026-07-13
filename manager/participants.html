@@ -435,11 +435,11 @@ name,category
 
 <br>
 
-John Doe,Junior
+Arnav Bansal,MEMERX
 
 <br>
 
-Jane Smith,Senior
+Jane Smith,MEMERX
 
 </p>
 
@@ -607,8 +607,10 @@ catch(error){
 
 console.error(error);
 
+alert(error.message);
+
 showMessage(
-"Unable to load events.",
+error.message,
 "error"
 );
 
