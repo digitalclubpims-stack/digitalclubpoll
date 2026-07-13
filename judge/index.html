@@ -1,27 +1,569 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="card">
+<head>
 
-        <h1>Judge Portal</h1>
+<meta charset="UTF-8">
 
-        <p>
-            Enter your Judge ID to continue.
-        </p>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        <input
-            type="text"
-            id="judgeId"
-            placeholder="Enter Judge ID">
+<title>Judge Portal • PiMS Poll</title>
 
-        <button id="continueBtn">
-            Continue
-        </button>
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
 
-        <div
-            id="message"
-            class="message">
-        </div>
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
 
-    </div>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="../css/style.css">
+
+<link rel="stylesheet"
+href="../css/ui.css">
+
+<link rel="stylesheet"
+href="../css/animation.css">
+
+<style>
+
+:root{
+
+--bg:#020617;
+--bg2:#0f172a;
+--card:rgba(17,24,39,.72);
+--border:rgba(255,255,255,.08);
+--accent:#3b82f6;
+--accent2:#2563eb;
+--text:#ffffff;
+--muted:#94a3b8;
+
+}
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+font-family:"Inter",sans-serif;
+color:var(--text);
+background:
+radial-gradient(circle at top,#1e3a8a 0%,#0f172a 30%,#020617 100%);
+min-height:100vh;
+overflow-x:hidden;
+
+}
+
+body::before{
+
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 20% 20%,rgba(59,130,246,.25),transparent 45%),
+radial-gradient(circle at 80% 10%,rgba(96,165,250,.15),transparent 35%),
+radial-gradient(circle at 50% 90%,rgba(37,99,235,.15),transparent 45%);
+pointer-events:none;
+z-index:-1;
+
+}
+
+.navbar{
+
+position:sticky;
+top:0;
+z-index:1000;
+backdrop-filter:blur(18px);
+background:rgba(2,6,23,.72);
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.nav-inner{
+
+max-width:1280px;
+margin:auto;
+padding:16px 28px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:30px;
+
+}
+
+.brand{
+
+display:flex;
+align-items:center;
+gap:16px;
+text-decoration:none;
+color:#fff;
+
+}
+
+.brand img{
+
+width:54px;
+height:54px;
+object-fit:contain;
+
+}
+
+.brand-title{
+
+font-family:"Syne",sans-serif;
+font-size:2rem;
+font-weight:800;
+letter-spacing:.5px;
+
+}
+
+.nav-links{
+
+display:flex;
+align-items:center;
+gap:30px;
+
+}
+
+.nav-links a{
+
+text-decoration:none;
+color:#fff;
+font-weight:600;
+transition:.25s;
+
+}
+
+.nav-links a:hover{
+
+color:#60a5fa;
+
+}
+
+.login-btn{
+
+padding:12px 26px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.2);
+text-decoration:none;
+font-weight:700;
+color:#fff;
+transition:.25s;
+
+}
+
+.login-btn:hover{
+
+background:rgba(255,255,255,.08);
+
+}
+
+.hero{
+
+max-width:1200px;
+margin:90px auto;
+padding:0 24px;
+display:grid;
+grid-template-columns:1fr 430px;
+gap:70px;
+align-items:center;
+
+}
+
+.hero-text h1{
+
+font-family:"Syne",sans-serif;
+font-size:4rem;
+font-weight:800;
+line-height:1.05;
+margin-bottom:20px;
+
+}
+
+.hero-text p{
+
+font-size:1.08rem;
+line-height:1.8;
+color:var(--muted);
+max-width:620px;
+
+}
+
+.portal-card{
+
+background:var(--card);
+backdrop-filter:blur(22px);
+border:1px solid var(--border);
+border-radius:28px;
+padding:36px;
+box-shadow:
+0 20px 60px rgba(0,0,0,.35);
+
+}
+
+.portal-card h2{
+
+font-family:"Syne",sans-serif;
+font-size:2rem;
+margin-bottom:10px;
+
+}
+
+.portal-card p{
+
+color:var(--muted);
+margin-bottom:30px;
+line-height:1.7;
+
+}
+
+.input-group{
+
+margin-bottom:24px;
+
+}
+
+.input-group label{
+
+display:block;
+margin-bottom:10px;
+font-weight:600;
+
+}
+
+.input{
+
+width:100%;
+padding:16px 18px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.12);
+background:#0f172a;
+color:#fff;
+font-size:1rem;
+outline:none;
+transition:.25s;
+
+}
+
+.input:focus{
+
+border-color:#3b82f6;
+box-shadow:0 0 0 3px rgba(59,130,246,.2);
+
+}
+
+.btn{
+
+width:100%;
+padding:16px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#3b82f6,#2563eb);
+color:#fff;
+font-size:1rem;
+font-weight:700;
+cursor:pointer;
+transition:.25s;
+
+}
+
+.btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+.back{
+
+display:block;
+margin-top:18px;
+text-align:center;
+color:#94a3b8;
+text-decoration:none;
+
+}
+
+.back:hover{
+
+color:#fff;
+
+}
+
+@media(max-width:960px){
+
+.hero{
+
+grid-template-columns:1fr;
+gap:50px;
+
+}
+
+.hero-text{
+
+text-align:center;
+
+}
+
+.hero-text p{
+
+margin:auto;
+
+}
+
+.nav-links{
+
+display:none;
+
+}
+
+.brand-title{
+
+font-size:1.5rem;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="nav-inner">
+
+<a
+href="../index.html"
+class="brand">
+
+<img
+src="../assets/logo.png"
+alt="PiMS Poll">
+
+<div class="brand-title">
+
+PiMS Poll
 
 </div>
+
+</a>
+
+<div class="nav-links">
+
+<a href="../index.html">Home</a>
+
+<a href="../events.html">Events</a>
+
+<a href="index.html">Judge</a>
+
+<a
+href="../login.html"
+class="login-btn">
+
+Manager Login
+
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<section class="hero">
+
+<div class="hero-text">
+
+<h1>
+
+Judge Portal
+
+</h1>
+
+<p>
+
+Secure judge authentication for Digital Club competitions.
+Enter the Judge ID provided by the event manager to access your assigned event and begin scoring participants.
+
+</p>
+
+</div>
+
+<div class="portal-card">
+
+<h2>
+
+Judge Login
+
+</h2>
+
+<p>
+
+Enter your unique Judge ID below.
+
+</p>
+
+    <form id="judgeForm">
+
+<div class="input-group">
+
+<label>
+
+Judge ID
+
+</label>
+
+<input
+type="text"
+id="judgeId"
+class="input"
+placeholder="Enter Judge ID"
+autocomplete="off"
+required>
+
+</div>
+
+<button
+type="submit"
+class="btn">
+
+Continue
+
+</button>
+
+<a
+href="../index.html"
+class="back">
+
+← Back to Home
+
+</a>
+
+</form>
+
+</div>
+
+</section>
+
+<script type="module">
+
+import { db } from "../js/firebase.js";
+
+import {
+
+collection,
+query,
+where,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const form =
+document.getElementById("judgeForm");
+
+const input =
+document.getElementById("judgeId");
+
+form.addEventListener(
+"submit",
+async(e)=>{
+
+e.preventDefault();
+
+const judgeId =
+input.value.trim().toUpperCase();
+
+if(!judgeId){
+
+alert("Please enter Judge ID.");
+
+input.focus();
+
+return;
+
+}
+
+try{
+
+const snapshot =
+await getDocs(
+
+query(
+
+collection(db,"judges"),
+
+where("judgeId","==",judgeId)
+
+)
+
+);
+
+if(snapshot.empty){
+
+alert("Invalid Judge ID.");
+
+return;
+
+}
+
+const judge =
+snapshot.docs[0];
+
+const data =
+judge.data();
+
+sessionStorage.setItem(
+"judgeId",
+judgeId
+);
+
+sessionStorage.setItem(
+"judgeDoc",
+judge.id
+);
+
+sessionStorage.setItem(
+"eventId",
+data.eventId
+);
+
+location.href =
+"portal.html";
+
+}
+
+catch(error){
+
+console.error(error);
+
+alert("Unable to verify Judge ID.");
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
