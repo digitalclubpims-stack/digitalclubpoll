@@ -324,7 +324,8 @@ export async function getParticipants(eventId){
         });
 
     });
-
+    
+console.log("Participants", participants);
     return participants;
 
 }
@@ -594,7 +595,7 @@ export async function getVotes(eventId){
         });
 
     });
-
+console.log("Votes", votes);
     return votes;
 
 }
