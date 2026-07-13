@@ -106,7 +106,7 @@ Loading Events...
 
 <!-- Firebase -->
 
-<<script type="module">
+<script type="module">
 
 import { db } from "./js/firebase.js";
 
@@ -170,13 +170,7 @@ return;
 }
 
 container.innerHTML = "";
-<div class="loading">
-No Active Events Found
-</div>
-`;
 
-return;
-}
 
 snapshot.forEach(docSnap=>{
 
@@ -293,7 +287,7 @@ Unable to load events.
 
 window.openEvent = function(eventId){
 
-location.href = `vote.html?event=${eventId}`;
+window.location.href = `vote.html?event=${eventId}`;
 
 };
 
