@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Judge Scoring</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0f172a;
+color:white;
+font-family:Inter,sans-serif;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:#111827;
+border-radius:18px;
+padding:25px;
+margin-bottom:25px;
+}
+
+h1{
+font-family:Syne,sans-serif;
+margin-bottom:10px;
+}
+
+.subtitle{
+color:#94a3b8;
+margin-bottom:20px;
+}
+
+.info{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:25px;
+}
+
+.info-box{
+background:#1e293b;
+padding:18px;
+border-radius:12px;
+}
+
+.info-box h4{
+color:#94a3b8;
+font-size:14px;
+margin-bottom:8px;
+}
+
+.info-box p{
+font-size:18px;
+font-weight:600;
+}
+
+.criteria{
+margin-top:25px;
+}
+
+.criteria h3{
+margin-bottom:15px;
+}
+
+label{
+display:block;
+margin-top:18px;
+margin-bottom:8px;
+font-weight:600;
+}
+
+input[type="number"]{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+margin-top:25px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.92;
+}
+
+.message{
+margin-top:20px;
+padding:14px;
+border-radius:10px;
+display:none;
+}
+
+.success{
+background:#14532d;
+color:#86efac;
+}
+
+.error{
+background:#7f1d1d;
+color:#fecaca;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1 id="participantName">
+
+Loading...
+
+</h1>
+
+<p
+id="participantCategory"
+class="subtitle">
+
+Loading Participant...
+
+</p>
+
+<div class="info">
+
+<div class="info-box">
+
+<h4>Judge</h4>
+
+<p id="judgeName">
+
+Loading...
+
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h4>Participant Number</h4>
+
+<p id="participantNumber">
+
+-
+
+</p>
+
+</div>
+
+</div>
+
+<div class="criteria">
+
+<h3>Enter Scores</h3>
+
+<label>Creativity (0 - 40)</label>
+
+<input
+type="number"
+id="creativity"
+min="0"
+max="40"
+>
+
+<label>Uniqueness (0 - 30)</label>
+
+<input
+type="number"
+id="uniqueness"
+min="0"
+max="30"
+>
+
+<label>Presentation (0 - 30)</label>
+
+<input
+type="number"
+id="presentation"
+min="0"
+max="30"
+>
+
+<button
+onclick="submitScore()">
+
+Submit Score
+
+</button>
+
+<div
+id="message"
+class="message">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+
+getFirestore,
+doc,
+getDoc,
+collection,
+query,
+where,
+getDocs,
+addDoc,
+serverTimestamp
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
+
+authDomain:"pims-poll.firebaseapp.com",
+
+databaseURL:"https://pims-poll-default-rtdb.firebaseio.com",
+
+projectId:"pims-poll",
+
+storageBucket:"pims-poll.firebasestorage.app",
+
+messagingSenderId:"14637440444",
+
+appId:"1:14637440444:web:3444173f31a6c43a809fb9",
+
+measurementId:"G-FP42MFB2WR"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const params = new URLSearchParams(window.location.search);
+
+const judgeId = params.get("judge");
+
+const participantId = params.get("participant");
+
+let judgeDoc = null;
+
+let participantDoc = null;
+
+  const message =
+document.getElementById("message");
+
+function showMessage(text,type="success"){
+
+message.style.display="block";
+
+message.className=
+"message "+type;
+
+message.textContent=text;
+
+}
+
+async function loadJudge(){
+
+if(!judgeId){
+
+showMessage(
+"Judge ID Missing",
+"error"
+);
+
+return;
+
+}
+
+const q =
+query(
+
+collection(db,"judges"),
+
+where(
+"judgeId",
+"==",
+judgeId
+)
+
+);
+
+const snapshot =
+await getDocs(q);
+
+if(snapshot.empty){
+
+showMessage(
+"Invalid Judge",
+"error"
+);
+
+return;
+
+}
+
+judgeDoc =
+snapshot.docs[0].data();
+
+document.getElementById("judgeName")
+.textContent =
+judgeDoc.name;
+
+loadParticipant();
+
+}
+
+async function loadParticipant(){
+
+if(!participantId){
+
+showMessage(
+"Participant Missing",
+"error"
+);
+
+return;
+
+}
+
+const snapshot =
+await getDoc(
+
+doc(
+db,
+"participants",
+participantId
+)
+
+);
+
+if(!snapshot.exists()){
+
+showMessage(
+"Participant Not Found",
+"error"
+);
+
+return;
+
+}
+
+participantDoc =
+snapshot.data();
+
+document.getElementById("participantName")
+.textContent =
+participantDoc.name;
+
+document.getElementById("participantCategory")
+.textContent =
+participantDoc.category || "-";
+
+document.getElementById("participantNumber")
+.textContent =
+participantDoc.participantNumber || "-";
+
+const duplicateQuery =
+query(
+
+collection(db,"scores"),
+
+where(
+"judgeId",
+"==",
+judgeId
+),
+
+where(
+"participantId",
+"==",
+participantId
+)
+
+);
+
+const duplicate =
+await getDocs(
+duplicateQuery
+);
+
+if(!duplicate.empty){
+
+showMessage(
+"You have already scored this participant.",
+"success"
+);
+
+document.querySelector("button").disabled=true;
+
+document.querySelector("button").textContent=
+"Already Scored";
+
+}
+
+}
+
+  window.submitScore =
+async function(){
+
+const creativity =
+Number(
+document.getElementById("creativity").value
+);
+
+const uniqueness =
+Number(
+document.getElementById("uniqueness").value
+);
+
+const presentation =
+Number(
+document.getElementById("presentation").value
+);
+
+if(
+
+isNaN(creativity) ||
+isNaN(uniqueness) ||
+isNaN(presentation)
+
+){
+
+showMessage(
+"Please enter all scores.",
+"error"
+);
+
+return;
+
+}
+
+if(
+
+creativity<0 ||
+creativity>40
+
+){
+
+showMessage(
+"Creativity must be between 0 and 40.",
+"error"
+);
+
+return;
+
+}
+
+if(
+
+uniqueness<0 ||
+uniqueness>30
+
+){
+
+showMessage(
+"Uniqueness must be between 0 and 30.",
+"error"
+);
+
+return;
+
+}
+
+if(
+
+presentation<0 ||
+presentation>30
+
+){
+
+showMessage(
+"Presentation must be between 0 and 30.",
+"error"
+);
+
+return;
+
+}
+
+const total =
+creativity +
+uniqueness +
+presentation;
+
+try{
+
+await addDoc(
+
+collection(db,"scores"),
+
+{
+
+judgeId,
+
+participantId,
+
+judgeName:
+judgeDoc.name,
+
+participantName:
+participantDoc.name,
+
+eventId:
+judgeDoc.eventId,
+
+creativity,
+
+uniqueness,
+
+presentation,
+
+total,
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+showMessage(
+"Score submitted successfully."
+);
+
+document
+.querySelector("button")
+.disabled=true;
+
+document
+.querySelector("button")
+.textContent=
+"Score Submitted";
+
+setTimeout(()=>{
+
+window.location.href=
+`portal.html?judge=${judgeId}`;
+
+},1500);
+
+}
+
+catch(error){
+
+console.error(error);
+
+showMessage(
+error.message,
+"error"
+);
+
+}
+
+};
+
+loadJudge();
+
+</script>
+
+</body>
+
+</html>
