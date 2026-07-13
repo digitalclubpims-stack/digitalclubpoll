@@ -385,70 +385,40 @@ ${badge.toUpperCase()}
 <div class="actions">
 
 <button
-
 class="btn btn-primary"
-
 onclick="editEvent('${event.id}')">
-
 Edit
-
 </button>
 
 <button
-
 class="btn btn-success"
-
 onclick="participants('${event.id}')">
-
 Participants
-
 </button>
-
-<button
-
-class="btn btn-warning"
 
 <button
 class="btn btn-warning"
 onclick="judges('${event.id}')">
-
 Judges
-
 </button>
 
 <button
 class="btn btn-outline"
 onclick="openVoting('${event.id}')">
-
 Voting
-
-</button>
-
-Voting
-
 </button>
 
 <button
-
 class="btn btn-success"
-
 onclick="results('${event.id}')">
-
 Results
-
 </button>
 
 <button
-
 class="btn btn-danger"
-
 onclick="removeEvent('${event.id}')">
-
 Delete
-
 </button>
-
-</div>
 
 </div>
 
@@ -490,7 +460,7 @@ window.openVoting=function(id){
 
 window.open(
 
-`../vote/vote.html?event=${id}`,
+`../vote.html?event=${id}`,
 
 "_blank"
 
