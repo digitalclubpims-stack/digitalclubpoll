@@ -505,6 +505,8 @@ return;
 
 try{
 
+console.log("Searching Judge ID:", judgeId);
+
 const snapshot =
 await getDocs(
 
@@ -518,7 +520,11 @@ where("judgeId","==",judgeId)
 
 );
 
+console.log("Documents found:", snapshot.size);
+
 if(snapshot.empty){
+
+console.log("Judge not found");
 
 alert("Invalid Judge ID.");
 
@@ -526,11 +532,16 @@ return;
 
 }
 
+console.log("Judge Found");
+
 const judge =
 snapshot.docs[0];
 
 const data =
 judge.data();
+
+console.log(data);
+console.log("Event ID:",data.eventId);
 
 sessionStorage.setItem(
 "judgeId",
