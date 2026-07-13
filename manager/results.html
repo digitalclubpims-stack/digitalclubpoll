@@ -625,6 +625,8 @@ requireManagerAuth();
 const eventId =
 getParam("event");
 
+console.log("Event ID =", eventId);
+
 const tbody =
 document.getElementById("resultsBody");
 
@@ -689,6 +691,8 @@ document
 
 leaderboard =
 await getLeaderboard(eventId);
+
+console.log("Leaderboard", leaderboard);
 
 renderLeaderboard(
 leaderboard
