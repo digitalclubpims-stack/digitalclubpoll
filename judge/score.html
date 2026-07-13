@@ -8,126 +8,194 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Judge Scoring</title>
+<title>Judge Scoring • Digital Club</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 <style>
 
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
+
 }
 
 body{
-background:#0f172a;
-color:white;
-font-family:Inter,sans-serif;
+
+background:#020617;
+color:#fff;
+font-family:"Inter",sans-serif;
+
 }
 
 .container{
+
 max-width:900px;
 margin:auto;
-padding:30px;
+padding:40px 20px;
+
 }
 
 .card{
+
 background:#111827;
-border-radius:18px;
-padding:25px;
-margin-bottom:25px;
+border-radius:20px;
+padding:30px;
+
 }
 
 h1{
-font-family:Syne,sans-serif;
+
+font-family:"Syne",sans-serif;
 margin-bottom:10px;
+
 }
 
 .subtitle{
+
 color:#94a3b8;
-margin-bottom:20px;
+margin-bottom:25px;
+
 }
 
 .info{
+
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
 gap:18px;
-margin-bottom:25px;
+
+margin-bottom:30px;
+
 }
 
 .info-box{
-background:#1e293b;
+
+background:#1f2937;
 padding:18px;
 border-radius:12px;
+
 }
 
 .info-box h4{
+
 color:#94a3b8;
-font-size:14px;
 margin-bottom:8px;
+font-size:.9rem;
+
 }
 
 .info-box p{
-font-size:18px;
+
+font-size:1.1rem;
 font-weight:600;
+
 }
 
 .criteria{
-margin-top:25px;
+
+margin-top:20px;
+
 }
 
 .criteria h3{
-margin-bottom:15px;
+
+margin-bottom:20px;
+
 }
 
 label{
+
 display:block;
 margin-top:18px;
 margin-bottom:8px;
 font-weight:600;
+
 }
 
-input[type="number"]{
+input[type=number]{
+
 width:100%;
 padding:14px;
 border:none;
 border-radius:10px;
 font-size:16px;
+
+}
+
+.total{
+
+margin-top:25px;
+padding:18px;
+background:#1f2937;
+border-radius:12px;
+font-size:22px;
+font-weight:700;
+text-align:center;
+
 }
 
 button{
-margin-top:25px;
+
 width:100%;
+margin-top:25px;
 padding:15px;
+background:#2563eb;
+color:#fff;
 border:none;
 border-radius:10px;
-background:#2563eb;
-color:white;
-font-size:17px;
+font-size:16px;
 font-weight:600;
 cursor:pointer;
+
 }
 
 button:hover{
-opacity:.92;
+
+opacity:.9;
+
+}
+
+button:disabled{
+
+background:#16a34a;
+cursor:not-allowed;
+
 }
 
 .message{
+
 margin-top:20px;
-padding:14px;
+padding:15px;
 border-radius:10px;
 display:none;
+
 }
 
 .success{
+
 background:#14532d;
 color:#86efac;
+
 }
 
 .error{
+
 background:#7f1d1d;
 color:#fecaca;
+
 }
 
 </style>
@@ -150,7 +218,7 @@ Loading...
 id="participantCategory"
 class="subtitle">
 
-Loading Participant...
+Loading...
 
 </p>
 
@@ -158,7 +226,11 @@ Loading Participant...
 
 <div class="info-box">
 
-<h4>Judge</h4>
+<h4>
+
+Judge
+
+</h4>
 
 <p id="judgeName">
 
@@ -170,7 +242,11 @@ Loading...
 
 <div class="info-box">
 
-<h4>Participant Number</h4>
+<h4>
+
+Participant Number
+
+</h4>
 
 <p id="participantNumber">
 
@@ -184,36 +260,66 @@ Loading...
 
 <div class="criteria">
 
-<h3>Enter Scores</h3>
+<h3>
 
-<label>Creativity (0 - 40)</label>
+Scoring
+
+</h3>
+
+<label>
+
+Creativity (0–40)
+
+</label>
 
 <input
 type="number"
 id="creativity"
 min="0"
 max="40"
->
+value="0">
 
-<label>Uniqueness (0 - 30)</label>
+<label>
+
+Uniqueness (0–30)
+
+</label>
 
 <input
 type="number"
 id="uniqueness"
 min="0"
 max="30"
->
+value="0">
 
-<label>Presentation (0 - 30)</label>
+<label>
+
+Presentation (0–30)
+
+</label>
 
 <input
 type="number"
 id="presentation"
 min="0"
 max="30"
->
+value="0">
+
+<div
+class="total">
+
+Total :
+<span id="total">
+
+0
+
+</span>
+/100
+
+</div>
 
 <button
+id="submitBtn"
 onclick="submitScore()">
 
 Submit Score
@@ -254,7 +360,7 @@ serverTimestamp
 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const firebaseConfig={
 
 apiKey:"AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
 
@@ -274,80 +380,91 @@ measurementId:"G-FP42MFB2WR"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db=getFirestore(app);
 
-const params = new URLSearchParams(window.location.search);
+const params=new URLSearchParams(window.location.search);
 
-const judgeId = params.get("judge");
+const judgeId=params.get("judge");
 
-const participantId = params.get("participant");
+const participantId=params.get("participant");
 
-let judgeDoc = null;
+let judgeDoc=null;
 
-let participantDoc = null;
+let participantDoc=null;
 
-  const message =
-document.getElementById("message");
+const msg=document.getElementById("message");
 
 function showMessage(text,type="success"){
 
-message.style.display="block";
+msg.style.display="block";
 
-message.className=
-"message "+type;
+msg.className="message "+type;
 
-message.textContent=text;
+msg.textContent=text;
 
 }
+
+function updateTotal(){
+
+const c=Number(document.getElementById("creativity").value)||0;
+
+const u=Number(document.getElementById("uniqueness").value)||0;
+
+const p=Number(document.getElementById("presentation").value)||0;
+
+document.getElementById("total").innerText=c+u+p;
+
+}
+
+["creativity","uniqueness","presentation"]
+
+.forEach(id=>{
+
+document.getElementById(id)
+
+.addEventListener(
+
+"input",
+
+updateTotal
+
+);
+
+});
 
 async function loadJudge(){
 
 if(!judgeId){
 
-showMessage(
-"Judge ID Missing",
-"error"
-);
+showMessage("Judge ID Missing","error");
 
 return;
 
 }
 
-const q =
-query(
+const q=query(
 
 collection(db,"judges"),
 
-where(
-"judgeId",
-"==",
-judgeId
-)
+where("judgeId","==",judgeId)
 
 );
 
-const snapshot =
-await getDocs(q);
+const snap=await getDocs(q);
 
-if(snapshot.empty){
+if(snap.empty){
 
-showMessage(
-"Invalid Judge",
-"error"
-);
+showMessage("Invalid Judge","error");
 
 return;
 
 }
 
-judgeDoc =
-snapshot.docs[0].data();
+judgeDoc=snap.docs[0].data();
 
-document.getElementById("judgeName")
-.textContent =
-judgeDoc.name;
+document.getElementById("judgeName").innerText=judgeDoc.name;
 
 loadParticipant();
 
@@ -355,180 +472,90 @@ loadParticipant();
 
 async function loadParticipant(){
 
-if(!participantId){
+const snap=
 
-showMessage(
-"Participant Missing",
-"error"
-);
-
-return;
-
-}
-
-const snapshot =
 await getDoc(
 
-doc(
-db,
-"participants",
-participantId
-)
+doc(db,"participants",participantId)
 
 );
 
-if(!snapshot.exists()){
+if(!snap.exists()){
 
-showMessage(
-"Participant Not Found",
-"error"
-);
+showMessage("Participant not found","error");
 
 return;
 
 }
 
-participantDoc =
-snapshot.data();
+participantDoc=snap.data();
 
-document.getElementById("participantName")
-.textContent =
-participantDoc.name;
+document.getElementById("participantName").innerText=participantDoc.name;
 
-document.getElementById("participantCategory")
-.textContent =
-participantDoc.category || "-";
+document.getElementById("participantCategory").innerText=participantDoc.category||"-";
 
-document.getElementById("participantNumber")
-.textContent =
-participantDoc.participantNumber || "-";
+document.getElementById("participantNumber").innerText=participantDoc.participantNumber||"-";
 
-const duplicateQuery =
+const duplicate=
+
+await getDocs(
+
 query(
 
 collection(db,"scores"),
 
-where(
-"judgeId",
-"==",
-judgeId
-),
+where("judgeId","==",judgeId),
 
-where(
-"participantId",
-"==",
-participantId
+where("participantId","==",participantId)
+
 )
 
 );
 
-const duplicate =
-await getDocs(
-duplicateQuery
-);
-
 if(!duplicate.empty){
 
-showMessage(
-"You have already scored this participant.",
-"success"
-);
+document.getElementById("submitBtn").disabled=true;
 
-document.querySelector("button").disabled=true;
+document.getElementById("submitBtn").innerText="Already Scored";
 
-document.querySelector("button").textContent=
-"Already Scored";
+showMessage("You have already scored this participant.");
 
 }
 
 }
 
-  window.submitScore =
+window.submitScore=
+
 async function(){
 
-const creativity =
-Number(
-document.getElementById("creativity").value
-);
+const creativity=Number(document.getElementById("creativity").value);
 
-const uniqueness =
-Number(
-document.getElementById("uniqueness").value
-);
+const uniqueness=Number(document.getElementById("uniqueness").value);
 
-const presentation =
-Number(
-document.getElementById("presentation").value
-);
+const presentation=Number(document.getElementById("presentation").value);
 
 if(
 
-isNaN(creativity) ||
-isNaN(uniqueness) ||
-isNaN(presentation)
+creativity<0||creativity>40||
+
+uniqueness<0||uniqueness>30||
+
+presentation<0||presentation>30
 
 ){
 
-showMessage(
-"Please enter all scores.",
-"error"
-);
+showMessage("Invalid marks.","error");
 
 return;
 
 }
 
-if(
+const total=
 
-creativity<0 ||
-creativity>40
+creativity+
 
-){
+uniqueness+
 
-showMessage(
-"Creativity must be between 0 and 40.",
-"error"
-);
-
-return;
-
-}
-
-if(
-
-uniqueness<0 ||
-uniqueness>30
-
-){
-
-showMessage(
-"Uniqueness must be between 0 and 30.",
-"error"
-);
-
-return;
-
-}
-
-if(
-
-presentation<0 ||
-presentation>30
-
-){
-
-showMessage(
-"Presentation must be between 0 and 30.",
-"error"
-);
-
-return;
-
-}
-
-const total =
-creativity +
-uniqueness +
 presentation;
 
 try{
@@ -543,14 +570,11 @@ judgeId,
 
 participantId,
 
-judgeName:
-judgeDoc.name,
+eventId:judgeDoc.eventId,
 
-participantName:
-participantDoc.name,
+judgeName:judgeDoc.name,
 
-eventId:
-judgeDoc.eventId,
+participantName:participantDoc.name,
 
 creativity,
 
@@ -560,32 +584,23 @@ presentation,
 
 total,
 
-createdAt:
-serverTimestamp()
+createdAt:serverTimestamp()
 
 }
 
 );
 
-showMessage(
-"Score submitted successfully."
-);
+showMessage("Score Submitted Successfully");
 
-document
-.querySelector("button")
-.disabled=true;
+document.getElementById("submitBtn").disabled=true;
 
-document
-.querySelector("button")
-.textContent=
-"Score Submitted";
+document.getElementById("submitBtn").innerText="Score Submitted";
 
 setTimeout(()=>{
 
-window.location.href=
-`portal.html?judge=${judgeId}`;
+window.location.href=`portal.html?judge=${judgeId}`;
 
-},1500);
+},1200);
 
 }
 
@@ -593,14 +608,13 @@ catch(error){
 
 console.error(error);
 
-showMessage(
-error.message,
-"error"
-);
+showMessage(error.message,"error");
 
 }
 
 };
+
+updateTotal();
 
 loadJudge();
 
