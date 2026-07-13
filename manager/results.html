@@ -417,7 +417,7 @@ Loading event information...
 <div class="header-actions">
 
 <a
-href="manager/manage-event.html"
+href="manage-event.html"
 class="btn btn-outline">
 
 ← Back
@@ -712,10 +712,19 @@ Loading Results...
 
 <script type="module">
 
-import {
 import { requireManagerAuth } from "../js/firebase.js";
-import { getEvent, getLeaderboard } from "../js/manager.js";
-import { showLoader, hideLoader, showToast, getParam } from "../js/ui.js";
+
+import {
+getEvent,
+getLeaderboard
+} from "../js/manager.js";
+
+import {
+showLoader,
+hideLoader,
+showToast,
+getParam
+} from "../js/ui.js";
 
 requireManagerAuth();
 
