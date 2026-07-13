@@ -106,54 +106,70 @@ Loading Events...
 
 <!-- Firebase -->
 
-<script type="module">
+<<script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { db } from "./js/firebase.js";
 
 import {
-getFirestore,
+
 collection,
+query,
+where,
+orderBy,
 getDocs
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-const firebaseConfig = {
-
-apiKey: "AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
-
-authDomain: "pims-poll.firebaseapp.com",
-
-databaseURL: "https://pims-poll-default-rtdb.firebaseio.com",
-
-projectId: "pims-poll",
-
-storageBucket: "pims-poll.firebasestorage.app",
-
-messagingSenderId: "14637440444",
-
-appId: "1:14637440444:web:3444173f31a6c43a809fb9",
-
-measurementId: "G-FP42MFB2WR"
-
-};
-
-const app = initializeApp(firebaseConfig);
-
-const db = getFirestore(app);
-
-const container = document.getElementById("eventsContainer");
+const container =
+document.getElementById("eventsContainer");
 
 async function loadEvents(){
 
-container.innerHTML = "";
+container.innerHTML = `
+
+<div class="loading">
+
+Loading Available Events...
+
+</div>
+
+`;
+
+try{
 
 const snapshot = await getDocs(
-collection(db,"events")
+
+query(
+
+collection(db,"events"),
+
+where("status","==","active"),
+
+orderBy("startDate")
+
+)
+
 );
 
 if(snapshot.empty){
 
 container.innerHTML = `
+
+<div class="loading">
+
+No Active Events Found
+
+</div>
+
+`;
+
+return;
+
+}
+
+container.innerHTML = "";
 <div class="loading">
 No Active Events Found
 </div>
@@ -162,36 +178,92 @@ No Active Events Found
 return;
 }
 
-snapshot.forEach(doc=>{
+snapshot.forEach(docSnap=>{
 
-const event = doc.data();
+const event = docSnap.data();
 
 container.innerHTML += `
 
 <div class="event-card">
 
 <div class="event-name">
+
 ${event.name}
+
 </div>
 
 <div class="event-info">
+
+🏛 ${event.club || "Digital Club"}
+
+</div>
+
+<div class="event-info">
+
+🎯 ${event.type || "Competition"}
+
+</div>
+
+<div class="event-info">
+
 📅 ${event.startDate || "-"}
+
 </div>
 
 <div class="event-info">
+
 🏁 ${event.endDate || "-"}
+
 </div>
 
 <div class="event-info">
-🏛 ${event.club || "Student Council"}
+
+Status :
+<b>
+
+${event.status || "Active"}
+
+</b>
+
 </div>
+
+${
+
+event.status === "active"
+
+?
+
+`
 
 <button
+
 class="vote-btn"
-onclick="openEvent('${doc.id}')"
->
+
+onclick="openEvent('${docSnap.id}')">
+
 Vote Now
+
 </button>
+
+`
+
+:
+
+`
+
+<button
+
+class="vote-btn"
+
+disabled>
+
+Voting Closed
+
+</button>
+
+`
+
+}
 
 </div>
 
@@ -201,12 +273,29 @@ Vote Now
 
 }
 
-window.openEvent = function(eventId){
+catch(error){
 
-window.location.href =
-`vote.html?event=${eventId}`;
+console.error(error);
+
+container.innerHTML = `
+
+<div class="loading">
+
+Unable to load events.
+
+</div>
+
+`;
 
 }
+
+}
+
+window.openEvent = function(eventId){
+
+location.href = `vote.html?event=${eventId}`;
+
+};
 
 loadEvents();
 
