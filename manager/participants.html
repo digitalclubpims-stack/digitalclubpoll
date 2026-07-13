@@ -741,7 +741,7 @@ showMessage(
 
 window.addParticipant=
 async function(){
-
+alert("Button Clicked");
 const eventId=
 eventSelect.value;
 
@@ -993,13 +993,12 @@ document
 uploadCSV
 );
 
-document
-.getElementById("addParticipantBtn")
-.addEventListener(
-"click",
-window.addParticipant
-);
+const addBtn = document.getElementById("addParticipantBtn");
 
+addBtn.onclick = async () => {
+    await window.addParticipant();
+};
+  
 eventSelect
 .addEventListener(
 "change",
