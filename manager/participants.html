@@ -46,11 +46,8 @@ box-sizing:border-box;
 body{
 
 background:linear-gradient(135deg,#020617,#0f172a);
-
 font-family:"Inter",sans-serif;
-
 color:var(--text);
-
 min-height:100vh;
 
 }
@@ -58,9 +55,7 @@ min-height:100vh;
 .container{
 
 max-width:1200px;
-
 margin:auto;
-
 padding:35px 20px;
 
 }
@@ -68,13 +63,9 @@ padding:35px 20px;
 .back{
 
 display:inline-block;
-
 margin-bottom:20px;
-
 text-decoration:none;
-
 color:white;
-
 font-weight:600;
 
 }
@@ -82,11 +73,8 @@ font-weight:600;
 .page-title{
 
 font-family:"Syne",sans-serif;
-
 font-size:2.7rem;
-
 font-weight:800;
-
 margin-bottom:30px;
 
 }
@@ -94,22 +82,15 @@ margin-bottom:30px;
 .card{
 
 background:rgba(255,255,255,.05);
-
 backdrop-filter:blur(18px);
-
 border:1px solid var(--border);
-
 border-radius:18px;
-
 padding:24px;
-
 margin-bottom:25px;
 
 }
 
 .card h2{
-
-font-size:1.3rem;
 
 margin-bottom:18px;
 
@@ -118,10 +99,7 @@ margin-bottom:18px;
 .grid{
 
 display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
-
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:18px;
 
 }
@@ -130,76 +108,40 @@ input,
 select{
 
 width:100%;
-
 padding:14px 16px;
-
 border:none;
-
-outline:none;
-
 border-radius:12px;
-
 font-size:15px;
-
-background:white;
-
-color:#111827;
-
-}
-
-input:focus,
-select:focus{
-
-box-shadow:
-0 0 0 3px
-rgba(37,99,235,.35);
 
 }
 
 .btn{
 
 border:none;
-
 cursor:pointer;
-
 padding:13px 22px;
-
 border-radius:12px;
-
-font-size:15px;
-
 font-weight:600;
-
-transition:.25s;
-
-}
-
-.btn:hover{
-
-transform:translateY(-2px);
 
 }
 
 .btn-primary{
 
-background:var(--primary);
-
+background:#2563eb;
 color:white;
 
 }
 
 .btn-success{
 
-background:var(--success);
-
+background:#16a34a;
 color:white;
 
 }
 
 .btn-danger{
 
-background:var(--danger);
-
+background:#dc2626;
 color:white;
 
 }
@@ -207,22 +149,15 @@ color:white;
 .file-box{
 
 display:flex;
-
 gap:15px;
-
 align-items:center;
-
 flex-wrap:wrap;
 
 }
 
 .file-box input{
 
-background:transparent;
-
 padding:0;
-
-color:white;
 
 }
 
@@ -235,86 +170,54 @@ overflow:auto;
 table{
 
 width:100%;
-
 border-collapse:collapse;
 
-margin-top:10px;
+}
+
+th,
+td{
+
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,.08);
 
 }
 
 th{
 
 text-align:left;
-
-padding:15px;
-
-color:var(--muted);
-
-border-bottom:1px solid var(--border);
-
-}
-
-td{
-
-padding:15px;
-
-border-bottom:1px solid rgba(255,255,255,.06);
+color:#94a3b8;
 
 }
 
 .empty{
 
 text-align:center;
-
 padding:40px;
-
-color:var(--muted);
+color:#94a3b8;
 
 }
 
 .message{
 
 display:none;
-
 margin-top:18px;
-
 padding:15px;
-
 border-radius:12px;
-
 font-weight:600;
 
 }
 
-.message.success{
+.success{
 
 background:rgba(22,163,74,.15);
-
 color:#4ade80;
 
 }
 
-.message.error{
+.error{
 
 background:rgba(220,38,38,.15);
-
 color:#f87171;
-
-}
-
-@media(max-width:700px){
-
-.page-title{
-
-font-size:2rem;
-
-}
-
-.container{
-
-padding:20px 15px;
-
-}
 
 }
 
@@ -378,7 +281,7 @@ placeholder="Participant Name">
 <input
 type="text"
 id="participantCategory"
-placeholder="Category (Optional)">
+placeholder="Category">
 
 </div>
 
@@ -461,11 +364,29 @@ Participants
 
 <tr>
 
-<th>Name</th>
+<th>
 
-<th>Category</th>
+No.
 
-<th>Action</th>
+</th>
+
+<th>
+
+Name
+
+</th>
+
+<th>
+
+Category
+
+</th>
+
+<th>
+
+Action
+
+</th>
 
 </tr>
 
@@ -477,10 +398,10 @@ id="participantsTable">
 <tr>
 
 <td
-colspan="3"
+colspan="4"
 class="empty">
 
-Select an event to view participants.
+Loading Participants...
 
 </td>
 
@@ -499,6 +420,7 @@ Select an event to view participants.
 <script type="module">
 
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
@@ -510,59 +432,43 @@ addDoc,
 deleteDoc,
 doc,
 query,
-where
+where,
+orderBy,
+serverTimestamp
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey: "AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
+apiKey:"AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
 
-authDomain: "pims-poll.firebaseapp.com",
+authDomain:"pims-poll.firebaseapp.com",
 
-databaseURL: "https://pims-poll-default-rtdb.firebaseio.com",
+databaseURL:"https://pims-poll-default-rtdb.firebaseio.com",
 
-projectId: "pims-poll",
+projectId:"pims-poll",
 
-storageBucket: "pims-poll.firebasestorage.app",
+storageBucket:"pims-poll.firebasestorage.app",
 
-messagingSenderId: "14637440444",
+messagingSenderId:"14637440444",
 
-appId: "1:14637440444:web:3444173f31a6c43a809fb9",
+appId:"1:14637440444:web:3444173f31a6c43a809fb9",
 
-measurementId: "G-FP42MFB2WR"
+measurementId:"G-FP42MFB2WR"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
-    import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+const db=getFirestore(app);
 
-const auth = getAuth(app);
+const eventSelect=document.getElementById("eventSelect");
 
-console.log("Current User:", auth.currentUser);
+const participantTable=document.getElementById("participantsTable");
 
-setTimeout(() => {
-
-alert(
-auth.currentUser
-? auth.currentUser.email
-: "NOT LOGGED IN"
-);
-
-},1000);
-
-const eventSelect =
-document.getElementById("eventSelect");
-
-const participantTable =
-document.getElementById("participantsTable");
-
-const message =
-document.getElementById("message");
+const message=document.getElementById("message");
 
 function showMessage(text,type="success"){
 
@@ -582,19 +488,28 @@ message.style.display="none";
 
 async function loadEvents(){
 
-try{
+eventSelect.innerHTML=
+
+'<option value="">Select Event</option>';
 
 const snapshot=
-await getDocs(
-collection(db,"events")
-);
 
-eventSelect.innerHTML=
-'<option value="">Select Event</option>';
+await getDocs(
+
+query(
+
+collection(db,"events"),
+
+orderBy("name")
+
+)
+
+);
 
 if(snapshot.empty){
 
 eventSelect.innerHTML=
+
 '<option value="">No Events Found</option>';
 
 return;
@@ -618,24 +533,11 @@ ${event.name}
 });
 
 }
-catch(error){
-
-console.error(error);
-
-alert(error.message);
-
-showMessage(
-error.message,
-"error"
-);
-
-}
-
-}
 
 async function loadParticipants(){
 
 const eventId=
+
 eventSelect.value;
 
 if(!eventId){
@@ -645,10 +547,10 @@ participantTable.innerHTML=`
 <tr>
 
 <td
-colspan="3"
+colspan="4"
 class="empty">
 
-Select an event to view participants.
+Select an Event
 
 </td>
 
@@ -660,22 +562,21 @@ return;
 
 }
 
-try{
+const snapshot=
 
-const q=query(
+await getDocs(
+
+query(
 
 collection(db,"participants"),
 
-where(
-"eventId",
-"==",
-eventId
+where("eventId","==",eventId),
+
+orderBy("participantNumber")
+
 )
 
 );
-
-const snapshot=
-await getDocs(q);
 
 participantTable.innerHTML="";
 
@@ -686,10 +587,10 @@ participantTable.innerHTML=`
 <tr>
 
 <td
-colspan="3"
+colspan="4"
 class="empty">
 
-No participants added yet.
+No Participants Found
 
 </td>
 
@@ -703,8 +604,7 @@ return;
 
 snapshot.forEach(docSnap=>{
 
-const participant=
-docSnap.data();
+const p=docSnap.data();
 
 participantTable.innerHTML+=`
 
@@ -712,13 +612,19 @@ participantTable.innerHTML+=`
 
 <td>
 
-${participant.name}
+${p.participantNumber||"-"}
 
 </td>
 
 <td>
 
-${participant.category||"-"}
+${p.name}
+
+</td>
+
+<td>
+
+${p.category||"-"}
 
 </td>
 
@@ -743,32 +649,32 @@ Delete
 });
 
 }
-catch(error){
 
-console.error(error);
+window.addParticipant=async function(){
 
-showMessage(
-"Unable to load participants.",
-"error"
-);
+const eventId=
 
-}
+eventSelect.value;
 
-}
+const name=
 
-window.addParticipant = async function(){
+document.getElementById("participantName")
+.value.trim();
 
-try{
+const category=
 
-const eventId = eventSelect.value;
-
-const name = document.getElementById("participantName").value.trim();
-
-const category = document.getElementById("participantCategory").value.trim();
+document.getElementById("participantCategory")
+.value.trim();
 
 if(!eventId){
 
-showMessage("Select Event","error");
+showMessage(
+
+"Please select an event.",
+
+"error"
+
+);
 
 return;
 
@@ -776,13 +682,21 @@ return;
 
 if(!name){
 
-showMessage("Enter Participant Name","error");
+showMessage(
+
+"Please enter participant name.",
+
+"error"
+
+);
 
 return;
 
 }
 
-const count = await getDocs(
+const existing=
+
+await getDocs(
 
 query(
 
@@ -794,8 +708,13 @@ where("eventId","==",eventId)
 
 );
 
-const participantNumber =
-"P"+String(count.size+1).padStart(3,"0");
+const participantNumber=
+
+"P"+
+
+String(existing.size+1)
+
+.padStart(3,"0");
 
 await addDoc(
 
@@ -811,91 +730,81 @@ name,
 
 category,
 
-createdAt:new Date(),
+createdAt:serverTimestamp(),
 
-updatedAt:new Date()
+updatedAt:serverTimestamp()
 
 }
 
 );
-
-showMessage("Participant Added");
 
 document.getElementById("participantName").value="";
 
 document.getElementById("participantCategory").value="";
 
-loadParticipants();
-
-}
-catch(error){
-
-console.error(error);
-
 showMessage(
-"Failed to add participant.",
-"error"
+
+"Participant Added Successfully"
+
 );
 
-}
+loadParticipants();
 
 };
 
-window.deleteParticipant =
+window.deleteParticipant=
+
 async function(id){
 
-const ok =
-confirm(
-"Delete this participant?"
-);
+if(
 
-if(!ok){
+!confirm(
+
+"Delete this participant?"
+
+)
+
+){
 
 return;
 
 }
 
-try{
-
 await deleteDoc(
+
 doc(db,"participants",id)
+
 );
 
 showMessage(
-"Participant deleted successfully."
+
+"Participant Deleted"
+
 );
 
-await loadParticipants();
-
-}
-catch(error){
-
-console.error(error);
-
-showMessage(
-"Failed to delete participant.",
-"error"
-);
-
-}
+loadParticipants();
 
 };
 
 async function uploadCSV(){
 
-const file =
-document
-.getElementById("csvFile")
+const file=
+
+document.getElementById("csvFile")
 .files[0];
 
-const eventId =
+const eventId=
+
 eventSelect.value;
 
 if(!eventId){
 
 showMessage(
-"Please select an event first.",
+
+"Please select an event.",
+
 "error"
+
 );
 
 return;
@@ -905,54 +814,64 @@ return;
 if(!file){
 
 showMessage(
+
 "Please select a CSV file.",
+
 "error"
+
 );
 
 return;
 
 }
 
-try{
+const text=
 
-const text =
 await file.text();
 
-const rows =
-text
-.trim()
+const rows=
+
+text.trim()
+
 .split(/\r?\n/);
 
-if(rows.length<=1){
+let added=0;
 
-showMessage(
-"CSV file is empty.",
-"error"
+const existing=
+
+await getDocs(
+
+query(
+
+collection(db,"participants"),
+
+where("eventId","==",eventId)
+
+)
+
 );
 
-return;
+let count=
 
-}
-
-let added = 0;
+existing.size;
 
 for(let i=1;i<rows.length;i++){
 
-const cols =
-rows[i]
-.split(",");
+const cols=
 
-const name =
+rows[i].split(",");
+
+const name=
+
 (cols[0]||"").trim();
 
-const category =
+const category=
+
 (cols[1]||"").trim();
 
-if(!name){
+if(!name) continue;
 
-continue;
-
-}
+count++;
 
 await addDoc(
 
@@ -962,11 +881,17 @@ collection(db,"participants"),
 
 eventId,
 
+participantNumber:
+
+"P"+String(count).padStart(3,"0"),
+
 name,
 
 category,
 
-createdAt:Date.now()
+createdAt:serverTimestamp(),
+
+updatedAt:serverTimestamp()
 
 }
 
@@ -977,49 +902,34 @@ added++;
 }
 
 showMessage(
-`${added} participant(s) uploaded successfully.`
+
+`${added} participant(s) uploaded.`
+
 );
+
+document.getElementById("csvFile").value="";
+
+loadParticipants();
+
+}
 
 document
-.getElementById("csvFile")
-.value="";
-
-await loadParticipants();
-
-}
-catch(error){
-
-console.error(error);
-
-showMessage(
-"Failed to upload CSV.",
-"error"
-);
-
-}
-
-}
+.getElementById("addParticipantBtn")
+.onclick=window.addParticipant;
 
 document
 .getElementById("uploadCSVBtn")
-.addEventListener(
-"click",
-uploadCSV
-);
+.onclick=uploadCSV;
 
-const addBtn = document.getElementById("addParticipantBtn");
-
-addBtn.onclick = async () => {
-    await window.addParticipant();
-};
-  
 eventSelect
 .addEventListener(
 "change",
 loadParticipants
 );
 
-loadEvents();
+await loadEvents();
+
+loadParticipants();
 
 </script>
 
