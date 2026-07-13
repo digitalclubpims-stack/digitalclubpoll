@@ -122,6 +122,13 @@ cursor:pointer;
 padding:13px 22px;
 border-radius:12px;
 font-weight:600;
+transition:.25s;
+
+}
+
+.btn:hover{
+
+transform:translateY(-2px);
 
 }
 
@@ -364,42 +371,23 @@ Participants
 
 <tr>
 
-<th>
+<th>No.</th>
 
-No.
+<th>Name</th>
 
-</th>
+<th>Category</th>
 
-<th>
-
-Name
-
-</th>
-
-<th>
-
-Category
-
-</th>
-
-<th>
-
-Action
-
-</th>
+<th>Action</th>
 
 </tr>
 
 </thead>
 
-<tbody
-id="participantsTable">
+<tbody id="participantsTable">
 
 <tr>
 
-<td
-colspan="4"
-class="empty">
+<td colspan="4" class="empty">
 
 Loading Participants...
 
@@ -418,7 +406,7 @@ Loading Participants...
 </div>
 
 <script type="module">
-  
+
 import { db } from "../js/firebase.js";
 
 import {
@@ -436,19 +424,19 @@ serverTimestamp
 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+const eventSelect =
+document.getElementById("eventSelect");
 
-const eventSelect=document.getElementById("eventSelect");
+const participantTable =
+document.getElementById("participantsTable");
 
-const participantTable=document.getElementById("participantsTable");
-
-const message=document.getElementById("message");
+const message =
+document.getElementById("message");
 
 function showMessage(text,type="success"){
 
 message.style.display="block";
-
 message.className="message "+type;
-
 message.textContent=text;
 
 setTimeout(()=>{
@@ -465,19 +453,17 @@ eventSelect.innerHTML=
 
 '<option value="">Select Event</option>';
 
+try{
+
 const snapshot=
 
 await getDocs(
 
-query(
-
-collection(db,"events"),
-
-orderBy("name")
-
-)
+collection(db,"events")
 
 );
+
+console.log("Events Loaded:",snapshot.size);
 
 if(snapshot.empty){
 
@@ -506,12 +492,29 @@ ${event.name}
 });
 
 }
+catch(error){
+
+console.error(error);
+
+showMessage(
+
+"Unable to load events.",
+
+"error"
+
+);
+
+}
+
+}
 
 async function loadParticipants(){
 
 const eventId=
 
 eventSelect.value;
+
+console.log("Selected Event:",eventId);
 
 if(!eventId){
 
@@ -535,6 +538,8 @@ return;
 
 }
 
+try{
+
 const snapshot=
 
 await getDocs(
@@ -543,13 +548,13 @@ query(
 
 collection(db,"participants"),
 
-where("eventId","==",eventId),
-
-orderBy("participantNumber")
+where("eventId","==",eventId)
 
 )
 
 );
+
+console.log("Participants Found:",snapshot.size);
 
 participantTable.innerHTML="";
 
@@ -575,6 +580,8 @@ return;
 
 }
 
+let index=1;
+
 snapshot.forEach(docSnap=>{
 
 const p=docSnap.data();
@@ -585,7 +592,7 @@ participantTable.innerHTML+=`
 
 <td>
 
-${p.participantNumber||"-"}
+${p.participantNumber || "P"+String(index).padStart(3,"0")}
 
 </td>
 
@@ -597,7 +604,7 @@ ${p.name}
 
 <td>
 
-${p.category||"-"}
+${p.category || "-"}
 
 </td>
 
@@ -619,34 +626,45 @@ Delete
 
 `;
 
+index++;
+
 });
 
 }
+catch(error){
 
-window.addParticipant=async function(){
+console.error(error);
 
-const eventId=
+showMessage(
 
+"Failed to load participants.",
+
+"error"
+
+);
+
+}
+
+}
+
+window.addParticipant = async function(){
+
+const eventId =
 eventSelect.value;
 
-const name=
-
+const name =
 document.getElementById("participantName")
 .value.trim();
 
-const category=
-
+const category =
 document.getElementById("participantCategory")
 .value.trim();
 
 if(!eventId){
 
 showMessage(
-
 "Please select an event.",
-
 "error"
-
 );
 
 return;
@@ -656,19 +674,17 @@ return;
 if(!name){
 
 showMessage(
-
 "Please enter participant name.",
-
 "error"
-
 );
 
 return;
 
 }
 
-const existing=
+try{
 
+const existing =
 await getDocs(
 
 query(
@@ -681,12 +697,9 @@ where("eventId","==",eventId)
 
 );
 
-const participantNumber=
-
+const participantNumber =
 "P"+
-
 String(existing.size+1)
-
 .padStart(3,"0");
 
 await addDoc(
@@ -712,36 +725,40 @@ updatedAt:serverTimestamp()
 );
 
 document.getElementById("participantName").value="";
-
 document.getElementById("participantCategory").value="";
 
 showMessage(
-
 "Participant Added Successfully"
-
 );
 
-loadParticipants();
+await loadParticipants();
+
+}
+
+catch(error){
+
+console.error(error);
+
+showMessage(
+"Failed to add participant.",
+"error"
+);
+
+}
 
 };
 
-window.deleteParticipant=
-
-async function(id){
+window.deleteParticipant = async function(id){
 
 if(
-
-!confirm(
-
-"Delete this participant?"
-
-)
-
+!confirm("Delete this participant?")
 ){
 
 return;
 
 }
+
+try{
 
 await deleteDoc(
 
@@ -750,34 +767,39 @@ doc(db,"participants",id)
 );
 
 showMessage(
-
-"Participant Deleted"
-
+"Participant Deleted Successfully"
 );
 
-loadParticipants();
+await loadParticipants();
+
+}
+
+catch(error){
+
+console.error(error);
+
+showMessage(
+"Failed to delete participant.",
+"error"
+);
+
+}
 
 };
 
 async function uploadCSV(){
 
-const file=
+const file =
+document.getElementById("csvFile").files[0];
 
-document.getElementById("csvFile")
-.files[0];
-
-const eventId=
-
+const eventId =
 eventSelect.value;
 
 if(!eventId){
 
 showMessage(
-
 "Please select an event.",
-
 "error"
-
 );
 
 return;
@@ -787,31 +809,23 @@ return;
 if(!file){
 
 showMessage(
-
 "Please select a CSV file.",
-
 "error"
-
 );
 
 return;
 
 }
 
-const text=
+try{
 
+const text =
 await file.text();
 
-const rows=
+const rows =
+text.trim().split(/\r?\n/);
 
-text.trim()
-
-.split(/\r?\n/);
-
-let added=0;
-
-const existing=
-
+let existing =
 await getDocs(
 
 query(
@@ -824,25 +838,27 @@ where("eventId","==",eventId)
 
 );
 
-let count=
-
+let count =
 existing.size;
+
+let added = 0;
 
 for(let i=1;i<rows.length;i++){
 
-const cols=
-
+const cols =
 rows[i].split(",");
 
-const name=
+const name =
+(cols[0] || "").trim();
 
-(cols[0]||"").trim();
+const category =
+(cols[1] || "").trim();
 
-const category=
+if(!name){
 
-(cols[1]||"").trim();
+continue;
 
-if(!name) continue;
+}
 
 count++;
 
@@ -855,7 +871,6 @@ collection(db,"participants"),
 eventId,
 
 participantNumber:
-
 "P"+String(count).padStart(3,"0"),
 
 name,
@@ -876,33 +891,70 @@ added++;
 
 showMessage(
 
-`${added} participant(s) uploaded.`
+`${added} participant(s) uploaded successfully.`
 
 );
 
 document.getElementById("csvFile").value="";
 
-loadParticipants();
+await loadParticipants();
+
+}
+
+catch(error){
+
+console.error(error);
+
+showMessage(
+
+"Failed to upload CSV.",
+
+"error"
+
+);
+
+}
 
 }
 
 document
 .getElementById("addParticipantBtn")
-.onclick=window.addParticipant;
+.addEventListener(
+"click",
+window.addParticipant
+);
 
 document
 .getElementById("uploadCSVBtn")
-.onclick=uploadCSV;
-
-eventSelect
 .addEventListener(
+"click",
+uploadCSV
+);
+
+eventSelect.addEventListener(
 "change",
-loadParticipants
+async ()=>{
+
+console.log(
+"Selected Event:",
+eventSelect.value
+);
+
+await loadParticipants();
+
+}
+
 );
 
 await loadEvents();
 
-loadParticipants();
+if(eventSelect.options.length>1){
+
+eventSelect.selectedIndex=1;
+
+await loadParticipants();
+
+}
 
 </script>
 
