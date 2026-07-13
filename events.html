@@ -140,17 +140,7 @@ Loading Available Events...
 try{
 
 const snapshot = await getDocs(
-
-query(
-
-collection(db,"events"),
-
-where("status","==","active"),
-
-orderBy("startDate")
-
-)
-
+collection(db,"events")
 );
 
 if(snapshot.empty){
