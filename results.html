@@ -1,1 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Event Results • Digital Club</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="../css/style.css">
+
+<link rel="stylesheet"
+href="../css/manager.css">
+
+<link rel="stylesheet"
+href="../css/ui.css">
+
+<link rel="stylesheet"
+href="../css/animation.css">
+
+<style>
+
+.page{
+
+max-width:1400px;
+margin:auto;
+padding:40px 20px;
+
+}
+
+.page-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:35px;
+
+}
+
+.page-title h1{
+
+font-family:"Syne",sans-serif;
+font-size:2.4rem;
+margin-bottom:8px;
+
+}
+
+.page-title p{
+
+color:#94a3b8;
+
+}
+
+.header-actions{
+
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+
+}
+
+.summary-grid{
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:20px;
+margin-bottom:35px;
+
+}
+
+.summary-card{
+
+background:#111827;
+border-radius:18px;
+padding:24px;
+border:1px solid rgba(255,255,255,.06);
+
+}
+
+.summary-label{
+
+font-size:.9rem;
+color:#94a3b8;
+margin-bottom:10px;
+
+}
+
+.summary-value{
+
+font-size:2rem;
+font-family:"Syne",sans-serif;
+font-weight:700;
+
+}
+
+.podium{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin-bottom:35px;
+
+}
+
+.winner-card{
+
+background:#111827;
+border-radius:22px;
+padding:28px;
+text-align:center;
+border:2px solid rgba(255,255,255,.08);
+
+}
+
+.gold{
+
+border-color:#fbbf24;
+
+}
+
+.silver{
+
+border-color:#d1d5db;
+
+}
+
+.bronze{
+
+border-color:#fb923c;
+
+}
+
+.winner-rank{
+
+font-size:3rem;
+margin-bottom:12px;
+
+}
+
+.winner-title{
+
+font-family:"Syne",sans-serif;
+font-size:1.3rem;
+margin-bottom:14px;
+
+}
+
+.winner-name{
+
+font-weight:700;
+font-size:1.15rem;
+margin-bottom:10px;
+
+}
+
+.winner-score{
+
+font-size:2rem;
+font-weight:700;
+color:#60a5fa;
+
+}
+
+.results-card{
+
+background:#111827;
+border-radius:20px;
+padding:25px;
+
+}
+
+.results-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:20px;
+
+}
+
+.search-box{
+
+max-width:320px;
+width:100%;
+
+}
+
+.table-wrapper{
+
+overflow-x:auto;
+
+}
+
+.results-table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+.results-table th{
+
+padding:14px;
+text-align:left;
+color:#94a3b8;
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.results-table td{
+
+padding:14px;
+border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.rank-badge{
+
+display:flex;
+align-items:center;
+justify-content:center;
+width:36px;
+height:36px;
+border-radius:50%;
+background:#1f2937;
+font-weight:700;
+
+}
+
+.rank-1{
+
+background:#fbbf24;
+color:#111827;
+
+}
+
+.rank-2{
+
+background:#d1d5db;
+color:#111827;
+
+}
+
+.rank-3{
+
+background:#fb923c;
+color:#111827;
+
+}
+
+.score{
+
+font-weight:700;
+color:#60a5fa;
+
+}
+
+.empty{
+
+padding:60px;
+text-align:center;
+color:#94a3b8;
+
+}
+
+@media(max-width:900px){
+
+.podium{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body class="page-enter">
+
+<div class="page">
+
+<div class="page-header">
+
+<div class="page-title">
+
+<h1 id="eventTitle">
+
+Loading Results...
+
+</h1>
+
+<p id="eventSubtitle">
+
+Loading Event...
+
+</p>
+
+</div>
+
+<div class="header-actions">
+
+<a
+href="manage-event.html"
+class="btn btn-outline">
+
+← Back
+
+</a>
+
+<button
+id="refreshBtn"
+class="btn btn-primary">
+
+Refresh
+
+</button>
+
+<button
+id="exportBtn"
+class="btn btn-success">
+
+Export CSV
+
+</button>
+
+</div>
+
+</div>
+
+<div class="summary-grid">
+
+<div class="summary-card">
+
+<div class="summary-label">
+
+Participants
+
+</div>
+
+<div
+id="participantCount"
+class="summary-value">
+
+0
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<div class="summary-label">
+
+Votes
+
+</div>
+
+<div
+id="voteCount"
+class="summary-value">
+
+0
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<div class="summary-label">
+
+Leader
+
+</div>
+
+<div
+id="leaderName"
+class="summary-value">
+
+-
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<div class="summary-label">
+
+Winning Votes
+
+</div>
+
+<div
+id="leaderVotes"
+class="summary-value">
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+<div class="podium">
+
+<div class="winner-card silver">
+
+<div class="winner-rank">
+
+🥈
+
+</div>
+
+<div class="winner-title">
+
+Runner-up
+
+</div>
+
+<div
+id="secondName"
+class="winner-name">
+
+-
+
+</div>
+
+<div
+id="secondVotes"
+class="winner-score">
+
+0
+
+</div>
+
+</div>
+
+<div class="winner-card gold">
+
+<div class="winner-rank">
+
+🥇
+
+</div>
+
+<div class="winner-title">
+
+Winner
+
+</div>
+
+<div
+id="firstName"
+class="winner-name">
+
+-
+
+</div>
+
+<div
+id="firstVotes"
+class="winner-score">
+
+0
+
+</div>
+
+</div>
+
+<div class="winner-card bronze">
+
+<div class="winner-rank">
+
+🥉
+
+</div>
+
+<div class="winner-title">
+
+Second Runner-up
+
+</div>
+
+<div
+id="thirdName"
+class="winner-name">
+
+-
+
+</div>
+
+<div
+id="thirdVotes"
+class="winner-score">
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+<div class="results-card">
+
+<div class="results-header">
+
+<h2>
+
+Leaderboard
+
+</h2>
+
+<input
+type="text"
+id="search"
+class="search-input search-box"
+placeholder="Search participant...">
+
+</div>
+
+<div class="table-wrapper">
+
+<table class="results-table">
+
+<thead>
+
+<tr>
+
+<th>Rank</th>
+
+<th>Participant No.</th>
+
+<th>Name</th>
+
+<th>Category</th>
+
+<th>Votes</th>
+
+</tr>
+
+</thead>
+
+<tbody id="resultsBody">
+
+<tr>
+
+<td
+colspan="5"
+class="empty">
+
+Loading Results...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import {
+
+requireManagerAuth
+
+}
+
+from "../js/firebase.js";
+
+import {
+
+getEvent,
+getLeaderboard,
+getVoteCount
+
+}
+
+from "../js/manager.js";
+
+import {
+
+showLoader,
+hideLoader,
+showToast,
+getParam
+
+}
+
+from "../js/ui.js";
+
+requireManagerAuth();
+
+const eventId =
+getParam("event");
+
+console.log("Event ID =", eventId);
+
+const tbody =
+document.getElementById("resultsBody");
+
+let leaderboard = [];
+
+document
+.getElementById("refreshBtn")
+.addEventListener(
+"click",
+loadResults
+);
+
+document
+.getElementById("search")
+.addEventListener(
+"input",
+filterResults
+);
+
+async function loadResults(){
+
+if(!eventId){
+
+showToast(
+"Event ID missing.",
+"error"
+);
+
+return;
+
+}
+
+showLoader();
+
+try{
+
+const event =
+await getEvent(eventId);
+
+if(!event){
+
+showToast(
+"Event not found.",
+"error"
+);
+
+hideLoader();
+
+return;
+
+}
+
+document
+.getElementById("eventTitle")
+.innerText =
+event.name;
+
+document
+.getElementById("eventSubtitle")
+.innerText =
+`${event.club || "-"} • ${event.type || "-"}`;
+
+leaderboard =
+await getLeaderboard(eventId);
+
+console.log("Leaderboard", leaderboard);
+
+renderLeaderboard(
+leaderboard
+);
+
+}
+
+catch(error){
+
+console.error(error);
+
+showToast(
+"Unable to load results.",
+"error"
+);
+
+}
+
+finally{
+
+hideLoader();
+
+}
+
+}
+
+function renderLeaderboard(list){
+
+tbody.innerHTML="";
+
+if(list.length===0){
+
+tbody.innerHTML=`
+
+<tr>
+
+<td
+colspan="5"
+class="empty">
+
+No Participants Found
+
+</td>
+
+</tr>
+
+`;
+
+resetPodium();
+
+document
+.getElementById("participantCount")
+.innerText=0;
+
+document
+.getElementById("voteCount")
+.innerText=0;
+
+return;
+
+}
+
+let totalVotes=0;
+
+list.forEach(item=>{
+
+totalVotes+=item.votes||0;
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>
+
+<span
+class="rank-badge rank-${item.rank}">
+
+${item.rank}
+
+</span>
+
+</td>
+
+<td>
+
+${item.participantNumber||"-"}
+
+</td>
+
+<td>
+
+${item.name}
+
+</td>
+
+<td>
+
+${item.category||"-"}
+
+</td>
+
+<td
+class="score">
+
+${item.votes}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document
+.getElementById("participantCount")
+.innerText=
+list.length;
+
+document
+.getElementById("voteCount")
+.innerText=
+totalVotes;
+
+updatePodium(list);
+
+}
+
+function updatePodium(list){
+
+const first =
+list[0];
+
+const second =
+list[1];
+
+const third =
+list[2];
+
+document
+.getElementById("leaderName")
+.innerText =
+first?.name || "-";
+
+document
+.getElementById("leaderVotes")
+.innerText =
+first?.votes || 0;
+
+document
+.getElementById("firstName")
+.innerText =
+first?.name || "-";
+
+document
+.getElementById("firstVotes")
+.innerText =
+first?.votes || 0;
+
+document
+.getElementById("secondName")
+.innerText =
+second?.name || "-";
+
+document
+.getElementById("secondVotes")
+.innerText =
+second?.votes || 0;
+
+document
+.getElementById("thirdName")
+.innerText =
+third?.name || "-";
+
+document
+.getElementById("thirdVotes")
+.innerText =
+third?.votes || 0;
+
+}
+
+function resetPodium(){
+
+document
+.getElementById("leaderName")
+.innerText="-";
+
+document
+.getElementById("leaderVotes")
+.innerText="0";
+
+document
+.getElementById("firstName")
+.innerText="-";
+
+document
+.getElementById("firstVotes")
+.innerText="0";
+
+document
+.getElementById("secondName")
+.innerText="-";
+
+document
+.getElementById("secondVotes")
+.innerText="0";
+
+document
+.getElementById("thirdName")
+.innerText="-";
+
+document
+.getElementById("thirdVotes")
+.innerText="0";
+
+}
+
+function filterResults(e){
+
+const term =
+e.target.value
+.toLowerCase()
+.trim();
+
+if(!term){
+
+renderLeaderboard(
+leaderboard
+);
+
+return;
+
+}
+
+const filtered =
+
+leaderboard.filter(item=>
+
+(item.name||"")
+.toLowerCase()
+.includes(term)
+
+||
+
+(item.participantNumber||"")
+.toLowerCase()
+.includes(term)
+
+||
+
+(item.category||"")
+.toLowerCase()
+.includes(term)
+
+);
+
+renderLeaderboard(
+filtered
+);
+
+}
+
+document
+.getElementById("exportBtn")
+.addEventListener(
+"click",
+()=>{
+
+if(
+leaderboard.length===0
+){
+
+showToast(
+"No results available to export.",
+"warning"
+);
+
+return;
+
+}
+
+let csv =
+
+"Rank,Participant Number,Participant Name,Category,Votes\n";
+
+leaderboard.forEach(item=>{
+
+csv +=
+
+`${item.rank},${item.participantNumber || ""},"${item.name}",${item.category || ""},${item.votes}\n`;
+
+});
+
+const blob =
+
+new Blob(
+
+[csv],
+
+{
+
+type:"text/csv"
+
+}
+
+);
+
+const url =
+
+URL.createObjectURL(blob);
+
+const a =
+
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+
+`${document.getElementById("eventTitle").innerText}_Results.csv`;
+
+document.body.appendChild(a);
+
+a.click();
+
+document.body.removeChild(a);
+
+URL.revokeObjectURL(url);
+
+showToast(
+"Results exported successfully."
+);
+
+}
+
+);
+
+loadResults();
+
+</script>
+
+</body>
+
+</html>
