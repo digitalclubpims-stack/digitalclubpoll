@@ -135,17 +135,21 @@ from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey:"YOUR_API_KEY",
+apiKey: "AIzaSyCsuOcZ86B55VnOXQA4Pa3O03n2XQn1_Rk",
 
-authDomain:"YOUR_PROJECT.firebaseapp.com",
+authDomain: "pims-poll.firebaseapp.com",
 
-projectId:"YOUR_PROJECT_ID",
+databaseURL: "https://pims-poll-default-rtdb.firebaseio.com",
 
-storageBucket:"YOUR_PROJECT.firebasestorage.app",
+projectId: "pims-poll",
 
-messagingSenderId:"XXXX",
+storageBucket: "pims-poll.firebasestorage.app",
 
-appId:"XXXX"
+messagingSenderId: "14637440444",
+
+appId: "1:14637440444:web:3444173f31a6c43a809fb9",
+
+measurementId: "G-FP42MFB2WR"
 
 };
 
@@ -159,13 +163,50 @@ new URLSearchParams(window.location.search);
 const eventId =
 params.get("event");
 
+    console.log("Event ID:", eventId);
+
+if (!eventId) {
+    eventTitle.textContent = "Event not found";
+    return;
+}
+
 const eventTitle =
 document.getElementById("eventTitle");
 
 const participantsDiv =
 document.getElementById("participants");
 
-async function loadEvent(){
+async function loadEvent() {
+
+    try {
+
+        if (!eventId) {
+            eventTitle.textContent = "Invalid Event";
+            return;
+        }
+
+        const eventRef = doc(db, "events", eventId);
+
+        const eventSnap = await getDoc(eventRef);
+
+        if (!eventSnap.exists()) {
+            eventTitle.textContent = "Event Not Found";
+            return;
+        }
+
+        eventTitle.textContent = eventSnap.data().name;
+
+        await loadParticipants();
+
+    } catch (err) {
+
+        console.error(err);
+
+        eventTitle.textContent = "Failed to load event";
+
+    }
+
+}
 
 const eventRef =
 doc(db,"events",eventId);
