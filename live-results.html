@@ -1,1 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Live Results</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#0f172a;
+    --card:#111827;
+    --accent:#3b82f6;
+    --text:#ffffff;
+    --muted:#94a3b8;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:linear-gradient(135deg,#020617,#0f172a);
+    min-height:100vh;
+    color:white;
+    font-family:'Inter',sans-serif;
+    padding:40px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:40px;
+    font-family:'Syne',sans-serif;
+}
+
+.events-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+    max-width:1200px;
+    margin:auto;
+}
+
+.event-card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:25px;
+    transition:.3s;
+    cursor:pointer;
+}
+
+.event-card:hover{
+    transform:translateY(-5px);
+}
+
+.event-name{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:12px;
+}
+
+.event-info{
+    color:var(--muted);
+    margin-bottom:10px;
+}
+
+.vote-btn{
+    margin-top:20px;
+    width:100%;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    background:var(--accent);
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+}
+
+.loading{
+    text-align:center;
+    color:#94a3b8;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Live Results</h1>
+
+<div id="eventsContainer" class="events-grid">
+
+<div class="loading">
+Loading Events...
+</div>
+
+</div>
+
+<!-- Firebase -->
+
+<script type="module">
+
+import { db } from "./js/firebase.js";
+
+import {
+
+collection,
+query,
+where,
+orderBy,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const container =
+document.getElementById("eventsContainer");
+
+async function loadEvents(){
+
+container.innerHTML = `
+
+<div class="loading">
+
+Loading Available Events...
+
+</div>
+
+`;
+
+try{
+
+const snapshot = await getDocs(
+collection(db,"events")
+);
+
+if(snapshot.empty){
+
+container.innerHTML = `
+
+<div class="loading">
+
+No Active Events Found
+
+</div>
+
+`;
+
+return;
+
+}
+
+container.innerHTML = "";
+
+
+snapshot.forEach(docSnap=>{
+
+const event = docSnap.data();
+
+container.innerHTML += `
+
+<div class="event-card">
+
+<div class="event-name">
+
+${event.name}
+
+</div>
+
+<div class="event-info">
+
+🏛 ${event.club || "Digital Club"}
+
+</div>
+
+<div class="event-info">
+
+🎯 ${event.type || "Competition"}
+
+</div>
+
+<div class="event-info">
+
+📅 ${event.startDate || "-"}
+
+</div>
+
+<div class="event-info">
+
+🏁 ${event.endDate || "-"}
+
+</div>
+
+<div class="event-info">
+
+Status :
+<b>
+
+${event.status || "Active"}
+
+</b>
+
+</div>
+
+${
+
+event.status === "active"
+
+?
+
+`
+
+<button
+
+class="vote-btn"
+
+onclick="openEvent('${docSnap.id}')">
+
+Vote Now
+
+</button>
+
+`
+
+:
+
+`
+
+<button
+
+class="vote-btn"
+
+disabled>
+
+Voting Closed
+
+</button>
+
+`
+
+}
+
+</div>
+
+`;
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+container.innerHTML = `
+
+<div class="loading">
+
+Unable to load events.
+
+</div>
+
+`;
+
+}
+
+}
+
+window.openEvent = function(eventId){
+
+window.location.href = `vote.html?event=${eventId}`;
+
+};
+
+loadEvents();
+
+</script>
+
+</body>
+</html>
