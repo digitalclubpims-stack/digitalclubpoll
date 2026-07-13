@@ -539,6 +539,21 @@ measurementId: "G-FP42MFB2WR"
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+const auth = getAuth(app);
+
+console.log("Current User:", auth.currentUser);
+
+setTimeout(() => {
+
+alert(
+auth.currentUser
+? auth.currentUser.email
+: "NOT LOGGED IN"
+);
+
+},1000);
 
 const eventSelect =
 document.getElementById("eventSelect");
