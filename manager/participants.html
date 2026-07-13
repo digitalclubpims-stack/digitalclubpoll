@@ -2,93 +2,320 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Manage Participants</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Manage Participants • Digital Club</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 <style>
 
+:root{
+
+--bg:#020617;
+--card:#111827;
+--border:rgba(255,255,255,.08);
+--primary:#2563eb;
+--success:#16a34a;
+--danger:#dc2626;
+--text:#ffffff;
+--muted:#94a3b8;
+
+}
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
 }
 
 body{
-    background:#0f172a;
-    color:white;
-    font-family:Inter,sans-serif;
+
+background:linear-gradient(135deg,#020617,#0f172a);
+
+font-family:"Inter",sans-serif;
+
+color:var(--text);
+
+min-height:100vh;
+
 }
 
 .container{
-    max-width:1200px;
-    margin:auto;
-    padding:30px;
+
+max-width:1200px;
+
+margin:auto;
+
+padding:35px 20px;
+
 }
 
-h1{
-    font-family:Syne,sans-serif;
-    margin-bottom:25px;
+.back{
+
+display:inline-block;
+
+margin-bottom:20px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:600;
+
+}
+
+.page-title{
+
+font-family:"Syne",sans-serif;
+
+font-size:2.7rem;
+
+font-weight:800;
+
+margin-bottom:30px;
+
 }
 
 .card{
-    background:#111827;
-    padding:20px;
-    border-radius:16px;
-    margin-bottom:20px;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(18px);
+
+border:1px solid var(--border);
+
+border-radius:18px;
+
+padding:24px;
+
+margin-bottom:25px;
+
+}
+
+.card h2{
+
+font-size:1.3rem;
+
+margin-bottom:18px;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+
+gap:18px;
+
 }
 
 input,
 select{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    margin-bottom:15px;
-    border:none;
-    border-radius:10px;
+
+width:100%;
+
+padding:14px 16px;
+
+border:none;
+
+outline:none;
+
+border-radius:12px;
+
+font-size:15px;
+
+background:white;
+
+color:#111827;
+
 }
 
-button{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:12px 18px;
-    border-radius:10px;
-    cursor:pointer;
+input:focus,
+select:focus{
+
+box-shadow:
+0 0 0 3px
+rgba(37,99,235,.35);
+
 }
 
-button:hover{
-    opacity:.9;
+.btn{
+
+border:none;
+
+cursor:pointer;
+
+padding:13px 22px;
+
+border-radius:12px;
+
+font-size:15px;
+
+font-weight:600;
+
+transition:.25s;
+
+}
+
+.btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+.btn-primary{
+
+background:var(--primary);
+
+color:white;
+
+}
+
+.btn-success{
+
+background:var(--success);
+
+color:white;
+
+}
+
+.btn-danger{
+
+background:var(--danger);
+
+color:white;
+
+}
+
+.file-box{
+
+display:flex;
+
+gap:15px;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+}
+
+.file-box input{
+
+background:transparent;
+
+padding:0;
+
+color:white;
+
+}
+
+.table-wrapper{
+
+overflow:auto;
+
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-}
 
-th,
-td{
-    padding:12px;
-    border-bottom:1px solid rgba(255,255,255,.08);
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:10px;
+
 }
 
 th{
-    text-align:left;
-    color:#94a3b8;
+
+text-align:left;
+
+padding:15px;
+
+color:var(--muted);
+
+border-bottom:1px solid var(--border);
+
 }
 
-.delete-btn{
-    background:#dc2626;
+td{
+
+padding:15px;
+
+border-bottom:1px solid rgba(255,255,255,.06);
+
 }
 
-.back{
-    color:white;
-    text-decoration:none;
-    display:inline-block;
-    margin-bottom:20px;
+.empty{
+
+text-align:center;
+
+padding:40px;
+
+color:var(--muted);
+
+}
+
+.message{
+
+display:none;
+
+margin-top:18px;
+
+padding:15px;
+
+border-radius:12px;
+
+font-weight:600;
+
+}
+
+.message.success{
+
+background:rgba(22,163,74,.15);
+
+color:#4ade80;
+
+}
+
+.message.error{
+
+background:rgba(220,38,38,.15);
+
+color:#f87171;
+
+}
+
+@media(max-width:700px){
+
+.page-title{
+
+font-size:2rem;
+
+}
+
+.container{
+
+padding:20px 15px;
+
+}
+
 }
 
 </style>
@@ -99,91 +326,171 @@ th{
 
 <div class="container">
 
-<a href="dashboard.html" class="back">
+<a
+href="dashboard.html"
+class="back">
+
 ← Dashboard
+
 </a>
 
-<h1>Manage Participants</h1>
+<h1 class="page-title">
+
+Manage Participants
+
+</h1>
 
 <div class="card">
 
-<h3>Select Event</h3>
+<h2>
+
+Select Event
+
+</h2>
 
 <select id="eventSelect">
-<option value="">Loading Events...</option>
+
+<option>
+
+Loading Events...
+
+</option>
+
 </select>
 
 </div>
 
 <div class="card">
 
-<h3>Add Participant</h3>
+<h2>
+
+Add Participant
+
+</h2>
+
+<div class="grid">
 
 <input
 type="text"
 id="participantName"
-placeholder="Participant Name"
->
+placeholder="Participant Name">
 
 <input
 type="text"
 id="participantCategory"
-placeholder="Category (Optional)"
->
+placeholder="Category (Optional)">
 
-<button onclick="addParticipant()">
+</div>
+
+<br>
+
+<button
+id="addParticipantBtn"
+class="btn btn-primary">
+
 Add Participant
+
 </button>
+
+<div
+id="message"
+class="message">
+
+</div>
 
 </div>
 
 <div class="card">
 
-<h3>Upload CSV</h3>
+<h2>
+
+Upload CSV
+
+</h2>
+
+<div class="file-box">
 
 <input
 type="file"
 id="csvFile"
-accept=".csv"
->
+accept=".csv">
 
-<button onclick="uploadCSV()">
+<button
+id="uploadCSVBtn"
+class="btn btn-success">
+
 Upload CSV
+
 </button>
 
-<p style="margin-top:15px;color:#94a3b8;">
+</div>
+
+<p style="margin-top:18px;color:#94a3b8;line-height:1.7;">
+
 CSV Format:
+
 <br><br>
+
 name,category
+
 <br>
-Arnav Bansal,MEMERX
+
+John Doe,Junior
+
 <br>
-Rahul Sharma,MEMERX
+
+Jane Smith,Senior
+
 </p>
 
 </div>
 
 <div class="card">
 
-<h3>Participants List</h3>
+<h2>
+
+Participants
+
+</h2>
+
+<div class="table-wrapper">
 
 <table>
 
 <thead>
 
 <tr>
+
 <th>Name</th>
+
 <th>Category</th>
+
 <th>Action</th>
+
 </tr>
 
 </thead>
 
-<tbody id="participantsTable">
+<tbody
+id="participantsTable">
+
+<tr>
+
+<td
+colspan="3"
+class="empty">
+
+Select an event to view participants.
+
+</td>
+
+</tr>
 
 </tbody>
 
 </table>
+
+</div>
 
 </div>
 
@@ -195,15 +502,18 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
+
 getFirestore,
 collection,
 getDocs,
 addDoc,
-query,
-where,
 deleteDoc,
-doc
+doc,
+query,
+where
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -227,34 +537,65 @@ measurementId: "G-FP42MFB2WR"
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 const eventSelect =
 document.getElementById("eventSelect");
 
+const participantTable =
+document.getElementById("participantsTable");
+
+const message =
+document.getElementById("message");
+
+function showMessage(text,type="success"){
+
+message.style.display="block";
+
+message.className="message "+type;
+
+message.textContent=text;
+
+setTimeout(()=>{
+
+message.style.display="none";
+
+},3000);
+
+}
+
 async function loadEvents(){
 
-const snapshot =
-await getDocs(collection(db,"events"));
+try{
 
-    console.log("Snapshot size:", snapshot.size);
+const snapshot=
+await getDocs(
+collection(db,"events")
+);
 
-snapshot.forEach(docSnap => {
-    console.log(docSnap.id);
-    console.log(docSnap.data());
-});
-    
-eventSelect.innerHTML =
+eventSelect.innerHTML=
 '<option value="">Select Event</option>';
+
+if(snapshot.empty){
+
+eventSelect.innerHTML=
+'<option value="">No Events Found</option>';
+
+return;
+
+}
 
 snapshot.forEach(docSnap=>{
 
-const event = docSnap.data();
+const event=docSnap.data();
 
-eventSelect.innerHTML += `
+eventSelect.innerHTML+=`
 
 <option value="${docSnap.id}">
+
 ${event.name}
+
 </option>
 
 `;
@@ -262,141 +603,114 @@ ${event.name}
 });
 
 }
+catch(error){
 
-window.addParticipant =
-async function(){
+console.error(error);
 
-const eventId =
-eventSelect.value;
-
-const name =
-document.getElementById("participantName").value;
-
-const category =
-document.getElementById("participantCategory").value;
-
-if(!eventId || !name){
-
-alert("Fill all required fields");
-return;
-
-}
-
-await addDoc(
-collection(db,"participants"),
-{
-
-eventId,
-name,
-category,
-createdAt:Date.now()
-
-}
-);
-
-alert("Participant Added");
-
-document.getElementById("participantName").value="";
-document.getElementById("participantCategory").value="";
-
-loadParticipants();
-
-};
-
-window.uploadCSV =
-async function(){
-
-const file =
-document.getElementById("csvFile").files[0];
-
-const eventId =
-eventSelect.value;
-
-if(!file || !eventId){
-
-alert("Select Event and CSV File");
-return;
-
-}
-
-const text =
-await file.text();
-
-const rows =
-text.split("\n");
-
-for(let i=1;i<rows.length;i++){
-
-const cols =
-rows[i].split(",");
-
-if(cols.length < 1) continue;
-
-const name =
-cols[0]?.trim();
-
-const category =
-cols[1]?.trim() || "";
-
-if(!name) continue;
-
-await addDoc(
-collection(db,"participants"),
-{
-
-eventId,
-name,
-category,
-createdAt:Date.now()
-
-}
+showMessage(
+"Unable to load events.",
+"error"
 );
 
 }
 
-alert("CSV Uploaded");
-
-loadParticipants();
-
-};
+}
 
 async function loadParticipants(){
 
-const eventId =
+const eventId=
 eventSelect.value;
 
-if(!eventId) return;
+if(!eventId){
 
-const q =
-query(
-collection(db,"participants"),
-where("eventId","==",eventId)
-);
-
-const snapshot =
-await getDocs(q);
-
-const table =
-document.getElementById("participantsTable");
-
-table.innerHTML = "";
-
-snapshot.forEach(docSnap=>{
-
-const p = docSnap.data();
-
-table.innerHTML += `
+participantTable.innerHTML=`
 
 <tr>
 
-<td>${p.name}</td>
+<td
+colspan="3"
+class="empty">
 
-<td>${p.category || "-"}</td>
+Select an event to view participants.
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+try{
+
+const q=query(
+
+collection(db,"participants"),
+
+where(
+"eventId",
+"==",
+eventId
+)
+
+);
+
+const snapshot=
+await getDocs(q);
+
+participantTable.innerHTML="";
+
+if(snapshot.empty){
+
+participantTable.innerHTML=`
+
+<tr>
+
+<td
+colspan="3"
+class="empty">
+
+No participants added yet.
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+snapshot.forEach(docSnap=>{
+
+const participant=
+docSnap.data();
+
+participantTable.innerHTML+=`
+
+<tr>
+
+<td>
+
+${participant.name}
+
+</td>
+
+<td>
+
+${participant.category||"-"}
+
+</td>
 
 <td>
 
 <button
-class="delete-btn"
+
+class="btn btn-danger"
+
 onclick="deleteParticipant('${docSnap.id}')">
 
 Delete
@@ -412,31 +726,290 @@ Delete
 });
 
 }
+catch(error){
+
+console.error(error);
+
+showMessage(
+"Unable to load participants.",
+"error"
+);
+
+}
+
+}
+
+window.addParticipant=
+async function(){
+
+const eventId=
+eventSelect.value;
+
+const name=
+document
+.getElementById("participantName")
+.value
+.trim();
+
+const category=
+document
+.getElementById("participantCategory")
+.value
+.trim();
+
+if(!eventId){
+
+showMessage(
+"Please select an event.",
+"error"
+);
+
+return;
+
+}
+
+if(!name){
+
+showMessage(
+"Participant name is required.",
+"error"
+);
+
+return;
+
+}
+
+try{
+
+await addDoc(
+
+collection(db,"participants"),
+
+{
+
+eventId,
+
+name,
+
+category,
+
+createdAt:Date.now()
+
+}
+
+);
+
+document
+.getElementById("participantName")
+.value="";
+
+document
+.getElementById("participantCategory")
+.value="";
+
+showMessage(
+"Participant added successfully."
+);
+
+await loadParticipants();
+
+}
+catch(error){
+
+console.error(error);
+
+showMessage(
+"Failed to add participant.",
+"error"
+);
+
+}
+
+};
 
 window.deleteParticipant =
 async function(id){
 
 const ok =
-confirm("Delete Participant?");
+confirm(
+"Delete this participant?"
+);
 
-if(!ok) return;
+if(!ok){
+
+return;
+
+}
+
+try{
 
 await deleteDoc(
 doc(db,"participants",id)
 );
 
-loadParticipants();
+showMessage(
+"Participant deleted successfully."
+);
+
+await loadParticipants();
+
+}
+catch(error){
+
+console.error(error);
+
+showMessage(
+"Failed to delete participant.",
+"error"
+);
+
+}
 
 };
 
-eventSelect.addEventListener(
+async function uploadCSV(){
+
+const file =
+document
+.getElementById("csvFile")
+.files[0];
+
+const eventId =
+eventSelect.value;
+
+if(!eventId){
+
+showMessage(
+"Please select an event first.",
+"error"
+);
+
+return;
+
+}
+
+if(!file){
+
+showMessage(
+"Please select a CSV file.",
+"error"
+);
+
+return;
+
+}
+
+try{
+
+const text =
+await file.text();
+
+const rows =
+text
+.trim()
+.split(/\r?\n/);
+
+if(rows.length<=1){
+
+showMessage(
+"CSV file is empty.",
+"error"
+);
+
+return;
+
+}
+
+let added = 0;
+
+for(let i=1;i<rows.length;i++){
+
+const cols =
+rows[i]
+.split(",");
+
+const name =
+(cols[0]||"").trim();
+
+const category =
+(cols[1]||"").trim();
+
+if(!name){
+
+continue;
+
+}
+
+await addDoc(
+
+collection(db,"participants"),
+
+{
+
+eventId,
+
+name,
+
+category,
+
+createdAt:Date.now()
+
+}
+
+);
+
+added++;
+
+}
+
+showMessage(
+`${added} participant(s) uploaded successfully.`
+);
+
+document
+.getElementById("csvFile")
+.value="";
+
+await loadParticipants();
+
+}
+catch(error){
+
+console.error(error);
+
+showMessage(
+"Failed to upload CSV.",
+"error"
+);
+
+}
+
+}
+
+document
+.getElementById("uploadCSVBtn")
+.addEventListener(
+"click",
+uploadCSV
+);
+
+document
+.getElementById("addParticipantBtn")
+.addEventListener(
+"click",
+window.addParticipant
+);
+
+eventSelect
+.addEventListener(
 "change",
 loadParticipants
 );
 
-loadEvents().catch(console.error);
+loadEvents();
 
 </script>
 
 </body>
+
 </html>
