@@ -741,30 +741,19 @@ showMessage(
 
 }
 
-window.addParticipant=
-async function(){
+window.addParticipant = async function(){
 
-const eventId=
-eventSelect.value;
+try{
 
-const name=
-document
-.getElementById("participantName")
-.value
-.trim();
+const eventId = eventSelect.value;
 
-const category=
-document
-.getElementById("participantCategory")
-.value
-.trim();
+const name = document.getElementById("participantName").value.trim();
+
+const category = document.getElementById("participantCategory").value.trim();
 
 if(!eventId){
 
-showMessage(
-"Please select an event.",
-"error"
-);
+showMessage("Select Event","error");
 
 return;
 
@@ -772,16 +761,26 @@ return;
 
 if(!name){
 
-showMessage(
-"Participant name is required.",
-"error"
-);
+showMessage("Enter Participant Name","error");
 
 return;
 
 }
 
-try{
+const count = await getDocs(
+
+query(
+
+collection(db,"participants"),
+
+where("eventId","==",eventId)
+
+)
+
+);
+
+const participantNumber =
+"P"+String(count.size+1).padStart(3,"0");
 
 await addDoc(
 
@@ -791,29 +790,27 @@ collection(db,"participants"),
 
 eventId,
 
+participantNumber,
+
 name,
 
 category,
 
-createdAt:Date.now()
+createdAt:new Date(),
+
+updatedAt:new Date()
 
 }
 
 );
 
-document
-.getElementById("participantName")
-.value="";
+showMessage("Participant Added");
 
-document
-.getElementById("participantCategory")
-.value="";
+document.getElementById("participantName").value="";
 
-showMessage(
-"Participant added successfully."
-);
+document.getElementById("participantCategory").value="";
 
-await loadParticipants();
+loadParticipants();
 
 }
 catch(error){
